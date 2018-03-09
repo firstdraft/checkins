@@ -7,6 +7,7 @@ gem "bootsnap", ">= 1.1.0", require: false
 gem "jbuilder", "~> 2.5"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
+gem "rack-canonical-host"
 gem "rails", "~> 5.2.0.rc1"
 gem "rails_12factor"
 gem "sass-rails", "~> 5.0"
