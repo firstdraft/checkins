@@ -1,0 +1,63 @@
+<h1>
+  Check in #<%= @check_in.id %> details
+</h1>
+
+<a href="/check_ins/<%= @check_in.id %>/edit">
+  Edit check in
+</a>
+
+<hr>
+
+<dl>
+  <dt>
+    Enrollment
+  </dt>
+  <dd>
+    <%= @check_in.enrollment_id %>
+  </dd>
+
+  <dt>
+    Resource
+  </dt>
+  <dd>
+    <%= @check_in.resource_id %>
+  </dd>
+
+  <dt>
+    Present
+  </dt>
+  <dd>
+    <%= @check_in.present %>
+  </dd>
+
+  <dt>
+    Late
+  </dt>
+  <dd>
+    <%= @check_in.late %>
+  </dd>
+
+  <dt>
+    Created at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@check_in.created_at) %> ago
+  </dd>
+
+  <dt>
+    Updated at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@check_in.updated_at) %> ago
+  </dd>
+</dl>
+
+<a href="/delete_check_in/<%= @check_in.id %>">
+  Delete check in
+</a>
+
+<hr>
+
+<a href="/check_ins">
+  Go back
+</a>
