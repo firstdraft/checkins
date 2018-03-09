@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  # Routes for the Resource resource:
+
+  # CREATE
+  get("/resources/new", { :controller => "resources", :action => "new_form" })
+  post("/create_resource", { :controller => "resources", :action => "create_row" })
+
+  # READ
+  get("/resources", { :controller => "resources", :action => "index" })
+  get("/resources/:id_to_display", { :controller => "resources", :action => "show" })
+
+  # UPDATE
+  get("/resources/:prefill_with_id/edit", { :controller => "resources", :action => "edit_form" })
+  post("/update_resource/:id_to_modify", { :controller => "resources", :action => "update_row" })
+
+  # DELETE
+  get("/delete_resource/:id_to_remove", { :controller => "resources", :action => "destroy_row" })
+
+  #------------------------------
+
   # Routes for the Launch resource:
 
   # CREATE

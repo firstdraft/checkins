@@ -1,0 +1,63 @@
+<h1>
+  Resource #<%= @resource.id %> details
+</h1>
+
+<a href="/resources/<%= @resource.id %>/edit">
+  Edit resource
+</a>
+
+<hr>
+
+<dl>
+  <dt>
+    Meeting schedule hash
+  </dt>
+  <dd>
+    <%= @resource.meeting_schedule_hash %>
+  </dd>
+
+  <dt>
+    Lis outcome service url
+  </dt>
+  <dd>
+    <%= @resource.lis_outcome_service_url %>
+  </dd>
+
+  <dt>
+    Lti resource link
+  </dt>
+  <dd>
+    <%= @resource.lti_resource_link_id %>
+  </dd>
+
+  <dt>
+    Context
+  </dt>
+  <dd>
+    <%= @resource.context_id %>
+  </dd>
+
+  <dt>
+    Created at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@resource.created_at) %> ago
+  </dd>
+
+  <dt>
+    Updated at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@resource.updated_at) %> ago
+  </dd>
+</dl>
+
+<a href="/delete_resource/<%= @resource.id %>">
+  Delete resource
+</a>
+
+<hr>
+
+<a href="/resources">
+  Go back
+</a>
