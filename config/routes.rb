@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  # Routes for the Context resource:
+
+  # CREATE
+  get("/contexts/new", { :controller => "contexts", :action => "new_form" })
+  post("/create_context", { :controller => "contexts", :action => "create_row" })
+
+  # READ
+  get("/contexts", { :controller => "contexts", :action => "index" })
+  get("/contexts/:id_to_display", { :controller => "contexts", :action => "show" })
+
+  # UPDATE
+  get("/contexts/:prefill_with_id/edit", { :controller => "contexts", :action => "edit_form" })
+  post("/update_context/:id_to_modify", { :controller => "contexts", :action => "update_row" })
+
+  # DELETE
+  get("/delete_context/:id_to_remove", { :controller => "contexts", :action => "destroy_row" })
+
+  #------------------------------
+
   # Routes for the Check in resource:
 
   # CREATE
