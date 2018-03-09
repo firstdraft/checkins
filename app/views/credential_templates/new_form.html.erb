@@ -1,0 +1,65 @@
+<!-- Validation failure messages -->
+<% if @credential.present? %>
+  <% if @credential.errors.any? %>
+    <% @credential.errors.full_messages.each do |message| %>
+      <div class="alert alert-danger">
+        <%= message %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<h1>
+  Add a new credential
+</h1>
+
+<hr>
+
+<form action="/create_credential" method="post">
+  <!-- Label and input for consumer_key -->
+  <div class="form-group">
+    <label for="consumer_key">
+      Consumer key
+    </label>
+
+    <input type="text" id="consumer_key" name="consumer_key" class="form-control" value="<%= @credential.try(:consumer_key) %>">
+  </div>
+
+  <!-- Label and input for consumer_secret -->
+  <div class="form-group">
+    <label for="consumer_secret">
+      Consumer secret
+    </label>
+
+    <input type="text" id="consumer_secret" name="consumer_secret" class="form-control" value="<%= @credential.try(:consumer_secret) %>">
+  </div>
+
+  <!-- Label and input for administrator_id -->
+  <div class="form-group">
+    <label for="administrator_id">
+      Administrator
+    </label>
+
+    <input type="text" id="administrator_id" name="administrator_id" class="form-control" value="<%= @credential.try(:administrator_id) %>">
+  </div>
+
+  <!-- Label and input for enabled -->
+  <div class="form-check">
+    <input type="hidden" value="0" name="enabled">
+    <input id="enabled" class="form-check-input" name="enabled" type="checkbox" <%= "checked" if @credential.try(:enabled) %>>
+
+    <label for="enabled" class="form-check-label">
+      Enabled
+    </label>
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create credential
+  </button>
+</form>
+
+<hr>
+
+<a href="/credentials">
+  Go back
+</a>

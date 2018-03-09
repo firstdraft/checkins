@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  # Routes for the Credential resource:
+
+  # CREATE
+  get("/credentials/new", { :controller => "credentials", :action => "new_form" })
+  post("/create_credential", { :controller => "credentials", :action => "create_row" })
+
+  # READ
+  get("/credentials", { :controller => "credentials", :action => "index" })
+  get("/credentials/:id_to_display", { :controller => "credentials", :action => "show" })
+
+  # UPDATE
+  get("/credentials/:prefill_with_id/edit", { :controller => "credentials", :action => "edit_form" })
+  post("/update_credential/:id_to_modify", { :controller => "credentials", :action => "update_row" })
+
+  # DELETE
+  get("/delete_credential/:id_to_remove", { :controller => "credentials", :action => "destroy_row" })
+
+  #------------------------------
+
   # Routes for the Context resource:
 
   # CREATE
