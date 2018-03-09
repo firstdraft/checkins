@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_09_200608) do
+ActiveRecord::Schema.define(version: 2018_03_09_215529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,36 +35,61 @@ ActiveRecord::Schema.define(version: 2018_03_09_200608) do
   create_table "check_ins", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "present", default: true
+    t.boolean "late"
+    t.integer "enrollment_id"
+    t.integer "resource_id"
   end
 
   create_table "contexts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "lti_context_id"
+    t.integer "credential_id"
   end
 
   create_table "credentials", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "consumer_key"
+    t.string "consumer_secret"
+    t.integer "administrator_id"
+    t.boolean "enabled", default: true
   end
 
   create_table "enrollments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "roles"
+    t.integer "user_id"
+    t.integer "context_id"
   end
 
   create_table "launches", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "payload"
+    t.integer "enrollment_id"
+    t.integer "credential_id"
   end
 
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "meeting_schedule_hash"
+    t.string "lis_outcome_service_url"
+    t.string "lti_resource_link_id"
+    t.integer "context_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "preferred_name"
+    t.string "lti_user_id"
   end
 
 end
