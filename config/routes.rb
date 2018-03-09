@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  # Routes for the Launch resource:
+
+  # CREATE
+  get("/launches/new", { :controller => "launches", :action => "new_form" })
+  post("/create_launch", { :controller => "launches", :action => "create_row" })
+
+  # READ
+  get("/launches", { :controller => "launches", :action => "index" })
+  get("/launches/:id_to_display", { :controller => "launches", :action => "show" })
+
+  # UPDATE
+  get("/launches/:prefill_with_id/edit", { :controller => "launches", :action => "edit_form" })
+  post("/update_launch/:id_to_modify", { :controller => "launches", :action => "update_row" })
+
+  # DELETE
+  get("/delete_launch/:id_to_remove", { :controller => "launches", :action => "destroy_row" })
+
+  #------------------------------
+
   # Routes for the Enrollment resource:
 
   # CREATE

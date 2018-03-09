@@ -1,0 +1,53 @@
+<!-- Validation failure messages -->
+<% if @launch.errors.any? %>
+  <% @launch.errors.full_messages.each do |message| %>
+    <div class="alert">
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<h1>
+  Edit launch #<%= @launch.id %>
+</h1>
+
+<hr>
+
+<form action="/update_launch/<%= @launch.id %>" method="post">
+  <!-- Label and input for payload -->
+  <div class="form-group">
+    <label for="payload">
+      Payload
+    </label>
+
+    <input type="text" id="payload" name="payload" class="form-control" value="<%= @launch.payload %>">
+  </div>
+
+  <!-- Label and input for enrollment_id -->
+  <div class="form-group">
+    <label for="enrollment_id">
+      Enrollment
+    </label>
+
+    <input type="text" id="enrollment_id" name="enrollment_id" class="form-control" value="<%= @launch.enrollment_id %>">
+  </div>
+
+  <!-- Label and input for credential_id -->
+  <div class="form-group">
+    <label for="credential_id">
+      Credential
+    </label>
+
+    <input type="text" id="credential_id" name="credential_id" class="form-control" value="<%= @launch.credential_id %>">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Update launch
+  </button>
+</form>
+
+<hr>
+
+<a href="/launches">
+  Go back
+</a>

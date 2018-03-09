@@ -1,0 +1,56 @@
+<h1>
+  Launch #<%= @launch.id %> details
+</h1>
+
+<a href="/launches/<%= @launch.id %>/edit">
+  Edit launch
+</a>
+
+<hr>
+
+<dl>
+  <dt>
+    Payload
+  </dt>
+  <dd>
+    <%= @launch.payload %>
+  </dd>
+
+  <dt>
+    Enrollment
+  </dt>
+  <dd>
+    <%= @launch.enrollment_id %>
+  </dd>
+
+  <dt>
+    Credential
+  </dt>
+  <dd>
+    <%= @launch.credential_id %>
+  </dd>
+
+  <dt>
+    Created at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@launch.created_at) %> ago
+  </dd>
+
+  <dt>
+    Updated at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@launch.updated_at) %> ago
+  </dd>
+</dl>
+
+<a href="/delete_launch/<%= @launch.id %>">
+  Delete launch
+</a>
+
+<hr>
+
+<a href="/launches">
+  Go back
+</a>
