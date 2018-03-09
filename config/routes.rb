@@ -1,4 +1,23 @@
 Rails.application.routes.draw do
+  # Routes for the Enrollment resource:
+
+  # CREATE
+  get("/enrollments/new", { :controller => "enrollments", :action => "new_form" })
+  post("/create_enrollment", { :controller => "enrollments", :action => "create_row" })
+
+  # READ
+  get("/enrollments", { :controller => "enrollments", :action => "index" })
+  get("/enrollments/:id_to_display", { :controller => "enrollments", :action => "show" })
+
+  # UPDATE
+  get("/enrollments/:prefill_with_id/edit", { :controller => "enrollments", :action => "edit_form" })
+  post("/update_enrollment/:id_to_modify", { :controller => "enrollments", :action => "update_row" })
+
+  # DELETE
+  get("/delete_enrollment/:id_to_remove", { :controller => "enrollments", :action => "destroy_row" })
+
+  #------------------------------
+
   # Routes for the Credential resource:
 
   # CREATE

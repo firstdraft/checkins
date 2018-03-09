@@ -1,0 +1,55 @@
+<!-- Validation failure messages -->
+<% if @enrollment.present? %>
+  <% if @enrollment.errors.any? %>
+    <% @enrollment.errors.full_messages.each do |message| %>
+      <div class="alert alert-danger">
+        <%= message %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<h1>
+  Add a new enrollment
+</h1>
+
+<hr>
+
+<form action="/create_enrollment" method="post">
+  <!-- Label and input for roles -->
+  <div class="form-group">
+    <label for="roles">
+      Roles
+    </label>
+
+    <input type="text" id="roles" name="roles" class="form-control" value="<%= @enrollment.try(:roles) %>">
+  </div>
+
+  <!-- Label and input for user_id -->
+  <div class="form-group">
+    <label for="user_id">
+      User
+    </label>
+
+    <input type="text" id="user_id" name="user_id" class="form-control" value="<%= @enrollment.try(:user_id) %>">
+  </div>
+
+  <!-- Label and input for context_id -->
+  <div class="form-group">
+    <label for="context_id">
+      Context
+    </label>
+
+    <input type="text" id="context_id" name="context_id" class="form-control" value="<%= @enrollment.try(:context_id) %>">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create enrollment
+  </button>
+</form>
+
+<hr>
+
+<a href="/enrollments">
+  Go back
+</a>
