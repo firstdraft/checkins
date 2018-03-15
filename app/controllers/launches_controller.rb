@@ -126,7 +126,7 @@ class LaunchesController < ApplicationController
         end
         @context = @resource.context
       else
-        redirect_to root,
+        redirect_to root_url,
         notice: "Attendance assignment has not been created yet"
       end
     end
