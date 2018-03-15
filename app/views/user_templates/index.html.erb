@@ -1,0 +1,82 @@
+<h1>
+  All users
+</h1>
+
+<a href="/users/new">
+  Add a new user
+</a>
+
+<hr>
+
+<table class="table">
+  <tr>
+    <th>
+      ID
+    </th>
+
+    <th>
+      First name
+    </th>
+
+    <th>
+      Last name
+    </th>
+
+    <th>
+      Preferred name
+    </th>
+
+    <th>
+      Lti user
+    </th>
+
+    <th>
+      Created at
+    </th>
+
+    <th>
+      Updated at
+    </th>
+
+    <th>
+    </th>
+  </tr>
+
+  <% @users.each do |user| %>
+  <tr>
+    <td>
+      <%= user.id %>
+    </td>
+
+    <td>
+      <%= user.first_name %>
+    </td>
+
+    <td>
+      <%= user.last_name %>
+    </td>
+
+    <td>
+      <%= user.preferred_name %>
+    </td>
+
+    <td>
+      <%= user.lti_user_id %>
+    </td>
+
+    <td>
+      <%= time_ago_in_words(user.created_at) %> ago
+    </td>
+
+    <td>
+      <%= time_ago_in_words(user.updated_at) %> ago
+    </td>
+
+    <td>
+      <a href="/users/<%= user.id %>">
+        Show details
+      </a>
+    </td>
+  </tr>
+  <% end %>
+</table>

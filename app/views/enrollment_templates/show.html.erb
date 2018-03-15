@@ -1,0 +1,56 @@
+<h1>
+  Enrollment #<%= @enrollment.id %> details
+</h1>
+
+<a href="/enrollments/<%= @enrollment.id %>/edit">
+  Edit enrollment
+</a>
+
+<hr>
+
+<dl>
+  <dt>
+    Roles
+  </dt>
+  <dd>
+    <%= @enrollment.roles %>
+  </dd>
+
+  <dt>
+    User
+  </dt>
+  <dd>
+    <%= @enrollment.user_id %>
+  </dd>
+
+  <dt>
+    Context
+  </dt>
+  <dd>
+    <%= @enrollment.context_id %>
+  </dd>
+
+  <dt>
+    Created at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@enrollment.created_at) %> ago
+  </dd>
+
+  <dt>
+    Updated at
+  </dt>
+  <dd>
+    <%= time_ago_in_words(@enrollment.updated_at) %> ago
+  </dd>
+</dl>
+
+<a href="/delete_enrollment/<%= @enrollment.id %>">
+  Delete enrollment
+</a>
+
+<hr>
+
+<a href="/enrollments">
+  Go back
+</a>

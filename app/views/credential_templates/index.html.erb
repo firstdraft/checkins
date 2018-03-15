@@ -1,0 +1,82 @@
+<h1>
+  All credentials
+</h1>
+
+<a href="/credentials/new">
+  Add a new credential
+</a>
+
+<hr>
+
+<table class="table">
+  <tr>
+    <th>
+      ID
+    </th>
+
+    <th>
+      Consumer key
+    </th>
+
+    <th>
+      Consumer secret
+    </th>
+
+    <th>
+      Administrator
+    </th>
+
+    <th>
+      Enabled
+    </th>
+
+    <th>
+      Created at
+    </th>
+
+    <th>
+      Updated at
+    </th>
+
+    <th>
+    </th>
+  </tr>
+
+  <% @credentials.each do |credential| %>
+  <tr>
+    <td>
+      <%= credential.id %>
+    </td>
+
+    <td>
+      <%= credential.consumer_key %>
+    </td>
+
+    <td>
+      <%= credential.consumer_secret %>
+    </td>
+
+    <td>
+      <%= credential.administrator_id %>
+    </td>
+
+    <td>
+      <%= credential.enabled %>
+    </td>
+
+    <td>
+      <%= time_ago_in_words(credential.created_at) %> ago
+    </td>
+
+    <td>
+      <%= time_ago_in_words(credential.updated_at) %> ago
+    </td>
+
+    <td>
+      <a href="/credentials/<%= credential.id %>">
+        Show details
+      </a>
+    </td>
+  </tr>
+  <% end %>
+</table>

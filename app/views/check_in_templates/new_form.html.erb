@@ -1,0 +1,66 @@
+<!-- Validation failure messages -->
+<% if @check_in.present? %>
+  <% if @check_in.errors.any? %>
+    <% @check_in.errors.full_messages.each do |message| %>
+      <div class="alert alert-danger">
+        <%= message %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<h1>
+  Add a new check in
+</h1>
+
+<hr>
+
+<form action="/create_check_in" method="post">
+  <!-- Label and input for enrollment_id -->
+  <div class="form-group">
+    <label for="enrollment_id">
+      Enrollment
+    </label>
+
+    <input type="text" id="enrollment_id" name="enrollment_id" class="form-control" value="<%= @check_in.try(:enrollment_id) %>">
+  </div>
+
+  <!-- Label and input for resource_id -->
+  <div class="form-group">
+    <label for="resource_id">
+      Resource
+    </label>
+
+    <input type="text" id="resource_id" name="resource_id" class="form-control" value="<%= @check_in.try(:resource_id) %>">
+  </div>
+
+  <!-- Label and input for present -->
+  <div class="form-check">
+    <input type="hidden" value="0" name="present">
+    <input id="present" class="form-check-input" name="present" type="checkbox" <%= "checked" if @check_in.try(:present) %>>
+
+    <label for="present" class="form-check-label">
+      Present
+    </label>
+  </div>
+
+  <!-- Label and input for late -->
+  <div class="form-check">
+    <input type="hidden" value="0" name="late">
+    <input id="late" class="form-check-input" name="late" type="checkbox" <%= "checked" if @check_in.try(:late) %>>
+
+    <label for="late" class="form-check-label">
+      Late
+    </label>
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create check in
+  </button>
+</form>
+
+<hr>
+
+<a href="/check_ins">
+  Go back
+</a>
