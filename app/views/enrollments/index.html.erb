@@ -1,74 +1,73 @@
-<h1>
-  All enrollments
-</h1>
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1 class="display-4">
+      Enrollments
 
-<a href="/enrollments/new">
-  Add a new enrollment
-</a>
+      <%= link_to new_enrollment_path, class: "btn btn-lg btn-outline-secondary" do %>
+        <i class="fas fa-plus fa-fw"></i>
+      <% end %>
+    </h1>
+  </div>
+</div>
 
-<hr>
+<!-- Table example -->
 
-<table class="table">
-  <tr>
-    <th>
-      ID
-    </th>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>
+              Resource
+            </th>
 
-    <th>
-      Roles
-    </th>
+            <th>
+              User
+            </th>
 
-    <th>
-      User
-    </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </thead>
 
-    <th>
-      Context
-    </th>
+        <tbody>
+          <%= render collection: @enrollments, partial: "table_row", as: :enrollment %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-    <th>
-      Created at
-    </th>
+<!-- Card deck example -->
 
-    <th>
-      Updated at
-    </th>
+<% @enrollments.each_slice(3) do |slice| %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card-deck">
+      <%= render collection: slice, partial: "card", as: :enrollment %>
+    </div>
+  </div>
+</div>
+<% end %>
 
-    <th>
-    </th>
-  </tr>
+<!-- List group example -->
 
-  <% @enrollments.each do |enrollment| %>
-  <tr>
-    <td>
-      <%= enrollment.id %>
-    </td>
+<div class="row justify-content-center mb-3">
+  <div class="col-md-8">
+    <div class="card">
+      <h1 class="card-header h4 d-flex align-items-center justify-content-between">
+        Enrollments
 
-    <td>
-      <%= enrollment.roles %>
-    </td>
+        <%= link_to new_enrollment_path, class: "btn btn-sm btn-outline-secondary" do %>
+          <i class="fas fa-plus fa-fw"></i>
+        <% end %>
+      </h1>
 
-    <td>
-      <%= enrollment.user_id %>
-    </td>
-
-    <td>
-      <%= enrollment.context_id %>
-    </td>
-
-    <td>
-      <%= time_ago_in_words(enrollment.created_at) %> ago
-    </td>
-
-    <td>
-      <%= time_ago_in_words(enrollment.updated_at) %> ago
-    </td>
-
-    <td>
-      <a href="/enrollments/<%= enrollment.id %>">
-        Show details
-      </a>
-    </td>
-  </tr>
-  <% end %>
-</table>
+      <div class="list-group list-group-flush">
+        <%= render collection: @enrollments, partial: "list_item", as: :enrollment %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<%= form_with(model: launch, local: true) do |form| %>
+  <% if launch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(launch.errors.count, "error") %> prohibited this launch from being saved:</h2>
+
+      <ul>
+      <% launch.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :payload %>
+    <%= form.text_field :payload, id: :launch_payload %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

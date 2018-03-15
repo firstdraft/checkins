@@ -1,0 +1,55 @@
+<% was_validated = resource.errors.any? %>
+
+<% form_html_options = { novalidate: true, class: "mb-3" } %>
+
+<%= form_for(resource, html: form_html_options) do |f| %>
+  <div class="form-group">
+    <% context_id_class = "form-control" %>
+    <% context_id_was_invalid = resource.errors.include?(:context_id) %>
+
+    <% if was_validated %>
+      <% if context_id_was_invalid %>
+        <% context_id_class << " is-invalid" %>
+      <% else %>
+        <% context_id_class << " is-valid" %>
+      <% end %>
+    <% end %>
+
+    <%= f.label :context_id %>
+
+    <%= f.number_field :context_id, class: context_id_class, placeholder: "Enter context" %>
+    <% if context_id_was_invalid %>
+      <% resource.errors.full_messages_for(:context_id).each do |message| %>
+        <div class="invalid-feedback">
+          <%= message %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <% meeting_schedule_hash_class = "form-control" %>
+    <% meeting_schedule_hash_was_invalid = resource.errors.include?(:meeting_schedule_hash) %>
+
+    <% if was_validated %>
+      <% if meeting_schedule_hash_was_invalid %>
+        <% meeting_schedule_hash_class << " is-invalid" %>
+      <% else %>
+        <% meeting_schedule_hash_class << " is-valid" %>
+      <% end %>
+    <% end %>
+
+    <%= f.label :meeting_schedule_hash %>
+
+    <%= f.text_field :meeting_schedule_hash, class: meeting_schedule_hash_class, placeholder: "Enter meeting schedule hash" %>
+    <% if meeting_schedule_hash_was_invalid %>
+      <% resource.errors.full_messages_for(:meeting_schedule_hash).each do |message| %>
+        <div class="invalid-feedback">
+          <%= message %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= f.button class: "btn btn-outline-secondary btn-block" %>
+<% end %>

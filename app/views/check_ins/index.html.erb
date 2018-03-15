@@ -1,82 +1,76 @@
-<h1>
-  All check ins
-</h1>
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1 class="display-4">
+      Check Ins
 
-<a href="/check_ins/new">
-  Add a new check in
-</a>
+      <%= link_to new_check_in_path, class: "btn btn-lg btn-outline-secondary" do %>
+        <i class="fas fa-plus fa-fw"></i>
+      <% end %>
+    </h1>
+    <h2>
+      <%= current_enrollment.context.title %>
+    </h2>
+  </div>
+</div>
 
-<hr>
+<!-- Table example -->
 
-<table class="table">
-  <tr>
-    <th>
-      ID
-    </th>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>
+              #
+            </th>
 
-    <th>
-      Enrollment
-    </th>
+            <th>
+              Checked In
+            </th>
 
-    <th>
-      Resource
-    </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </thead>
 
-    <th>
-      Present
-    </th>
+        <tbody>
+          <%= render collection: @check_ins, partial: "table_row", as: :check_in %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-    <th>
-      Late
-    </th>
+<!-- Card deck example -->
 
-    <th>
-      Created at
-    </th>
+<%# @check_ins.each_slice(3) do |slice| %>
+<!-- <div class="row">
+  <div class="col-md-12">
+    <div class="card-deck"> -->
+      <%#= render collection: slice, partial: "card", as: :check_in %>
+    <!-- </div>
+  </div>
+</div> -->
+<%# end %>
 
-    <th>
-      Updated at
-    </th>
+<!-- List group example -->
 
-    <th>
-    </th>
-  </tr>
+<!-- <div class="row justify-content-center mb-3">
+  <div class="col-md-8">
+    <div class="card">
+      <h1 class="card-header h4 d-flex align-items-center justify-content-between">
+        Check Ins
 
-  <% @check_ins.each do |check_in| %>
-  <tr>
-    <td>
-      <%= check_in.id %>
-    </td>
+        <%= link_to new_check_in_path, class: "btn btn-sm btn-outline-secondary" do %>
+          <i class="fas fa-plus fa-fw"></i>
+        <% end %>
+      </h1>
 
-    <td>
-      <%= check_in.enrollment_id %>
-    </td>
-
-    <td>
-      <%= check_in.resource_id %>
-    </td>
-
-    <td>
-      <%= check_in.present %>
-    </td>
-
-    <td>
-      <%= check_in.late %>
-    </td>
-
-    <td>
-      <%= time_ago_in_words(check_in.created_at) %> ago
-    </td>
-
-    <td>
-      <%= time_ago_in_words(check_in.updated_at) %> ago
-    </td>
-
-    <td>
-      <a href="/check_ins/<%= check_in.id %>">
-        Show details
-      </a>
-    </td>
-  </tr>
-  <% end %>
-</table>
+      <div class="list-group list-group-flush">
+        <%#= render collection: @check_ins, partial: "list_item", as: :check_in %>
+      </div>
+    </div>
+  </div>
+</div> -->

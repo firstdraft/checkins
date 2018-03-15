@@ -1,74 +1,73 @@
-<h1>
-  All contexts
-</h1>
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1 class="display-4">
+      Contexts
 
-<a href="/contexts/new">
-  Add a new context
-</a>
+      <%= link_to new_context_path, class: "btn btn-lg btn-outline-secondary" do %>
+        <i class="fas fa-plus fa-fw"></i>
+      <% end %>
+    </h1>
+  </div>
+</div>
 
-<hr>
+<!-- Table example -->
 
-<table class="table">
-  <tr>
-    <th>
-      ID
-    </th>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>
+              Title
+            </th>
 
-    <th>
-      Title
-    </th>
+            <th>
+              Credential
+            </th>
 
-    <th>
-      Lti context
-    </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </thead>
 
-    <th>
-      Credential
-    </th>
+        <tbody>
+          <%= render collection: @contexts, partial: "table_row", as: :context %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-    <th>
-      Created at
-    </th>
+<!-- Card deck example -->
 
-    <th>
-      Updated at
-    </th>
+<% @contexts.each_slice(3) do |slice| %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card-deck">
+      <%= render collection: slice, partial: "card", as: :context %>
+    </div>
+  </div>
+</div>
+<% end %>
 
-    <th>
-    </th>
-  </tr>
+<!-- List group example -->
 
-  <% @contexts.each do |context| %>
-  <tr>
-    <td>
-      <%= context.id %>
-    </td>
+<div class="row justify-content-center mb-3">
+  <div class="col-md-8">
+    <div class="card">
+      <h1 class="card-header h4 d-flex align-items-center justify-content-between">
+        Contexts
 
-    <td>
-      <%= context.title %>
-    </td>
+        <%= link_to new_context_path, class: "btn btn-sm btn-outline-secondary" do %>
+          <i class="fas fa-plus fa-fw"></i>
+        <% end %>
+      </h1>
 
-    <td>
-      <%= context.lti_context_id %>
-    </td>
-
-    <td>
-      <%= context.credential_id %>
-    </td>
-
-    <td>
-      <%= time_ago_in_words(context.created_at) %> ago
-    </td>
-
-    <td>
-      <%= time_ago_in_words(context.updated_at) %> ago
-    </td>
-
-    <td>
-      <a href="/contexts/<%= context.id %>">
-        Show details
-      </a>
-    </td>
-  </tr>
-  <% end %>
-</table>
+      <div class="list-group list-group-flush">
+        <%= render collection: @contexts, partial: "list_item", as: :context %>
+      </div>
+    </div>
+  </div>
+</div>

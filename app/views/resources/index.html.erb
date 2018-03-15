@@ -1,82 +1,73 @@
-<h1>
-  All resources
-</h1>
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1 class="display-4">
+      Resources
 
-<a href="/resources/new">
-  Add a new resource
-</a>
+      <%= link_to new_resource_path, class: "btn btn-lg btn-outline-secondary" do %>
+        <i class="fas fa-plus fa-fw"></i>
+      <% end %>
+    </h1>
+  </div>
+</div>
 
-<hr>
+<!-- Table example -->
 
-<table class="table">
-  <tr>
-    <th>
-      ID
-    </th>
+<div class="row">
+  <div class="col-md-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>
+              Context
+            </th>
 
-    <th>
-      Meeting schedule hash
-    </th>
+            <th>
+              Meeting schedule hash
+            </th>
 
-    <th>
-      Lis outcome service url
-    </th>
+            <th>
+              Actions
+            </th>
+          </tr>
+        </thead>
 
-    <th>
-      Lti resource link
-    </th>
+        <tbody>
+          <%= render collection: @resources, partial: "table_row", as: :resource %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-    <th>
-      Context
-    </th>
+<!-- Card deck example -->
 
-    <th>
-      Created at
-    </th>
+<% @resources.each_slice(3) do |slice| %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card-deck">
+      <%= render collection: slice, partial: "card", as: :resource %>
+    </div>
+  </div>
+</div>
+<% end %>
 
-    <th>
-      Updated at
-    </th>
+<!-- List group example -->
 
-    <th>
-    </th>
-  </tr>
+<div class="row justify-content-center mb-3">
+  <div class="col-md-8">
+    <div class="card">
+      <h1 class="card-header h4 d-flex align-items-center justify-content-between">
+        Resources
 
-  <% @resources.each do |resource| %>
-  <tr>
-    <td>
-      <%= resource.id %>
-    </td>
+        <%= link_to new_resource_path, class: "btn btn-sm btn-outline-secondary" do %>
+          <i class="fas fa-plus fa-fw"></i>
+        <% end %>
+      </h1>
 
-    <td>
-      <%= resource.meeting_schedule_hash %>
-    </td>
-
-    <td>
-      <%= resource.lis_outcome_service_url %>
-    </td>
-
-    <td>
-      <%= resource.lti_resource_link_id %>
-    </td>
-
-    <td>
-      <%= resource.context_id %>
-    </td>
-
-    <td>
-      <%= time_ago_in_words(resource.created_at) %> ago
-    </td>
-
-    <td>
-      <%= time_ago_in_words(resource.updated_at) %> ago
-    </td>
-
-    <td>
-      <a href="/resources/<%= resource.id %>">
-        Show details
-      </a>
-    </td>
-  </tr>
-  <% end %>
-</table>
+      <div class="list-group list-group-flush">
+        <%= render collection: @resources, partial: "list_item", as: :resource %>
+      </div>
+    </div>
+  </div>
+</div>

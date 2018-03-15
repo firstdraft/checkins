@@ -1,63 +1,47 @@
-<h1>
-  Resource #<%= @resource.id %> details
-</h1>
+<div class="row justify-content-center mb-3">
+  <div class="col-md-8">
+    <%= render "/check_ins/form", check_in: @check_in %>
 
-<a href="/resources/<%= @resource.id %>/edit">
-  Edit resource
-</a>
 
-<hr>
+    <div class="card mb-3">
+      <h2 class="card-header h4">
+        My Check Ins
+      </h2>
+      <!-- <div class="card-body"> -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>
+                      #
+                    </th>
 
-<dl>
-  <dt>
-    Meeting schedule hash
-  </dt>
-  <dd>
-    <%= @resource.meeting_schedule_hash %>
-  </dd>
+                    <th>
+                      Checked In
+                    </th>
 
-  <dt>
-    Lis outcome service url
-  </dt>
-  <dd>
-    <%= @resource.lis_outcome_service_url %>
-  </dd>
+                    <th>
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
 
-  <dt>
-    Lti resource link
-  </dt>
-  <dd>
-    <%= @resource.lti_resource_link_id %>
-  </dd>
+                <tbody>
+                  <%= render collection: @check_ins, partial: "/check_ins/table_row", as: :check_in %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
 
-  <dt>
-    Context
-  </dt>
-  <dd>
-    <%= @resource.context_id %>
-  </dd>
+    </div>
 
-  <dt>
-    Created at
-  </dt>
-  <dd>
-    <%= time_ago_in_words(@resource.created_at) %> ago
-  </dd>
 
-  <dt>
-    Updated at
-  </dt>
-  <dd>
-    <%= time_ago_in_words(@resource.updated_at) %> ago
-  </dd>
-</dl>
 
-<a href="/delete_resource/<%= @resource.id %>">
-  Delete resource
-</a>
 
-<hr>
-
-<a href="/resources">
-  Go back
-</a>
+    <%= render object: @resource, partial: "card", as: :resource %>
+  </div>
+</div>
