@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.5.0"
 
+gem "binding_of_caller"
 gem "bootsnap", ">= 1.1.0", require: false
 gem "devise"
 gem "ims-lti", git: "git://github.com/wjordan/ims-lti.git", branch: "oauth_051"

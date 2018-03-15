@@ -71,6 +71,8 @@ GEM
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
     bindex (0.5.0)
+    binding_of_caller (0.8.0)
+      debug_inspector (>= 0.0.1)
     bootsnap (1.2.0)
       msgpack (~> 1.0)
     builder (3.2.3)
@@ -82,6 +84,7 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
+    debug_inspector (0.0.3)
     devise (4.4.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -230,6 +233,7 @@ DEPENDENCIES
   annotate
   awesome_print
   better_errors
+  binding_of_caller
   bootsnap (>= 1.1.0)
   bullet
   byebug
