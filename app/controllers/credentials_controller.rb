@@ -1,65 +1,75 @@
 class CredentialsController < ApplicationController
+  before_action :authenticate_administrator!
+
+  before_action :set_credential, only: [:show, :edit, :update, :destroy]
+
+  # GET /credentials
+  # GET /credentials.json
   def index
-    @credentials = Credential.all
-
-    render("credentials/index.html.erb")
+    @credentials = current_administrator.credentials
   end
 
+  # GET /credentials/1
+  # GET /credentials/1.json
   def show
-    @credential = Credential.find(params.fetch("id_to_display"))
-
-    render("credentials/show.html.erb")
   end
 
-  def new_form
-    render("credentials/new_form.html.erb")
-  end
-
-  def create_row
+  # GET /credentials/new
+  def new
     @credential = Credential.new
+  end
 
-    @credential.consumer_key = params.fetch("consumer_key")
-    @credential.consumer_secret = params.fetch("consumer_secret")
-    @credential.administrator_id = params.fetch("administrator_id")
-    @credential.enabled = params.fetch("enabled")
+  # GET /credentials/1/edit
+  def edit
+  end
 
-    if @credential.valid?
-      @credential.save
-
-      redirect_to("/credentials", :notice => "Credential created successfully.")
-    else
-      render("credentials/new_form.html.erb")
+  # POST /credentials
+  # POST /credentials.json
+  def create
+    @credential = Credential.new(administrator: current_administrator)
+    respond_to do |format|
+      if @credential.save
+        format.html { redirect_to credentials_url, notice: 'Credential was successfully created.' }
+        format.json { render :show, status: :created, location: @credential }
+      else
+        format.html { render :new }
+        format.json { render json: @credential.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def edit_form
-    @credential = Credential.find(params.fetch("prefill_with_id"))
-
-    render("credentials/edit_form.html.erb")
-  end
-
-  def update_row
-    @credential = Credential.find(params.fetch("id_to_modify"))
-
-    @credential.consumer_key = params.fetch("consumer_key")
-    @credential.consumer_secret = params.fetch("consumer_secret")
-    @credential.administrator_id = params.fetch("administrator_id")
-    @credential.enabled = params.fetch("enabled")
-
-    if @credential.valid?
-      @credential.save
-
-      redirect_to("/credentials/#{@credential.id}", :notice => "Credential updated successfully.")
-    else
-      render("credentials/edit_form.html.erb")
+  # PATCH/PUT /credentials/1
+  # PATCH/PUT /credentials/1.json
+  def update
+    respond_to do |format|
+      if @credential.update(credential_params)
+        format.html { redirect_to @credential, notice: 'Credential was successfully updated.' }
+        format.json { render :show, status: :ok, location: @credential }
+      else
+        format.html { render :edit }
+        format.json { render json: @credential.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def destroy_row
-    @credential = Credential.find(params.fetch("id_to_remove"))
-
+  # DELETE /credentials/1
+  # DELETE /credentials/1.json
+  def destroy
     @credential.destroy
-
-    redirect_to("/credentials", :notice => "Credential deleted successfully.")
+    respond_to do |format|
+      format.html { redirect_to credentials_url, notice: 'Credential was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_credential
+      @credential = Credential.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def credential_params
+      params.require(:credential).permit(:consumer_key, :consumer_secret, :administrator_id)
+    end
 end

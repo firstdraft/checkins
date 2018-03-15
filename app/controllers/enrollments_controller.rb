@@ -1,63 +1,74 @@
 class EnrollmentsController < ApplicationController
+  before_action :set_enrollment, only: [:show, :edit, :update, :destroy]
+
+  # GET /enrollments
+  # GET /enrollments.json
   def index
     @enrollments = Enrollment.all
-
-    render("enrollments/index.html.erb")
   end
 
+  # GET /enrollments/1
+  # GET /enrollments/1.json
   def show
-    @enrollment = Enrollment.find(params.fetch("id_to_display"))
-
-    render("enrollments/show.html.erb")
   end
 
-  def new_form
-    render("enrollments/new_form.html.erb")
-  end
-
-  def create_row
+  # GET /enrollments/new
+  def new
     @enrollment = Enrollment.new
+  end
 
-    @enrollment.roles = params.fetch("roles")
-    @enrollment.user_id = params.fetch("user_id")
-    @enrollment.context_id = params.fetch("context_id")
+  # GET /enrollments/1/edit
+  def edit
+  end
 
-    if @enrollment.valid?
-      @enrollment.save
+  # POST /enrollments
+  # POST /enrollments.json
+  def create
+    @enrollment = Enrollment.new(enrollment_params)
 
-      redirect_to("/enrollments", :notice => "Enrollment created successfully.")
-    else
-      render("enrollments/new_form.html.erb")
+    respond_to do |format|
+      if @enrollment.save
+        format.html { redirect_to @enrollment, notice: 'Enrollment was successfully created.' }
+        format.json { render :show, status: :created, location: @enrollment }
+      else
+        format.html { render :new }
+        format.json { render json: @enrollment.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def edit_form
-    @enrollment = Enrollment.find(params.fetch("prefill_with_id"))
-
-    render("enrollments/edit_form.html.erb")
-  end
-
-  def update_row
-    @enrollment = Enrollment.find(params.fetch("id_to_modify"))
-
-    @enrollment.roles = params.fetch("roles")
-    @enrollment.user_id = params.fetch("user_id")
-    @enrollment.context_id = params.fetch("context_id")
-
-    if @enrollment.valid?
-      @enrollment.save
-
-      redirect_to("/enrollments/#{@enrollment.id}", :notice => "Enrollment updated successfully.")
-    else
-      render("enrollments/edit_form.html.erb")
+  # PATCH/PUT /enrollments/1
+  # PATCH/PUT /enrollments/1.json
+  def update
+    respond_to do |format|
+      if @enrollment.update(enrollment_params)
+        format.html { redirect_to @enrollment, notice: 'Enrollment was successfully updated.' }
+        format.json { render :show, status: :ok, location: @enrollment }
+      else
+        format.html { render :edit }
+        format.json { render json: @enrollment.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def destroy_row
-    @enrollment = Enrollment.find(params.fetch("id_to_remove"))
-
+  # DELETE /enrollments/1
+  # DELETE /enrollments/1.json
+  def destroy
     @enrollment.destroy
-
-    redirect_to("/enrollments", :notice => "Enrollment deleted successfully.")
+    respond_to do |format|
+      format.html { redirect_to enrollments_url, notice: 'Enrollment was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_enrollment
+      @enrollment = Enrollment.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def enrollment_params
+      params.require(:enrollment).permit(:resource_id, :user_id)
+    end
 end

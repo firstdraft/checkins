@@ -1,65 +1,73 @@
 class CheckInsController < ApplicationController
+  before_action :set_check_in, only: [:show, :edit, :update, :destroy]
+
+  # GET /check_ins
+  # GET /check_ins.json
   def index
-    @check_ins = CheckIn.all
-
-    render("check_ins/index.html.erb")
+    @check_ins = CheckIn.where(enrollment: current_enrollment)
   end
 
+  # GET /check_ins/1
+  # GET /check_ins/1.json
   def show
-    @check_in = CheckIn.find(params.fetch("id_to_display"))
-
-    render("check_ins/show.html.erb")
   end
 
-  def new_form
-    render("check_ins/new_form.html.erb")
-  end
-
-  def create_row
+  # GET /check_ins/new
+  def new
     @check_in = CheckIn.new
+  end
 
-    @check_in.enrollment_id = params.fetch("enrollment_id")
-    @check_in.resource_id = params.fetch("resource_id")
-    @check_in.present = params.fetch("present")
-    @check_in.late = params.fetch("late")
+  # GET /check_ins/1/edit
+  def edit
+  end
 
-    if @check_in.valid?
-      @check_in.save
-
-      redirect_to("/check_ins", :notice => "Check in created successfully.")
-    else
-      render("check_ins/new_form.html.erb")
+  # POST /check_ins
+  # POST /check_ins.json
+  def create
+    @check_in = CheckIn.new(check_in_params)
+    respond_to do |format|
+      if @check_in.save
+        format.html { redirect_to resource_url(@check_in.resource), notice: 'Check in was successfully created.' }
+        format.json { render :show, status: :created, location: @check_in }
+      else
+        format.html { render :new }
+        format.json { render json: @check_in.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def edit_form
-    @check_in = CheckIn.find(params.fetch("prefill_with_id"))
-
-    render("check_ins/edit_form.html.erb")
-  end
-
-  def update_row
-    @check_in = CheckIn.find(params.fetch("id_to_modify"))
-
-    @check_in.enrollment_id = params.fetch("enrollment_id")
-    @check_in.resource_id = params.fetch("resource_id")
-    @check_in.present = params.fetch("present")
-    @check_in.late = params.fetch("late")
-
-    if @check_in.valid?
-      @check_in.save
-
-      redirect_to("/check_ins/#{@check_in.id}", :notice => "Check in updated successfully.")
-    else
-      render("check_ins/edit_form.html.erb")
+  # PATCH/PUT /check_ins/1
+  # PATCH/PUT /check_ins/1.json
+  def update
+    respond_to do |format|
+      if @check_in.update(check_in_params)
+        format.html { redirect_to @check_in, notice: 'Check in was successfully updated.' }
+        format.json { render :show, status: :ok, location: @check_in }
+      else
+        format.html { render :edit }
+        format.json { render json: @check_in.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def destroy_row
-    @check_in = CheckIn.find(params.fetch("id_to_remove"))
-
+  # DELETE /check_ins/1
+  # DELETE /check_ins/1.json
+  def destroy
     @check_in.destroy
-
-    redirect_to("/check_ins", :notice => "Check in deleted successfully.")
+    respond_to do |format|
+      format.html { redirect_to check_ins_url, notice: 'Check in was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_check_in
+      @check_in = CheckIn.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def check_in_params
+      params.require(:check_in).permit(:enrollment_id, :resource_id)
+    end
 end

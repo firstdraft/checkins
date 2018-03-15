@@ -1,65 +1,76 @@
 class ResourcesController < ApplicationController
+  before_action :set_resource, only: [:show, :edit, :update, :destroy]
+
+  # GET /resources
+  # GET /resources.json
   def index
     @resources = Resource.all
-
-    render("resources/index.html.erb")
   end
 
+  # GET /resources/1
+  # GET /resources/1.json
   def show
-    @resource = Resource.find(params.fetch("id_to_display"))
-
-    render("resources/show.html.erb")
+    @check_in = CheckIn.new(resource_id: @resource.id)
+    @check_ins = current_enrollment.check_ins.where(resource_id: params[:id])
   end
 
-  def new_form
-    render("resources/new_form.html.erb")
-  end
-
-  def create_row
+  # GET /resources/new
+  def new
     @resource = Resource.new
+  end
 
-    @resource.meeting_schedule_hash = params.fetch("meeting_schedule_hash")
-    @resource.lis_outcome_service_url = params.fetch("lis_outcome_service_url")
-    @resource.lti_resource_link_id = params.fetch("lti_resource_link_id")
-    @resource.context_id = params.fetch("context_id")
+  # GET /resources/1/edit
+  def edit
+  end
 
-    if @resource.valid?
-      @resource.save
+  # POST /resources
+  # POST /resources.json
+  def create
+    @resource = Resource.new(resource_params)
 
-      redirect_to("/resources", :notice => "Resource created successfully.")
-    else
-      render("resources/new_form.html.erb")
+    respond_to do |format|
+      if @resource.save
+        format.html { redirect_to @resource, notice: 'Resource was successfully created.' }
+        format.json { render :show, status: :created, location: @resource }
+      else
+        format.html { render :new }
+        format.json { render json: @resource.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def edit_form
-    @resource = Resource.find(params.fetch("prefill_with_id"))
-
-    render("resources/edit_form.html.erb")
-  end
-
-  def update_row
-    @resource = Resource.find(params.fetch("id_to_modify"))
-
-    @resource.meeting_schedule_hash = params.fetch("meeting_schedule_hash")
-    @resource.lis_outcome_service_url = params.fetch("lis_outcome_service_url")
-    @resource.lti_resource_link_id = params.fetch("lti_resource_link_id")
-    @resource.context_id = params.fetch("context_id")
-
-    if @resource.valid?
-      @resource.save
-
-      redirect_to("/resources/#{@resource.id}", :notice => "Resource updated successfully.")
-    else
-      render("resources/edit_form.html.erb")
+  # PATCH/PUT /resources/1
+  # PATCH/PUT /resources/1.json
+  def update
+    respond_to do |format|
+      if @resource.update(resource_params)
+        format.html { redirect_to @resource, notice: 'Resource was successfully updated.' }
+        format.json { render :show, status: :ok, location: @resource }
+      else
+        format.html { render :edit }
+        format.json { render json: @resource.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def destroy_row
-    @resource = Resource.find(params.fetch("id_to_remove"))
-
+  # DELETE /resources/1
+  # DELETE /resources/1.json
+  def destroy
     @resource.destroy
-
-    redirect_to("/resources", :notice => "Resource deleted successfully.")
+    respond_to do |format|
+      format.html { redirect_to resources_url, notice: 'Resource was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_resource
+      @resource = Resource.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def resource_params
+      params.require(:resource).permit(:context_id, :meeting_schedule_hash)
+    end
 end
