@@ -2,17 +2,17 @@ class ContextsController < ApplicationController
   def index
     @contexts = Context.all
 
-    render("context_templates/index.html.erb")
+    render("contexts/index.html.erb")
   end
 
   def show
     @context = Context.find(params.fetch("id_to_display"))
 
-    render("context_templates/show.html.erb")
+    render("contexts/show.html.erb")
   end
 
   def new_form
-    render("context_templates/new_form.html.erb")
+    render("contexts/new_form.html.erb")
   end
 
   def create_row
@@ -27,14 +27,14 @@ class ContextsController < ApplicationController
 
       redirect_to("/contexts", :notice => "Context created successfully.")
     else
-      render("context_templates/new_form.html.erb")
+      render("contexts/new_form.html.erb")
     end
   end
 
   def edit_form
     @context = Context.find(params.fetch("prefill_with_id"))
 
-    render("context_templates/edit_form.html.erb")
+    render("contexts/edit_form.html.erb")
   end
 
   def update_row
@@ -49,7 +49,7 @@ class ContextsController < ApplicationController
 
       redirect_to("/contexts/#{@context.id}", :notice => "Context updated successfully.")
     else
-      render("context_templates/edit_form.html.erb")
+      render("contexts/edit_form.html.erb")
     end
   end
 

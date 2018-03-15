@@ -2,17 +2,17 @@ class CredentialsController < ApplicationController
   def index
     @credentials = Credential.all
 
-    render("credential_templates/index.html.erb")
+    render("credentials/index.html.erb")
   end
 
   def show
     @credential = Credential.find(params.fetch("id_to_display"))
 
-    render("credential_templates/show.html.erb")
+    render("credentials/show.html.erb")
   end
 
   def new_form
-    render("credential_templates/new_form.html.erb")
+    render("credentials/new_form.html.erb")
   end
 
   def create_row
@@ -28,14 +28,14 @@ class CredentialsController < ApplicationController
 
       redirect_to("/credentials", :notice => "Credential created successfully.")
     else
-      render("credential_templates/new_form.html.erb")
+      render("credentials/new_form.html.erb")
     end
   end
 
   def edit_form
     @credential = Credential.find(params.fetch("prefill_with_id"))
 
-    render("credential_templates/edit_form.html.erb")
+    render("credentials/edit_form.html.erb")
   end
 
   def update_row
@@ -51,7 +51,7 @@ class CredentialsController < ApplicationController
 
       redirect_to("/credentials/#{@credential.id}", :notice => "Credential updated successfully.")
     else
-      render("credential_templates/edit_form.html.erb")
+      render("credentials/edit_form.html.erb")
     end
   end
 

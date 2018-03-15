@@ -60,7 +60,7 @@ class LaunchesController < ApplicationController
 
       redirect_to("/launches/#{@launch.id}", :notice => "Launch updated successfully.")
     else
-      render("launch_templates/edit_form.html.erb")
+      render("launchs/edit_form.html.erb")
     end
   end
 
