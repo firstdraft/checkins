@@ -2,59 +2,87 @@ class LaunchesController < ApplicationController
   before_action :set_launch, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token, only: [:create]
 
-  # GET /launches
-  # GET /launches.json
   def index
     @launches = Launch.all
   end
 
-  # GET /launches/1
-  # GET /launches/1.json
   def show
   end
 
-  # GET /launches/new
   def new
     @launch = Launch.new
   end
 
-  # GET /launches/1/edit
   def edit
   end
 
-  # POST /launches
-  # POST /launches.json
   def create
-
     find_credential
-    find_or_create_user
-    find_or_create_resource_context
-    set_current_enrollment
-
-    provider = IMS::LTI::ToolProvider.new(
-        @credential.consumer_key,
-        @credential.consumer_secret,
-        params
-      )
-
-    @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
-    # @enrollments = @user.enrollments
-
-    p "========================================================================"
-    # p provider.outcome_service?
-
-    p "========================================================================"
-    # p provider.post_replace_result!(0.6)                #RETURNS AN OutcomeResponse OBJECT
-    # p provider.post_replace_result!(0.6).description    #RETURNS "Your old score of 0 has been replaced with 0.6"
-    p "========================================================================"
-
-    if @launch.save
-      if (@enrollment.roles.split(",") & %w(Learner)).any?
-        redirect_to resource_url(@resource)
-      elsif @user.teacher?
-        redirect_to @launch
+    find_resource_and_context
+    if @resource && @context
+      find_or_create_user
+      find_or_create_enrollment
+      set_current_enrollment
+      @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
+      if @launch.save
+        if learner?
+          redirect_to resource_url(@resource)
+        elsif teacher?
+          redirect_to credentials_url
+        else
+          redirect_to root_url,
+          notice: "You are neither a student nor a teacher for this assignment"
+        end
+      else
+        redirect_to root_url,
+        notice: @launch.errors.full_messages.join(" & ")
       end
+    elsif teacher?
+      @context ||= Context.create(lti_context_id: params["context_id"], credential: @credential, title: params["context_title"])
+      @resource = @context.resources.create(lti_resource_link_id: params["resource_link_id"], lis_outcome_service_url: params["lis_outcome_service_url"])
+      find_or_create_user
+      find_or_create_enrollment
+      set_current_enrollment
+      @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
+      if @launch.save
+        redirect_to edit_resource_url(@resource)
+      else
+        redirect_to root_url,
+        notice: @launch.errors.full_messages.join(" & ")
+      end
+    else
+      redirect_to root_url,
+      notice: "Attendance assignment has not been setup yet"
     end
+
+    # Previous create action logic:
+
+    # find_credential
+    # find_or_create_user
+    # find_or_create_resource_context
+    # set_current_enrollment
+    #
+    # provider = IMS::LTI::ToolProvider.new(
+    #     @credential.consumer_key,
+    #     @credential.consumer_secret,
+    #     params
+    #   )
+    #
+    # @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
+    #
+    # # p provider.outcome_service?
+    # # p provider.post_replace_result!(0.6)                #RETURNS AN OutcomeResponse OBJECT
+    # # p provider.post_replace_result!(0.6).description    #RETURNS "Your old score of 0 has been replaced with 0.6"
+    #
+    # if @launch.save
+    #   if (@enrollment.roles.split(",") & %w(Learner)).any?
+    #     redirect_to resource_url(@resource)
+    #   elsif @user.teacher?
+    #     redirect_to @launch
+    #   end
+    # end
+
+
   end
 
   def update
@@ -77,13 +105,13 @@ class LaunchesController < ApplicationController
     end
   end
 
+
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_launch
       @launch = Launch.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     # def launch_params
     #   params.require(:launch).permit(:payload)
     # end
@@ -100,14 +128,7 @@ class LaunchesController < ApplicationController
     def find_or_create_user
       @user = User.find_or_create_by(lti_user_id: params["user_id"]) do |u|
         u.preferred_name = params["lis_person_name_given"]
-        # u.roles          = params["roles"]
-        # u.email          = "#{params["lis_person_name_given"].delete(' ')}@example.com"
-        # u.password       = "password"
       end
-
-      # sign_in(@user)    # Devise method
-
-      #set session[:enrollment_id]
     end
 
     def find_or_create_resource_context
@@ -131,10 +152,33 @@ class LaunchesController < ApplicationController
       end
     end
 
-    def set_current_enrollment
+    # def set_current_enrollment
+    #   @enrollment = Enrollment.find_or_create_by(user: @user, context: @context) do |e|
+    #     e.roles = params["roles"]
+    #   end
+    #   session[:enrollment_id] = @enrollment.id
+    # end
+
+    def teacher?
+      (params["roles"].split(",") & %w(Instructor Teachingassistant)).any?
+    end
+
+    def learner?
+      (params["roles"].split(",") & %w(Learner)).any?
+    end
+
+    def find_resource_and_context
+      @resource = Resource.find_by(lti_resource_link_id: params["resource_link_id"])
+      @context = Context.find_by(lti_context_id: params["context_id"])
+    end
+
+    def find_or_create_enrollment
       @enrollment = Enrollment.find_or_create_by(user: @user, context: @context) do |e|
         e.roles = params["roles"]
       end
+    end
+
+    def set_current_enrollment
       session[:enrollment_id] = @enrollment.id
     end
 end
