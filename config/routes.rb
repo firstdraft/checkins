@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     root "credentials#index"
   end
 
-  root "credentials#index"
+  root "contexts#index"
 
   resources :check_ins, only: [:create, :destroy, :edit, :show]
   resources :contexts, only: [:index, :edit, :show]
