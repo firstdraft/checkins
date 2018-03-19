@@ -1,63 +1,74 @@
 class ContextsController < ApplicationController
+  before_action :set_context, only: [:show, :edit, :update, :destroy]
+
+  # GET /contexts
+  # GET /contexts.json
   def index
-    @contexts = Context.all
-
-    render("context_templates/index.html.erb")
+    @contexts = current_user.contexts
   end
 
+  # GET /contexts/1
+  # GET /contexts/1.json
   def show
-    @context = Context.find(params.fetch("id_to_display"))
-
-    render("context_templates/show.html.erb")
   end
 
-  def new_form
-    render("context_templates/new_form.html.erb")
-  end
-
-  def create_row
+  # GET /contexts/new
+  def new
     @context = Context.new
+  end
 
-    @context.title = params.fetch("title")
-    @context.lti_context_id = params.fetch("lti_context_id")
-    @context.credential_id = params.fetch("credential_id")
+  # GET /contexts/1/edit
+  def edit
+  end
 
-    if @context.valid?
-      @context.save
+  # POST /contexts
+  # POST /contexts.json
+  def create
+    @context = Context.new(context_params)
 
-      redirect_to("/contexts", :notice => "Context created successfully.")
-    else
-      render("context_templates/new_form.html.erb")
+    respond_to do |format|
+      if @context.save
+        format.html { redirect_to @context, notice: 'Context was successfully created.' }
+        format.json { render :show, status: :created, location: @context }
+      else
+        format.html { render :new }
+        format.json { render json: @context.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def edit_form
-    @context = Context.find(params.fetch("prefill_with_id"))
-
-    render("context_templates/edit_form.html.erb")
-  end
-
-  def update_row
-    @context = Context.find(params.fetch("id_to_modify"))
-
-    @context.title = params.fetch("title")
-    @context.lti_context_id = params.fetch("lti_context_id")
-    @context.credential_id = params.fetch("credential_id")
-
-    if @context.valid?
-      @context.save
-
-      redirect_to("/contexts/#{@context.id}", :notice => "Context updated successfully.")
-    else
-      render("context_templates/edit_form.html.erb")
+  # PATCH/PUT /contexts/1
+  # PATCH/PUT /contexts/1.json
+  def update
+    respond_to do |format|
+      if @context.update(context_params)
+        format.html { redirect_to @context, notice: 'Context was successfully updated.' }
+        format.json { render :show, status: :ok, location: @context }
+      else
+        format.html { render :edit }
+        format.json { render json: @context.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def destroy_row
-    @context = Context.find(params.fetch("id_to_remove"))
-
+  # DELETE /contexts/1
+  # DELETE /contexts/1.json
+  def destroy
     @context.destroy
-
-    redirect_to("/contexts", :notice => "Context deleted successfully.")
+    respond_to do |format|
+      format.html { redirect_to contexts_url, notice: 'Context was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_context
+      @context = Context.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def context_params
+      params.require(:context).permit(:title, :credential_id)
+    end
 end

@@ -1,0 +1,34 @@
+<% was_validated = check_in.errors.any? %>
+
+<% form_html_options = { novalidate: true, class: "mb-3" } %>
+
+<%= form_for(check_in, html: form_html_options) do |f| %>
+  <div class="form-group">
+    <% enrollment_id_class = "form-control" %>
+    <% enrollment_id_was_invalid = check_in.errors.include?(:enrollment_id) %>
+
+    <% if was_validated %>
+      <% if enrollment_id_was_invalid %>
+        <% enrollment_id_class << " is-invalid" %>
+      <% else %>
+        <% enrollment_id_class << " is-valid" %>
+      <% end %>
+    <% end %>
+
+    <%#= f.label :enrollment_id %>
+
+    <%#= f.number_field :enrollment_id, class: enrollment_id_class, placeholder: "Enter enrollment" %>
+    <%= f.hidden_field :enrollment_id, value: current_enrollment.id %>
+    <%= f.hidden_field :resource_id, value: @resource.id %>
+
+    <% if enrollment_id_was_invalid %>
+      <% check_in.errors.full_messages_for(:enrollment_id).each do |message| %>
+        <div class="invalid-feedback">
+          <%= message %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= f.button "Check In!", class: "btn btn-outline-secondary btn-block" %>
+<% end %>

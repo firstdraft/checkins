@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
   <div class="container">
     <a class="navbar-brand" href="/">
-      Checkins
+      Check In
     </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsible-nav-links" aria-controls="collapsible-nav-links" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,7 @@
 
     <div class="collapse navbar-collapse" id="collapsible-nav-links">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Resources
           </a>
@@ -24,43 +24,122 @@
             <a href="/credentials" class="dropdown-item">
               Credentials
             </a>
-            <a href="/rails_direct_uploads" class="dropdown-item">
-              Rails Direct Uploads
+            <a href="/enrollments" class="dropdown-item">
+              Enrollments
+            </a>
+            <a href="/launches" class="dropdown-item">
+              Launches
+            </a>
+            <a href="/resources" class="dropdown-item">
+              Resources
+            </a>
+            <a href="/users" class="dropdown-item">
+              Users
             </a>
           </div>
-        </li>
+        </li> -->
       </ul>
+      <!-- <ul class="navbar-nav"> -->
+        <%# if current_admin_user.blank? %>
+          <!-- <li class="nav-item">
+            <a href="/admin_users/sign_in" class="nav-link">
+
+              AdminUser sign in
+
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/admin_users/sign_up" class="nav-link">
+
+              AdminUser sign up
+
+            </a>
+          </li> -->
+        <%# else %>
+          <!-- <li class="nav-item">
+            <a href="/admin_users/edit" class="nav-link">
+
+              AdminUser edit profile
+
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/admin_users/sign_out" data-method="delete" class="nav-link">
+
+              AdminUser sign out
+
+            </a>
+          </li> -->
+        <%# end %>
+      <!-- </ul> -->
       <ul class="navbar-nav">
         <% if current_administrator.blank? %>
           <li class="nav-item">
             <a href="/administrators/sign_in" class="nav-link">
-              
-              Sign in
-              
+
+              Administrator sign in
+
             </a>
           </li>
 
           <li class="nav-item">
             <a href="/administrators/sign_up" class="nav-link">
-              
-              Sign up
-              
+
+              Administrator sign up
+
             </a>
           </li>
         <% else %>
           <li class="nav-item">
             <a href="/administrators/edit" class="nav-link">
-              
-              Edit profile
-              
+
+              Administrator edit profile
+
             </a>
           </li>
 
           <li class="nav-item">
             <a href="/administrators/sign_out" data-method="delete" class="nav-link">
-              
-              Sign out
-              
+
+              Administrator sign out
+
+            </a>
+          </li>
+        <% end %>
+      </ul>
+      <ul class="navbar-nav">
+        <% if current_enrollment.blank? %>
+          <li class="nav-item">
+            <a href="/users/sign_in" class="nav-link">
+
+              User sign in
+
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/users/sign_up" class="nav-link">
+
+              User sign up
+
+            </a>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <a href="/users/edit" class="nav-link">
+
+              <%= current_user.preferred_name %>
+
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/users/sign_out" data-method="delete" class="nav-link">
+
+              User sign out
+
             </a>
           </li>
         <% end %>

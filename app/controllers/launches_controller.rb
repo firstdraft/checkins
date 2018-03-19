@@ -1,63 +1,184 @@
 class LaunchesController < ApplicationController
+  before_action :set_launch, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token, only: [:create]
+
   def index
     @launches = Launch.all
-
-    render("launch_templates/index.html.erb")
   end
 
   def show
-    @launch = Launch.find(params.fetch("id_to_display"))
-
-    render("launch_templates/show.html.erb")
   end
 
-  def new_form
-    render("launch_templates/new_form.html.erb")
-  end
-
-  def create_row
+  def new
     @launch = Launch.new
+  end
 
-    @launch.payload = params.fetch("payload")
-    @launch.enrollment_id = params.fetch("enrollment_id")
-    @launch.credential_id = params.fetch("credential_id")
+  def edit
+  end
 
-    if @launch.valid?
-      @launch.save
-
-      redirect_to("/launches", :notice => "Launch created successfully.")
+  def create
+    find_credential
+    find_resource_and_context
+    if @resource && @context
+      find_or_create_user
+      find_or_create_enrollment
+      set_current_enrollment
+      @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
+      if @launch.save
+        if learner?
+          redirect_to resource_url(@resource)
+        elsif teacher?
+          redirect_to credentials_url
+        else
+          redirect_to root_url,
+          notice: "You are neither a student nor a teacher for this assignment"
+        end
+      else
+        redirect_to root_url,
+        notice: @launch.errors.full_messages.join(" & ")
+      end
+    elsif teacher?
+      @context ||= Context.create(lti_context_id: params["context_id"], credential: @credential, title: params["context_title"])
+      @resource = @context.resources.create(lti_resource_link_id: params["resource_link_id"], lis_outcome_service_url: params["lis_outcome_service_url"])
+      find_or_create_user
+      find_or_create_enrollment
+      set_current_enrollment
+      @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
+      if @launch.save
+        redirect_to edit_resource_url(@resource)
+      else
+        redirect_to root_url,
+        notice: @launch.errors.full_messages.join(" & ")
+      end
     else
-      render("launch_templates/new_form.html.erb")
+      redirect_to root_url,
+      notice: "Attendance assignment has not been setup yet"
+    end
+
+    # Previous create action logic:
+
+    # find_credential
+    # find_or_create_user
+    # find_or_create_resource_context
+    # set_current_enrollment
+    #
+    # provider = IMS::LTI::ToolProvider.new(
+    #     @credential.consumer_key,
+    #     @credential.consumer_secret,
+    #     params
+    #   )
+    #
+    # @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
+    #
+    # # p provider.outcome_service?
+    # # p provider.post_replace_result!(0.6)                #RETURNS AN OutcomeResponse OBJECT
+    # # p provider.post_replace_result!(0.6).description    #RETURNS "Your old score of 0 has been replaced with 0.6"
+    #
+    # if @launch.save
+    #   if (@enrollment.roles.split(",") & %w(Learner)).any?
+    #     redirect_to resource_url(@resource)
+    #   elsif @user.teacher?
+    #     redirect_to @launch
+    #   end
+    # end
+
+
+  end
+
+  def update
+    respond_to do |format|
+      if @launch.update(launch_params)
+        format.html { redirect_to @launch, notice: 'Launch was successfully updated.' }
+        format.json { render :show, status: :ok, location: @launch }
+      else
+        format.html { render :edit }
+        format.json { render json: @launch.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def edit_form
-    @launch = Launch.find(params.fetch("prefill_with_id"))
-
-    render("launch_templates/edit_form.html.erb")
-  end
-
-  def update_row
-    @launch = Launch.find(params.fetch("id_to_modify"))
-
-    @launch.payload = params.fetch("payload")
-    @launch.enrollment_id = params.fetch("enrollment_id")
-    @launch.credential_id = params.fetch("credential_id")
-
-    if @launch.valid?
-      @launch.save
-
-      redirect_to("/launches/#{@launch.id}", :notice => "Launch updated successfully.")
-    else
-      render("launch_templates/edit_form.html.erb")
-    end
-  end
-
-  def destroy_row
-    @launch = Launch.find(params.fetch("id_to_remove"))
-
+  def destroy
     @launch.destroy
-
-    redirect_to("/launches", :notice => "Launch deleted successfully.")
+    respond_to do |format|
+      format.html { redirect_to launches_url, notice: 'Launch was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
+
+
+  private
+
+    def set_launch
+      @launch = Launch.find(params[:id])
+    end
+
+    # def launch_params
+    #   params.require(:launch).permit(:payload)
+    # end
+
+    def find_credential
+      raise "No LTI key" unless params["oauth_consumer_key"].present?
+      if @credential = Credential.find_by(consumer_key: params["oauth_consumer_key"])
+        @credential.enabled? ? @credential : (raise "Credential is disabled")
+      else
+        raise "Unknown LTI Key"
+      end
+    end
+
+    def find_or_create_user
+      @user = User.find_or_create_by(lti_user_id: params["user_id"]) do |u|
+        u.preferred_name = params["lis_person_name_given"]
+      end
+    end
+
+    def find_or_create_resource_context
+
+      if @resource = Resource.find_by(lti_resource_link_id: params["resource_link_id"])
+        @resource
+        @context = @resource.context
+      elsif (params["roles"].split(",") & %w(Instructor Teachingassistant)).any? # Checks if current user is Instructor or Teachingassistant
+        @resource = Resource.find_or_create_by(lti_resource_link_id: params["resource_link_id"]) do |r|
+          r.lis_outcome_service_url = params["lis_outcome_service_url"]
+
+          r.context = Context.find_or_create_by(lti_context_id: params["context_id"]) do |c|
+            c.credential = @credential
+            c.title      = params["context_title"]
+          end
+        end
+        @context = @resource.context
+      else
+        redirect_to root_url,
+        notice: "Attendance assignment has not been created yet"
+      end
+    end
+
+    # def set_current_enrollment
+    #   @enrollment = Enrollment.find_or_create_by(user: @user, context: @context) do |e|
+    #     e.roles = params["roles"]
+    #   end
+    #   session[:enrollment_id] = @enrollment.id
+    # end
+
+    def teacher?
+      (params["roles"].split(",") & %w(Instructor Teachingassistant)).any?
+    end
+
+    def learner?
+      (params["roles"].split(",") & %w(Learner)).any?
+    end
+
+    def find_resource_and_context
+      @resource = Resource.find_by(lti_resource_link_id: params["resource_link_id"])
+      @context = Context.find_by(lti_context_id: params["context_id"])
+    end
+
+    def find_or_create_enrollment
+      @enrollment = Enrollment.find_or_create_by(user: @user, context: @context) do |e|
+        e.roles = params["roles"]
+      end
+    end
+
+    def set_current_enrollment
+      session[:enrollment_id] = @enrollment.id
+    end
 end

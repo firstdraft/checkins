@@ -5,16 +5,16 @@ Rails.application.routes.draw do
     root "credentials#index"
   end
 
-  root "credentials#index"
+  root "contexts#index"
 
-  resources :check_ins, only: [:create, :destroy]
-  resources :contexts, only: [:index]
+  resources :check_ins, only: [:create, :destroy, :edit, :show]
+  resources :contexts, only: [:index, :edit, :show]
   resources :credentials, only: [:index, :create, :destroy]
   resources :enrollments, only: []
   # resources :launches, except: :create
   resource  :launch, only: :create
-  resources :resources, only: :show
-  resources :users, only: []
+  resources :resources, only: [:edit, :show]
+  resources :users, only: [:edit, :update]
 end
 
 # == Route Map
@@ -51,4 +51,4 @@ end
 #                rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                       active_storage/disk#show
 #         update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                               active_storage/disk#update
 #              rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                    active_storage/direct_uploads#create
-# 
+#

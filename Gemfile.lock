@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/wjordan/ims-lti.git
+  revision: 39203db48428ab943547363b13da56b02a19d905
+  branch: oauth_051
+  specs:
+    ims-lti (1.1.12)
+      builder
+      oauth (>= 0.4.5, < 0.6)
+
+GIT
   remote: https://github.com/firstdraft/draft_generators.git
   revision: e01917b1608133c48ed81be447b32446eb2eda51
   specs:
@@ -62,6 +71,8 @@ GEM
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
     bindex (0.5.0)
+    binding_of_caller (0.8.0)
+      debug_inspector (>= 0.0.1)
     bootsnap (1.2.0)
       msgpack (~> 1.0)
     builder (3.2.3)
@@ -73,6 +84,7 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
+    debug_inspector (0.0.3)
     devise (4.4.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -110,6 +122,7 @@ GEM
     nio4r (2.2.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
+    oauth (0.5.4)
     orm_adapter (0.5.0)
     pg (1.0.0)
     pry (0.11.3)
@@ -220,11 +233,13 @@ DEPENDENCIES
   annotate
   awesome_print
   better_errors
+  binding_of_caller
   bootsnap (>= 1.1.0)
   bullet
   byebug
   devise
   draft_generators!
+  ims-lti!
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)

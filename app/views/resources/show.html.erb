@@ -1,0 +1,47 @@
+<div class="row justify-content-center mb-3">
+  <div class="col-md-8">
+    <%= render "/check_ins/form", check_in: @check_in %>
+
+
+    <div class="card mb-3">
+      <h2 class="card-header h4">
+        My Check Ins
+      </h2>
+      <!-- <div class="card-body"> -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>
+                      #
+                    </th>
+
+                    <th>
+                      Checked In
+                    </th>
+
+                    <th>
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <%= render collection: @check_ins, partial: "/check_ins/table_row", as: :check_in %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+
+    </div>
+
+
+
+
+    <%= render object: @resource, partial: "card", as: :resource %>
+  </div>
+</div>
