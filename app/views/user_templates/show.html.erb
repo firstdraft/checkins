@@ -2,7 +2,7 @@
   <div class="col-md-8">
     <div class="card">
       <h2 class="card-header h4">
-        User #<%= @user.id %> details
+        User profile
       </h2>
       <div class="card-body">
         <a href="/users/<%= @user.id %>/edit">
@@ -32,7 +32,7 @@
           <dd>
             <%= @user.preferred_name %>
           </dd>
-          
+
         </dl>
 
         <a href="/delete_user/<%= @user.id %>">
