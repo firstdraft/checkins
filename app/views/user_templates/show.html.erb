@@ -1,63 +1,50 @@
-<h1>
-  User #<%= @user.id %> details
-</h1>
+<div class="row justify-content-center mb-3">
+  <div class="col-md-8">
+    <div class="card">
+      <h2 class="card-header h4">
+        User #<%= @user.id %> details
+      </h2>
+      <div class="card-body">
+        <a href="/users/<%= @user.id %>/edit">
+          Edit user
+        </a>
 
-<a href="/users/<%= @user.id %>/edit">
-  Edit user
-</a>
+        <hr>
 
-<hr>
+        <dl>
+          <dt>
+            First name
+          </dt>
+          <dd>
+            <%= @user.first_name %>
+          </dd>
 
-<dl>
-  <dt>
-    First name
-  </dt>
-  <dd>
-    <%= @user.first_name %>
-  </dd>
+          <dt>
+            Last name
+          </dt>
+          <dd>
+            <%= @user.last_name %>
+          </dd>
 
-  <dt>
-    Last name
-  </dt>
-  <dd>
-    <%= @user.last_name %>
-  </dd>
+          <dt>
+            Preferred name
+          </dt>
+          <dd>
+            <%= @user.preferred_name %>
+          </dd>
+          
+        </dl>
 
-  <dt>
-    Preferred name
-  </dt>
-  <dd>
-    <%= @user.preferred_name %>
-  </dd>
+        <a href="/delete_user/<%= @user.id %>">
+          Delete user
+        </a>
 
-  <dt>
-    Lti user
-  </dt>
-  <dd>
-    <%= @user.lti_user_id %>
-  </dd>
+        <hr>
 
-  <dt>
-    Created at
-  </dt>
-  <dd>
-    <%= time_ago_in_words(@user.created_at) %> ago
-  </dd>
-
-  <dt>
-    Updated at
-  </dt>
-  <dd>
-    <%= time_ago_in_words(@user.updated_at) %> ago
-  </dd>
-</dl>
-
-<a href="/delete_user/<%= @user.id %>">
-  Delete user
-</a>
-
-<hr>
-
-<a href="/users">
-  Go back
-</a>
+        <a href="/users">
+          Go back
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
