@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: credentials
+#
+#  id               :integer          not null, primary key
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  consumer_key     :string
+#  consumer_secret  :string
+#  administrator_id :integer
+#  enabled          :boolean          default(TRUE)
+#
+
 class Credential < ApplicationRecord
   belongs_to :administrator
 

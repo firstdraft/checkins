@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: contexts
+#
+#  id             :integer          not null, primary key
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  title          :string
+#  lti_context_id :string
+#  credential_id  :integer
+#
+
 class Context < ApplicationRecord
 
   belongs_to :credential
