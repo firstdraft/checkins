@@ -1,0 +1,91 @@
+<div class="row justify-content-center mb-3">
+  <div class="col-md-8">
+    <div class="card">
+      <h2 class="card-header h4">
+        Edit User Profile
+      </h2>
+      <div class="card-body">
+        <!-- Validation failure messages -->
+        <% if @user.errors.any? %>
+          <% @user.errors.full_messages.each do |message| %>
+            <div class="alert">
+            <%= message %>
+            </div>
+          <% end %>
+          <hr>
+        <% end %>
+
+        <%= form_for @user do |f| %>
+        <!-- Label and input for first_name -->
+        <div class="form-group">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name, autofocus: true, class: "form-control" %>
+        </div>
+
+        <!-- Label and input for last_name -->
+        <div class="form-group">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name, class: "form-control" %>
+        </div>
+
+        <!-- Label and input for preferred_name -->
+        <div class="form-group">
+          <%= f.label :preferred_name %>
+          <%= f.text_field :preferred_name, class: "form-control" %>
+        </div>
+
+        <button class="btn btn-block btn-outline-primary">
+          Update user
+        </button>
+
+        <% end %>
+        <hr>
+
+        <a href="/users">
+          Go back
+        </a>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- <form action="/users/<%#= @user.id %>" method="patch">
+  <div class="form-group">
+    <label for="first_name">
+      First name
+    </label>
+
+    <input type="text" id="first_name" name="first_name" class="form-control" value="<%#= @user.first_name %>">
+  </div> -->
+
+  <!-- Label and input for last_name -->
+  <!-- <div class="form-group">
+    <label for="last_name">
+      Last name
+    </label>
+
+    <input type="text" id="last_name" name="last_name" class="form-control" value="<%#= @user.last_name %>">
+  </div> -->
+
+  <!-- Label and input for preferred_name -->
+  <!-- <div class="form-group">
+    <label for="preferred_name">
+      Preferred name
+    </label>
+
+    <input type="text" id="preferred_name" name="preferred_name" class="form-control" value="<%#= @user.preferred_name %>">
+  </div>
+
+  <button class="btn btn-block btn-outline-primary">
+    Update user
+  </button>
+</form> -->

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   # resources :launches, except: :create
   resource  :launch, only: :create
   resources :resources, only: [:edit, :show]
-  resources :users, only: [:edit, :update]
+  resource :user, only: [:edit, :show, :update]
 end
 
 # == Route Map
