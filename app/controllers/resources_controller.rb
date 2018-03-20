@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
-
+  before_action :authorize_lti_user
   # GET /resources
   # GET /resources.json
   def index

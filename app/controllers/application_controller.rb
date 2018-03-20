@@ -11,4 +11,15 @@ class ApplicationController < ActionController::Base
   def current_user
     current_enrollment.user
   end
+
+  def landing
+    render "/landing.html.erb"
+  end
+
+  def authorize_lti_user
+    if current_enrollment.nil?
+      redirect_to landing_url
+    end
+  end
+
 end

@@ -1,5 +1,6 @@
 class ContextsController < ApplicationController
   before_action :set_context, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_lti_user
 
   # GET /contexts
   # GET /contexts.json

@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   root "contexts#index"
 
+  get "/landing", to: "application#landing", as: 'landing'
+  get "/sign_out", to:"users#sign_out", as: "lti_user_sign_out"
+
   resources :check_ins, only: [:create, :destroy, :edit, :show]
   resources :contexts, only: [:index, :edit, :show]
   resources :credentials, only: [:index, :create, :destroy]
