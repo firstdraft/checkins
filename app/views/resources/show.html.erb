@@ -1,11 +1,15 @@
 <div class="row justify-content-center mb-3">
-  <div class="col-md-8">
+  <div class="col-md-3">
     <%= render "/check_ins/form", check_in: @check_in %>
+
+  </div>
+
+  <div class="col-md-8">
 
 
     <div class="card mb-3">
       <h2 class="card-header h4">
-        My Check Ins
+        <%= @resource.context.title %> - <%= @resource.lti_resource_link_id %>
       </h2>
       <!-- <div class="card-body"> -->
         <div class="row">
@@ -20,8 +24,8 @@
 
                     <th>
                       Checked In
-                    </th>
 
+                    </th>
                     <th>
                       Actions
                     </th>
@@ -42,6 +46,6 @@
 
 
 
-    <%= render object: @resource, partial: "card", as: :resource %>
+    <%#= render object: @resource, partial: "card", as: :resource %>
   </div>
 </div>
