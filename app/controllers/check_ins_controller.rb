@@ -55,7 +55,7 @@ class CheckInsController < ApplicationController
   def destroy
     @check_in.destroy
     respond_to do |format|
-      format.html { redirect_to check_ins_url, notice: 'Check in was successfully destroyed.' }
+      format.html { redirect_to resource_url(@check_in.resource), notice: 'Check in was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
