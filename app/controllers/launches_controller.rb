@@ -54,35 +54,6 @@ class LaunchesController < ApplicationController
       redirect_to root_url,
       notice: "Attendance assignment has not been setup yet"
     end
-
-    # Previous create action logic:
-
-    # find_credential
-    # find_or_create_user
-    # find_or_create_resource_context
-    # set_current_enrollment
-    #
-    # provider = IMS::LTI::ToolProvider.new(
-    #     @credential.consumer_key,
-    #     @credential.consumer_secret,
-    #     params
-    #   )
-    #
-    # @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
-    #
-    # # p provider.outcome_service?
-    # # p provider.post_replace_result!(0.6)                #RETURNS AN OutcomeResponse OBJECT
-    # # p provider.post_replace_result!(0.6).description    #RETURNS "Your old score of 0 has been replaced with 0.6"
-    #
-    # if @launch.save
-    #   if (@enrollment.roles.split(",") & %w(Learner)).any?
-    #     redirect_to resource_url(@resource)
-    #   elsif @user.teacher?
-    #     redirect_to @launch
-    #   end
-    # end
-
-
   end
 
   def update
@@ -151,13 +122,6 @@ class LaunchesController < ApplicationController
         notice: "Attendance assignment has not been created yet"
       end
     end
-
-    # def set_current_enrollment
-    #   @enrollment = Enrollment.find_or_create_by(user: @user, context: @context) do |e|
-    #     e.roles = params["roles"]
-    #   end
-    #   session[:enrollment_id] = @enrollment.id
-    # end
 
     def teacher?
       (params["roles"].split(",") & %w(Instructor Teachingassistant)).any?

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: launches
+#
+#  id            :integer          not null, primary key
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  payload       :jsonb
+#  enrollment_id :integer
+#  credential_id :integer
+#
+
 class Launch < ApplicationRecord
   belongs_to :credential
   belongs_to :enrollment

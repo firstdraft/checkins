@@ -110,33 +110,13 @@
         <% end %>
       </ul>
       <ul class="navbar-nav">
-        <% if current_enrollment.blank? %>
+        <% if current_enrollment %>
           <li class="nav-item">
-            <a href="/users/sign_in" class="nav-link">
-
-              User sign in
-
-            </a>
+            <%= link_to current_user.preferred_name, edit_user_url, class: "nav-link" %>
           </li>
 
           <li class="nav-item">
-            <a href="/users/sign_up" class="nav-link">
-
-              User sign up
-
-            </a>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <a href="/users/edit" class="nav-link">
-
-              <%= current_user.preferred_name %>
-
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="/users/sign_out" data-method="delete" class="nav-link">
+            <a href="/sign_out" class="nav-link">
 
               User sign out
 

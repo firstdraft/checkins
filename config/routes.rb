@@ -7,14 +7,17 @@ Rails.application.routes.draw do
 
   root "contexts#index"
 
+  get "/landing", to: "application#landing", as: 'landing'
+  get "/sign_out", to:"users#sign_out", as: "lti_user_sign_out"
+
   resources :check_ins, only: [:create, :destroy, :edit, :show]
-  resources :contexts, only: [:index, :edit, :show]
+  resources :contexts, only: [:index, :edit, :update, :show]
   resources :credentials, only: [:index, :create, :destroy]
   resources :enrollments, only: []
   # resources :launches, except: :create
   resource  :launch, only: :create
-  resources :resources, only: [:edit, :show]
-  resources :users, only: [:edit, :update]
+  resources :resources, only: [:edit, :update, :show]
+  resource :user, only: [:edit, :show, :update]
 end
 
 # == Route Map

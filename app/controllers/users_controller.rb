@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authorize_lti_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+
   def index
     @users = User.all
 
@@ -6,8 +9,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params.fetch("id_to_display"))
-
     render("user_templates/show.html.erb")
   end
 
@@ -32,34 +33,43 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit_form
-    @user = User.find(params.fetch("prefill_with_id"))
-
-    render("user_templates/edit_form.html.erb")
+  def edit
+    render "/user_templates/edit.html.erb"
   end
 
-  def update_row
-    @user = User.find(params.fetch("id_to_modify"))
-
-    @user.first_name = params.fetch("first_name")
-    @user.last_name = params.fetch("last_name")
-    @user.preferred_name = params.fetch("preferred_name")
-    @user.lti_user_id = params.fetch("lti_user_id")
+  def update
+    @user.update(user_params)
+    # @user.first_name = params.fetch("first_name")
+    # @user.last_name = params.fetch("last_name")
+    # @user.preferred_name = params.fetch("preferred_name")
+    # @user.lti_user_id = params.fetch("lti_user_id")
 
     if @user.valid?
       @user.save
 
-      redirect_to("/users/#{@user.id}", :notice => "User updated successfully.")
+      redirect_to(user_url, :notice => "User updated successfully.")
     else
-      render("user_templates/edit_form.html.erb")
+      render("user_templates/edit.html.erb")
     end
   end
 
-  def destroy_row
-    @user = User.find(params.fetch("id_to_remove"))
-
+  def destroy
     @user.destroy
 
     redirect_to("/users", :notice => "User deleted successfully.")
   end
+
+  def sign_out
+    session[:enrollment_id] = nil
+    redirect_to landing_url
+  end
+
+  private
+    def set_user
+      @user = current_user
+    end
+
+    def user_params
+      params.require(:user).permit(:first_name, :last_name, :preferred_name)
+    end
 end
