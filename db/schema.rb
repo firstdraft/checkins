@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_09_215529) do
+ActiveRecord::Schema.define(version: 2018_03_22_194057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,9 @@ ActiveRecord::Schema.define(version: 2018_03_09_215529) do
     t.string "lis_outcome_service_url"
     t.string "lti_resource_link_id"
     t.integer "context_id"
+    t.date "starts_on"
+    t.date "ends_on"
+    t.string "days_of_week"
   end
 
   create_table "users", force: :cascade do |t|

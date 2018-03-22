@@ -9,6 +9,9 @@
 #  lis_outcome_service_url :string
 #  lti_resource_link_id    :string
 #  context_id              :integer
+#  starts_on               :date
+#  ends_on                 :date
+#  days_of_week            :string
 #
 
 class Resource < ApplicationRecord
