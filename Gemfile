@@ -20,6 +20,7 @@ group :development, :test do
   gem "awesome_print"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "pry-rails"
+  gem "rspec-rails", "~> 3.7"
 end
 
 group :development do
