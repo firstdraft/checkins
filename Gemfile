@@ -24,8 +24,8 @@ end
 
 group :development do
   gem "annotate"
-  # gem 'better_errors', github: 'charliesome/better_errors'
-  # gem "binding_of_caller"
+  gem 'better_errors', github: 'charliesome/better_errors'
+  gem "binding_of_caller"
   gem "bullet"
   gem "draft_generators", github: "firstdraft/draft_generators"
   gem "listen", ">= 3.0.5", "< 3.2"
