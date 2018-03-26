@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2018_03_22_194057) do
     t.integer "context_id"
     t.date "starts_on"
     t.date "ends_on"
-    t.string "days_of_week"
+    t.string "days_of_week", array: true
   end
 
   create_table "users", force: :cascade do |t|

@@ -11,7 +11,7 @@
 #  context_id              :integer
 #  starts_on               :date
 #  ends_on                 :date
-#  days_of_week            :string
+#  days_of_week            :string           is an Array
 #
 
 class Resource < ApplicationRecord
