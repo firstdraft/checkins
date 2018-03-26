@@ -15,13 +15,11 @@
 #
 
 class Resource < ApplicationRecord
+  after_update :create_meetings
+
   belongs_to :context
   has_many :enrollments, dependent: :destroy
   has_many :meetings, dependent: :destroy
-
-  # add a column starts_on
-  # add a column ends_on
-  # add a column days_of_week
 
   validate :must_have_schedule, on: :update
   validate :starts_on_earlier_than_ends_on, on: :update
@@ -33,7 +31,7 @@ class Resource < ApplicationRecord
   end
 
   def starts_on_earlier_than_ends_on
-    if starts_on > ends_on
+    if starts_on && ends_on && starts_on > ends_on
       errors.add(:base, "Start date must be earlier than end date")
     end
   end
@@ -55,9 +53,11 @@ class Resource < ApplicationRecord
     occurrences
   end
 
-  after_update :create_meetings
 
   def create_meetings
-
+    all_occurrences.each do |date|
+      m = meetings.new(start_time: Chronic.parse(date.to_s + " " + "14:35"), end_time: Chronic.parse(date.to_s + " " + "17:35"))
+      m.save
+    end
   end
 end
