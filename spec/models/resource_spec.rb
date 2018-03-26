@@ -13,7 +13,7 @@
 #  ends_on                 :date
 #  days_of_week            :string           is an Array
 #
-# require 'rails_helper'
+
 describe "#all_occurrences" do
 
   it "returns an array" do

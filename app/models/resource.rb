@@ -17,6 +17,7 @@
 class Resource < ApplicationRecord
   belongs_to :context
   has_many :enrollments, dependent: :destroy
+  has_many :meetings, dependent: :destroy
 
   # add a column starts_on
   # add a column ends_on
@@ -51,7 +52,6 @@ class Resource < ApplicationRecord
         occurrences << date
       end
     end
-
     occurrences
   end
 

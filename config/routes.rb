@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :enrollments, only: []
   # resources :launches, except: :create
   resource  :launch, only: :create
+  resources :meetings
   resources :resources, only: [:edit, :update, :show]
   resource :user, only: [:edit, :show, :update]
 end
