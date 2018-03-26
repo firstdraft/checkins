@@ -86,6 +86,7 @@ GEM
       uniform_notifier (~> 1.11.0)
     byebug (10.0.0)
     choice (0.2.0)
+    chronic (0.10.2)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.3)
@@ -260,6 +261,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   bullet
   byebug
+  chronic
   devise
   draft_generators!
   ims-lti!
