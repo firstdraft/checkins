@@ -23,10 +23,17 @@ class Resource < ApplicationRecord
   # add a column days_of_week
 
   validate :must_have_schedule, on: :update
+  validate :starts_on_earlier_than_ends_on, on: :update
 
   def must_have_schedule
     if starts_on.blank? || ends_on.blank? || days_of_week.blank?
       errors.add(:base, "You have to provide a schedule")
+    end
+  end
+
+  def starts_on_earlier_than_ends_on
+    if starts_on > ends_on
+      errors.add(:base, "Start date must be earlier than end date")
     end
   end
 
@@ -36,6 +43,16 @@ class Resource < ApplicationRecord
 
   def all_occurrences
     # returns an array of Date
+    date_range = (starts_on..ends_on).to_a
+    occurrences = []
+
+    date_range.each do |date|
+      if date.wday.to_s.in?(days_of_week)
+        occurrences << date
+      end
+    end
+
+    occurrences
   end
 
   after_update :create_meetings
