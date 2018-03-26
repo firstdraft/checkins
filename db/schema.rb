@@ -75,9 +75,8 @@ ActiveRecord::Schema.define(version: 2018_03_26_192922) do
   end
 
   create_table "meetings", force: :cascade do |t|
-    t.date "date"
-    t.time "start_time"
-    t.time "end_time"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.integer "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
