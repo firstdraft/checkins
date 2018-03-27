@@ -42,14 +42,16 @@ class ResourcesController < ApplicationController
   # PATCH/PUT /resources/1
   # PATCH/PUT /resources/1.json
   def update
-    respond_to do |format|
-      if @resource.update(resource_params)
-        format.html { redirect_to @resource, notice: 'Resource was successfully updated.' }
-        format.json { render :show, status: :ok, location: @resource }
+    @resource.assign_attributes(resource_params)
+    if @resource.inspect != Resource.find(@resource.id).inspect
+      if @resource.save
+        redirect_to @resource,
+        notice: "Resource was successfully updated."
       else
-        format.html { render :edit }
-        format.json { render json: @resource.errors, status: :unprocessable_entity }
+        render :edit
       end
+    else
+      redirect_to @resource, notice: "Resource was unchanged"
     end
   end
 
@@ -71,6 +73,6 @@ class ResourcesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def resource_params
-      params.require(:resource).permit(:context_id, :meeting_schedule_hash)
+      params.require(:resource).permit(:context_id, :meeting_schedule_hash, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
     end
 end
