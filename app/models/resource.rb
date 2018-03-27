@@ -89,5 +89,19 @@ class Resource < ApplicationRecord
       end
     end
   end
-  
+
+  def meetings_by_week
+    hash = {}
+    meetings.each do |m|
+      week_start = m.start_time.beginning_of_week
+      hash[week_start] = [] if hash[week_start].nil?
+      hash[week_start] << m
+    end
+    #changes key from first Date of week to week number of resource
+    hash.keys.each_with_index do |key, index|
+      hash[index +1] = hash.delete(key)
+    end
+    hash
+  end
+
 end
