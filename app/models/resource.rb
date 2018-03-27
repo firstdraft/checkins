@@ -31,7 +31,7 @@ class Resource < ApplicationRecord
   validate :starts_on_earlier_than_ends_on, on: :update
 
   def must_have_schedule
-    if starts_on.blank? || ends_on.blank? || days_of_week.blank?
+    if starts_on.blank? || ends_on.blank?
       errors.add(:base, "You have to provide a schedule")
     end
   end
@@ -46,24 +46,48 @@ class Resource < ApplicationRecord
     # returns true or false
   end
 
+  def days_of_week_hash
+    hash = {
+      sunday:    sunday,
+      monday:    monday,
+      tuesday:   tuesday,
+      wednesday: wednesday,
+      thursday:  thursday,
+      friday:    friday,
+      saturday:  saturday
+    }
+  end
+
+  def days_of_week_array
+    array = []
+    days_of_week_hash.each_with_index do |(key,value), index|
+      if value
+        array << index
+      end
+    end
+    array
+  end
+
   def all_occurrences
     # returns an array of Date
     date_range = (starts_on..ends_on).to_a
     occurrences = []
 
     date_range.each do |date|
-      if date.wday.to_s.in?(days_of_week)
+      if date.wday.in?(days_of_week_array)
         occurrences << date
       end
     end
     occurrences
   end
 
-
   def create_meetings
-    all_occurrences.each do |date|
-      m = meetings.new(start_time: Chronic.parse(date.to_s + " " + "14:35"), end_time: Chronic.parse(date.to_s + " " + "17:35"))
-      m.save
+    unless meetings.any?
+      all_occurrences.each do |date|
+        m = meetings.new(start_time: Chronic.parse(date.to_s + " " + "14:35"), end_time: Chronic.parse(date.to_s + " " + "17:35"))
+        m.save
+      end
     end
   end
+  
 end
