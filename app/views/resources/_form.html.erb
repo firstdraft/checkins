@@ -28,18 +28,84 @@
     <% end %>
   </div>
 
+
   <!-- <div class="form-group">
-    <%#= f.label :monday %>
-    <%#= f.check_box :monday %>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.sunday %>">
+        <input name="resource[sunday]" type="checkbox" checked="<%#= resource.sunday %>" autocomplete="off"> Sunday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.monday %>">
+        <input type="checkbox" checked="<%#= resource.monday %>" autocomplete="off"> Monday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.tuesday %>">
+        <input type="checkbox" checked="<%#= resource.tuesday %>" autocomplete="off"> Tuesday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.wednesday %>">
+        <input type="checkbox" checked="<%#= resource.wednesday %>" autocomplete="off"> Wednesday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.thursday %>">
+        <input type="checkbox" checked="<%#= resource.thursday %>" autocomplete="off"> Thursday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.friday %>">
+        <input type="checkbox" checked="<%#= resource.friday %>" autocomplete="off"> Friday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.saturday %>">
+        <input type="checkbox" checked="<%#= resource.saturday %>" autocomplete="off"> Saturday
+      </label>
+    </div>
+
   </div> -->
 
-  Sunday<input class="form-control" type="checkbox" name="days_of_week[sunday]" >
-  Monday<input class="form-control" type="checkbox" name="days_of_week[monday]" value="true">
-  Tuesday<input class="form-control" type="checkbox" name="days_of_week[tuesday]" value="true">
-  Wednesday<input class="form-control" type="checkbox" name="days_of_week[wednesday]" value="true">
-  Thursday<input class="form-control" type="checkbox" name="days_of_week[thursday]" value="true">
-  Friday<input class="form-control" type="checkbox" name="days_of_week[friday]" value="true">
-  Saturday<input class="form-control" type="checkbox" name="days_of_week[saturday]" value="true">
+
+  <div class="form-group">
+
+    <!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <%#= f.label :sunday, class:"btn btn-outline-primary active"  do %>
+        <%#= f.check_box :sunday, {class: "form-control", checked: resource.sunday} %>Sunday
+      <%# end %>
+
+    </div> -->
+
+    <%= f.label :sunday %>
+    <%= f.check_box :sunday, {class: "form-control", checked: resource.sunday} %>
+
+    <%= f.label :monday %>
+    <%= f.check_box :monday, {class: "form-control", checked: resource.monday} %>
+
+    <%= f.label :tuesday %>
+    <%= f.check_box :tuesday, {class: "form-control", checked: resource.tuesday} %>
+
+    <%= f.label :wednesday %>
+    <%= f.check_box :wednesday, {class: "form-control", checked: resource.wednesday} %>
+
+    <%= f.label :thursday %>
+    <%= f.check_box :thursday, {class: "form-control", checked: resource.thursday} %>
+
+    <%= f.label :friday %>
+    <%= f.check_box :friday, {class: "form-control", checked: resource.friday} %>
+
+    <%= f.label :saturday %>
+    <%= f.check_box :saturday, {class: "form-control", checked: resource.saturday} %>
+  </div>
+  <!-- Sunday<input class="form-control" type="checkbox" name="days_of_week[0]" >
+  Monday<input class="form-control" type="checkbox" name="days_of_week[1]" >
+  Tuesday<input class="form-control" type="checkbox" name="days_of_week[2]" >
+  Wednesday<input class="form-control" type="checkbox" name="days_of_week[3]" >
+  Thursday<input class="form-control" type="checkbox" name="days_of_week[4]" >
+  Friday<input class="form-control" type="checkbox" name="days_of_week[5]" >
+  Saturday<input class="form-control" type="checkbox" name="days_of_week[6]" > -->
   datetime-local <input class="form-control" type="datetime-local" name="start_datetime">
   date <input class="form-control" type="date" name="start_date">
   time <input class="form-control" type="time" name="start_time">
