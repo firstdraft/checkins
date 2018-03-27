@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_26_192922) do
+ActiveRecord::Schema.define(version: 2018_03_27_164207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,7 +91,13 @@ ActiveRecord::Schema.define(version: 2018_03_26_192922) do
     t.integer "context_id"
     t.date "starts_on"
     t.date "ends_on"
-    t.string "days_of_week", array: true
+    t.boolean "sunday", default: false
+    t.boolean "monday", default: false
+    t.boolean "tuesday", default: false
+    t.boolean "wednesday", default: false
+    t.boolean "thursday", default: false
+    t.boolean "friday", default: false
+    t.boolean "saturday", default: false
   end
 
   create_table "users", force: :cascade do |t|

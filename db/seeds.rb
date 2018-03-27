@@ -25,5 +25,7 @@ resource = context.resources.find_or_create_by(id: 1) do |r|
   r.lti_resource_link_id = "ResourceONE"
   r.starts_on = Date.new(2018,1,1)
   r.ends_on = Date.new(2018,1,31)
-  r.days_of_week = [1,3,5]
+  r.monday = true
+  r.wednesday = true
+  r.friday = true
 end

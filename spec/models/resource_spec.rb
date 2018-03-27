@@ -11,7 +11,13 @@
 #  context_id              :integer
 #  starts_on               :date
 #  ends_on                 :date
-#  days_of_week            :string           is an Array
+#  sunday                  :boolean          default(FALSE)
+#  monday                  :boolean          default(FALSE)
+#  tuesday                 :boolean          default(FALSE)
+#  wednesday               :boolean          default(FALSE)
+#  thursday                :boolean          default(FALSE)
+#  friday                  :boolean          default(FALSE)
+#  saturday                :boolean          default(FALSE)
 #
 
 describe "#all_occurrences" do
