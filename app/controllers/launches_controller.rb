@@ -2,6 +2,21 @@ class LaunchesController < ApplicationController
   before_action :set_launch, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token, only: [:create]
 
+  def xml_config
+    respond_to do |format|
+      format.xml do
+        tool_config = IMS::LTI::ToolConfig.new(
+          title: "First Draft Checkins",
+          launch_url: launch_url
+        )
+
+        tool_config.description = "This LTI Tool grades attendance"
+
+        render xml: tool_config.to_xml
+      end
+    end
+  end
+
   def index
     @launches = Launch.all
   end
