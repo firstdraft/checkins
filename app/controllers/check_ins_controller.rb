@@ -34,7 +34,14 @@ class CheckInsController < ApplicationController
           current_launch.payload
         )
         p "==================================================================="
+        p "provider.inspect:"
+        p provider.inspect
+        p "==================================================================="
+        p "current_launch.payload:"
+        p current_launch.payload
+        p "==================================================================="
         p "outcome_service: #{provider.outcome_service?}"
+
         p response = provider.post_replace_result!(current_enrollment.grade_attendance)
         p result = response.description
 
