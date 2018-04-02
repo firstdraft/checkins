@@ -61,6 +61,7 @@ class UsersController < ApplicationController
 
   def sign_out
     session[:enrollment_id] = nil
+    session[:launch_id] = nil
     redirect_to landing_url
   end
 

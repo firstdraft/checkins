@@ -25,10 +25,12 @@ class LaunchesController < ApplicationController
       set_current_enrollment
       @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
       if @launch.save
+        set_current_launch
+        set_current_resource
         if learner?
           redirect_to resource_url(@resource)
         elsif teacher?
-          redirect_to credentials_url
+          redirect_to resource_url(@resource)
         else
           redirect_to root_url,
           notice: "You are neither a student nor a teacher for this assignment"
@@ -45,6 +47,8 @@ class LaunchesController < ApplicationController
       set_current_enrollment
       @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
       if @launch.save
+        set_current_launch
+        set_current_resource
         redirect_to edit_resource_url(@resource)
       else
         redirect_to root_url,
@@ -144,5 +148,13 @@ class LaunchesController < ApplicationController
 
     def set_current_enrollment
       session[:enrollment_id] = @enrollment.id
+    end
+
+    def set_current_launch
+      session[:launch_id] = @launch.id
+    end
+
+    def set_current_resource
+      session[:resource_id] = @resource.id
     end
 end

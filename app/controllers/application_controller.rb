@@ -4,6 +4,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_enrollment
   helper_method :current_user
 
+
+  def landing
+    render "/landing.html.erb"
+  end
+
   def current_enrollment
     @current_enrollment ||= Enrollment.find_by(id:session[:enrollment_id])
   end
@@ -12,8 +17,20 @@ class ApplicationController < ActionController::Base
     current_enrollment.user
   end
 
-  def landing
-    render "/landing.html.erb"
+  def current_credential
+    current_enrollment.context.credential
+  end
+
+  def current_launch
+    Launch.find_by(id: session[:launch_id])
+  end
+
+  def current_resource
+    Resource.find_by(id: session[:resource_id])
+  end
+
+  def current_context
+    current_resource.context
   end
 
   def authorize_lti_user

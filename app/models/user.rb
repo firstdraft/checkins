@@ -20,7 +20,4 @@ class User < ApplicationRecord
 
   validates :preferred_name, presence: true
 
-  def enrollment_check_ins(enrollment_id)
-    self.enrollments.find(enrollment_id).check_ins
-  end
 end

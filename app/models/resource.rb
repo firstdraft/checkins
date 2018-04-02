@@ -21,7 +21,7 @@
 #
 
 class Resource < ApplicationRecord
-  after_update :create_meetings
+  # after_update :create_meetings
 
   belongs_to :context
   has_many :enrollments, dependent: :destroy
@@ -81,10 +81,14 @@ class Resource < ApplicationRecord
     occurrences
   end
 
-  def create_meetings
+  def create_meetings(start_times_hash, end_times_hash)
+    # start_times_hash and end_times_hash look like {"0" => "13:00", "2" => "14:30", "4" => "08:00"}
     unless meetings.any?
       all_occurrences.each do |date|
-        m = meetings.new(start_time: Chronic.parse(date.to_s + " " + "14:35"), end_time: Chronic.parse(date.to_s + " " + "17:35"))
+        m = meetings.new(
+          start_time: Chronic.parse(date.to_s + " " + start_times_hash[date.wday.to_s]),
+          end_time: Chronic.parse(date.to_s + " " + end_times_hash[date.wday.to_s])
+        )
         m.save
       end
     end
@@ -92,7 +96,7 @@ class Resource < ApplicationRecord
 
   def meetings_by_week
     hash = {}
-    meetings.each do |m|
+    meetings.order(:start_time).each do |m|
       week_start = m.start_time.beginning_of_week
       hash[week_start] = [] if hash[week_start].nil?
       hash[week_start] << m

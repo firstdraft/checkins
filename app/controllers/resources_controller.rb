@@ -11,7 +11,8 @@ class ResourcesController < ApplicationController
   # GET /resources/1.json
   def show
     @check_in = CheckIn.new(resource_id: @resource.id)
-    @check_ins = current_enrollment.check_ins.where(resource_id: params[:id])
+    # @check_ins = current_enrollment.check_ins.where(resource_id: params[:id])
+    @check_ins = current_enrollment.check_ins.where(resource: @resource)
   end
 
   # GET /resources/new
@@ -45,6 +46,7 @@ class ResourcesController < ApplicationController
     @resource.assign_attributes(resource_params)
     if @resource.inspect != Resource.find(@resource.id).inspect
       if @resource.save
+        @resource.create_meetings(params["start_times"], params["end_times"])
         redirect_to @resource,
         notice: "Resource was successfully updated."
       else
@@ -73,6 +75,31 @@ class ResourcesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def resource_params
-      params.require(:resource).permit(:context_id, :meeting_schedule_hash, :sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday)
+      params.require(:resource).permit(
+        :context_id,
+        :meeting_schedule_hash,
+        :starts_on,
+        :ends_on,
+        :sunday,
+        :monday,
+        :tuesday,
+        :wednesday,
+        :thursday,
+        :friday,
+        :saturday
+      )
     end
+
+    # def create_meetings(start_times_from_params, end_times_from_params)
+    #   unless @resource.meetings.any?
+    #     @resource.all_occurrences.each do |date|
+    #       m = @resource.meetings.new(
+    #         start_time: Chronic.parse(date.to_s + " " + start_times_from_params[date.wday.to_s]),
+    #         end_time: Chronic.parse(date.to_s + " " + end_times_from_params[date.wday.to_s])
+    #       )
+    #       m.save
+    #     end
+    #   end
+    # end
+
 end
