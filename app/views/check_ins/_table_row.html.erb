@@ -9,6 +9,15 @@
   </td>
 
   <td>
+    <%#= check_in.created_at.to_formatted_s(:long) %>
+    <%if check_in.approved %>
+      <i class="fas fa-check text-success"></i>
+    <% else %>
+    <i class="fas fa-times text-danger"></i>
+    <% end %>
+  </td>
+
+  <td>
     <div class="btn-group">
       <%#= link_to check_in, class: "btn btn-sm btn-outline-secondary" do %>
         <!-- <i class="fas fa-search-plus fa-fw"></i> -->
