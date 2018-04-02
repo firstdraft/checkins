@@ -145,17 +145,17 @@ class LaunchesController < ApplicationController
     def parsed_roles
       raw = params["roles"].split(",")
       roles = raw.map do |r|
-        r.split("/").last
+        r.split("/").last.downcase
       end
       roles
     end
 
     def teacher?
-      (parsed_roles & %w(Instructor Teachingassistant)).any?
+      (parsed_roles & %w(instructor teachingassistant)).any?
     end
 
     def learner?
-      (parsed_roles & %w(Learner)).any?
+      (parsed_roles & %w(learner)).any?
     end
 
     def find_resource_and_context
