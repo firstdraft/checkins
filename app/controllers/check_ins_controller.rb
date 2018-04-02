@@ -31,8 +31,10 @@ class CheckInsController < ApplicationController
         provider = IMS::LTI::ToolProvider.new(
           current_credential.consumer_key,
           current_credential.consumer_secret,
-          current_user.launches.last.payload
+          current_launch.payload
         )
+        p "==================================================================="
+        p "outcome_service: #{provider.outcome_service?}"
         p response = provider.post_replace_result!(current_enrollment.grade_attendance)
         p result = response.description
 
