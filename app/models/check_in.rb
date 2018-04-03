@@ -30,7 +30,7 @@ class CheckIn < ApplicationRecord
 
   def set_approved
     if target_meetings.any?
-      update(approved: (created_at > (target_meetings.first.start_time - 3600) && created_at < (target_meetings.first.start_time + 300)))
+      update(approved: (created_at > (target_meetings.first.start_time - 3600) && created_at < (target_meetings.first.end_time)))
     end
   end
 
