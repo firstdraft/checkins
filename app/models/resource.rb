@@ -86,8 +86,8 @@ class Resource < ApplicationRecord
     unless meetings.any?
       all_occurrences.each do |date|
         m = meetings.new(
-          start_time: Chronic.parse(date.to_s + " " + start_times_hash[date.wday.to_s]),
-          end_time: Chronic.parse(date.to_s + " " + end_times_hash[date.wday.to_s])
+          start_time: Chronic.parse(date.to_s + " " + start_times_hash[date.wday.to_s]).utc,
+          end_time: Chronic.parse(date.to_s + " " + end_times_hash[date.wday.to_s]).utc
         )
         m.save
       end
