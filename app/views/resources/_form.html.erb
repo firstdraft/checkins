@@ -16,9 +16,9 @@
       <% end %>
     <% end %>
 
-    <%= f.label :meeting_schedule_hash %>
+    <%#= f.label :meeting_schedule_hash %>
 
-    <%= f.text_field :meeting_schedule_hash, class: meeting_schedule_hash_class, placeholder: "Enter meeting schedule hash" %>
+    <%#= f.text_field :meeting_schedule_hash, class: meeting_schedule_hash_class, placeholder: "Enter meeting schedule hash" %>
     <% if meeting_schedule_hash_was_invalid %>
       <% resource.errors.full_messages_for(:meeting_schedule_hash).each do |message| %>
         <div class="invalid-feedback">
@@ -27,6 +27,129 @@
       <% end %>
     <% end %>
   </div>
+
+
+  <!-- <div class="form-group">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.sunday %>">
+        <input name="resource[sunday]" type="checkbox" checked="<%#= resource.sunday %>" autocomplete="off"> Sunday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.monday %>">
+        <input type="checkbox" checked="<%#= resource.monday %>" autocomplete="off"> Monday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.tuesday %>">
+        <input type="checkbox" checked="<%#= resource.tuesday %>" autocomplete="off"> Tuesday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.wednesday %>">
+        <input type="checkbox" checked="<%#= resource.wednesday %>" autocomplete="off"> Wednesday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.thursday %>">
+        <input type="checkbox" checked="<%#= resource.thursday %>" autocomplete="off"> Thursday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.friday %>">
+        <input type="checkbox" checked="<%#= resource.friday %>" autocomplete="off"> Friday
+      </label>
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-primary <%#= "active" if resource.saturday %>">
+        <input type="checkbox" checked="<%#= resource.saturday %>" autocomplete="off"> Saturday
+      </label>
+    </div>
+
+  </div> -->
+
+
+  <div class="form-group">
+    <%= f.label :starts_on, "Start Date" %>
+    <%= f.date_field :starts_on, class:"form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :ends_on, "End Date" %>
+    <%= f.date_field :ends_on, class:"form-control" %>
+  </div>
+    <!-- <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <%#= f.label :sunday, class:"btn btn-outline-primary active"  do %>
+        <%#= f.check_box :sunday, {class: "form-control", checked: resource.sunday} %>Sunday
+      <%# end %>
+
+    </div> -->
+    <div class="form-group">
+      <%= f.label :sunday do %>
+        <%= f.check_box :sunday, {class: "", checked: resource.sunday} %> Sunday -
+      <% end %>
+      Start time: <input class="" type="time" name="start_times[0]">
+      End time: <input class="" type="time" name="end_times[0]">
+    </div>
+
+    <div class="form-group">
+      <%= f.label :monday do %>
+        <%= f.check_box :monday, {class: "", checked: resource.monday} %> Monday -
+      <% end %>
+      Start time: <input class="" type="time" name="start_times[1]">
+      End time: <input class="" type="time" name="end_times[1]">
+    </div>
+
+    <div class="form-group">
+      <%= f.label :tuesday do %>
+        <%= f.check_box :tuesday, {class: "", checked: resource.tuesday} %> Tuesday -
+      <% end %>
+      Start time: <input class="" type="time" name="start_times[2]">
+      End time: <input class="" type="time" name="end_times[2]">
+    </div>
+
+    <div class="form-group">
+      <%= f.label :wednesday do %>
+        <%= f.check_box :wednesday, {class: "", checked: resource.wednesday} %> Wednesday -
+      <% end %>
+      Start time: <input class="" type="time" name="start_times[3]">
+      End time: <input class="" type="time" name="end_times[3]">
+    </div>
+
+    <div class="form-group">
+      <%= f.label :thursday do %>
+        <%= f.check_box :thursday, {class: "", checked: resource.thursday} %> Thursday -
+      <% end %>
+      Start time: <input class="" type="time" name="start_times[4]">
+      End time: <input class="" type="time" name="end_times[4]">
+    </div>
+
+    <div class="form-group">
+      <%= f.label :friday do %>
+        <%= f.check_box :friday, {class: "", checked: resource.friday} %> Friday -
+      <% end %>
+      Start time: <input class="" type="time" name="start_times[5]">
+      End time: <input class="" type="time" name="end_times[5]">
+    </div>
+
+    <div class="form-group">
+      <%= f.label :saturday do %>
+        <%= f.check_box :saturday, {class: "", checked: resource.saturday} %> Saturday -
+      <% end %>
+      Start time: <input class="" type="time" name="start_times[6]">
+      End time: <input class="" type="time" name="end_times[6]">
+    </div>
+  </div>
+  <!-- Sunday<input class="form-control" type="checkbox" name="days_of_week[0]" >
+  Monday<input class="form-control" type="checkbox" name="days_of_week[1]" >
+  Tuesday<input class="form-control" type="checkbox" name="days_of_week[2]" >
+  Wednesday<input class="form-control" type="checkbox" name="days_of_week[3]" >
+  Thursday<input class="form-control" type="checkbox" name="days_of_week[4]" >
+  Friday<input class="form-control" type="checkbox" name="days_of_week[5]" >
+  Saturday<input class="form-control" type="checkbox" name="days_of_week[6]" > -->
+  datetime-local <input class="form-control" type="datetime-local" name="start_datetime">
+  date <input class="form-control" type="date" name="start_date">
+  time <input class="form-control" type="time" name="start_time">
+
 
   <%= f.button class: "btn btn-outline-primary btn-block" %>
 <% end %>

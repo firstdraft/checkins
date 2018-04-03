@@ -2,6 +2,21 @@ class LaunchesController < ApplicationController
   before_action :set_launch, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token, only: [:create]
 
+  def xml_config
+    respond_to do |format|
+      format.xml do
+        tool_config = IMS::LTI::ToolConfig.new(
+          title: "First Draft Checkins",
+          launch_url: launch_url
+        )
+
+        tool_config.description = "This LTI Tool grades attendance"
+
+        render xml: tool_config.to_xml
+      end
+    end
+  end
+
   def index
     @launches = Launch.all
   end
@@ -25,10 +40,12 @@ class LaunchesController < ApplicationController
       set_current_enrollment
       @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
       if @launch.save
+        set_current_launch
+        set_current_resource
         if learner?
           redirect_to resource_url(@resource)
         elsif teacher?
-          redirect_to credentials_url
+          redirect_to resource_url(@resource)
         else
           redirect_to root_url,
           notice: "You are neither a student nor a teacher for this assignment"
@@ -45,6 +62,8 @@ class LaunchesController < ApplicationController
       set_current_enrollment
       @launch = Launch.new(payload:params, credential:@credential, enrollment:@enrollment)
       if @launch.save
+        set_current_launch
+        set_current_resource
         redirect_to edit_resource_url(@resource)
       else
         redirect_to root_url,
@@ -123,12 +142,20 @@ class LaunchesController < ApplicationController
       end
     end
 
+    def parsed_roles
+      raw = params["roles"].split(",")
+      roles = raw.map do |r|
+        r.split("/").last.downcase
+      end
+      roles
+    end
+
     def teacher?
-      (params["roles"].split(",") & %w(Instructor Teachingassistant)).any?
+      (parsed_roles & %w(instructor teachingassistant)).any?
     end
 
     def learner?
-      (params["roles"].split(",") & %w(Learner)).any?
+      (parsed_roles & %w(learner)).any?
     end
 
     def find_resource_and_context
@@ -144,5 +171,13 @@ class LaunchesController < ApplicationController
 
     def set_current_enrollment
       session[:enrollment_id] = @enrollment.id
+    end
+
+    def set_current_launch
+      session[:launch_id] = @launch.id
+    end
+
+    def set_current_resource
+      session[:resource_id] = @resource.id
     end
 end

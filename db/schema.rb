@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_09_215529) do
+ActiveRecord::Schema.define(version: 2018_03_29_210128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2018_03_09_215529) do
     t.boolean "late"
     t.integer "enrollment_id"
     t.integer "resource_id"
+    t.boolean "approved", default: false
   end
 
   create_table "contexts", force: :cascade do |t|
@@ -74,6 +75,14 @@ ActiveRecord::Schema.define(version: 2018_03_09_215529) do
     t.integer "credential_id"
   end
 
+  create_table "meetings", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer "resource_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "resources", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -81,6 +90,15 @@ ActiveRecord::Schema.define(version: 2018_03_09_215529) do
     t.string "lis_outcome_service_url"
     t.string "lti_resource_link_id"
     t.integer "context_id"
+    t.date "starts_on"
+    t.date "ends_on"
+    t.boolean "sunday", default: false
+    t.boolean "monday", default: false
+    t.boolean "tuesday", default: false
+    t.boolean "wednesday", default: false
+    t.boolean "thursday", default: false
+    t.boolean "friday", default: false
+    t.boolean "saturday", default: false
   end
 
   create_table "users", force: :cascade do |t|

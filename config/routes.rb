@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   get "/landing", to: "application#landing", as: 'landing'
   get "/sign_out", to:"users#sign_out", as: "lti_user_sign_out"
+  get "/config" => "launches#xml_config"
 
   resources :check_ins, only: [:create, :destroy, :edit, :show]
   resources :contexts, only: [:index, :edit, :update, :show]
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
   resources :enrollments, only: []
   # resources :launches, except: :create
   resource  :launch, only: :create
+  resources :meetings
   resources :resources, only: [:edit, :update, :show]
   resource :user, only: [:edit, :show, :update]
 end

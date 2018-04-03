@@ -27,7 +27,25 @@ class CheckInsController < ApplicationController
     @check_in = CheckIn.new(check_in_params)
     respond_to do |format|
       if @check_in.save
-        format.html { redirect_to resource_url(@check_in.resource), notice: 'Check in was successfully created.' }
+
+        provider = IMS::LTI::ToolProvider.new(
+          current_credential.consumer_key,
+          current_credential.consumer_secret,
+          current_launch.payload
+        )
+        p "==================================================================="
+        p "provider.inspect:"
+        p provider.inspect
+        p "==================================================================="
+        p "current_launch.payload:"
+        p current_launch.payload
+        p "==================================================================="
+        p "outcome_service: #{provider.outcome_service?}"
+
+        p response = provider.post_replace_result!(current_enrollment.grade_attendance)
+        p result = response.description
+
+        format.html { redirect_to resource_url(@check_in.resource), notice: result }
         format.json { render :show, status: :created, location: @check_in }
       else
         format.html { render :new }
