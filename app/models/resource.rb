@@ -83,6 +83,7 @@ class Resource < ApplicationRecord
 
   def create_meetings(start_times_hash, end_times_hash)
     # start_times_hash and end_times_hash look like {"0" => "13:00", "2" => "14:30", "4" => "08:00"}
+    Chronic.time_class = Time.zone
     unless meetings.any?
       all_occurrences.each do |date|
         m = meetings.new(
