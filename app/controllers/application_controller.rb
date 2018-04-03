@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_enrollment
   helper_method :current_user
+  helper_method :current_resource
+  helper_method :current_context
+  helper_method :current_launch
 
 
   def landing
