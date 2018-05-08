@@ -10,6 +10,8 @@
 #  enrollment_id :integer
 #  resource_id   :integer
 #  approved      :boolean          default(FALSE)
+#  latitude      :float
+#  longitude     :float
 #
 
 class CheckIn < ApplicationRecord
