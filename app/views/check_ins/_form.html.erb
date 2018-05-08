@@ -20,6 +20,8 @@
     <%#= f.number_field :enrollment_id, class: enrollment_id_class, placeholder: "Enter enrollment" %>
     <%= f.hidden_field :enrollment_id, value: current_enrollment.id %>
     <%= f.hidden_field :resource_id, value: @resource.id %>
+    <%= f.hidden_field :latitude, value: nil %>
+    <%= f.hidden_field :longitude, value: nil %>
 
     <% if enrollment_id_was_invalid %>
       <% check_in.errors.full_messages_for(:enrollment_id).each do |message| %>
@@ -30,5 +32,5 @@
     <% end %>
   </div>
 
-  <%= f.button "Check In!", class: "btn btn-outline-success btn-block" %>
+  <%= f.button "Check In!", class: "btn btn-outline-success btn-block", id: "check-in-button" %>
 <% end %>
