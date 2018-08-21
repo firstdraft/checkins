@@ -38,4 +38,16 @@ class Enrollment < ApplicationRecord
       1.to_f
     end
   end
+
+  def teacher?
+    roles.downcase.include?("teachingassistant") || roles.downcase.include?("instructor")
+  end
 end
+
+# Enrollment.all.each do |e|
+#   launch = e.launches.last
+#   user = e.user
+#   user.first_name = launch.payload["lis_person_name_given"]
+#   user.last_name = launch.payload["lis_person_name_family"]
+#   user.save
+# end
