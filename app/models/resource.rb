@@ -2,7 +2,7 @@
 #
 # Table name: resources
 #
-#  id                      :integer          not null, primary key
+#  id                      :bigint(8)        not null, primary key
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  meeting_schedule_hash   :string
@@ -26,6 +26,7 @@ class Resource < ApplicationRecord
   belongs_to :context
   has_many :enrollments, dependent: :destroy
   has_many :meetings, dependent: :destroy
+  has_many :check_ins
 
   validate :must_have_schedule, on: :update
   validate :starts_on_earlier_than_ends_on, on: :update

@@ -11,8 +11,16 @@ class ResourcesController < ApplicationController
   # GET /resources/1.json
   def show
     @check_in = CheckIn.new(enrollment: current_enrollment)
-    @target_meeting = current_resource.nearest_meeting
-    @check_ins = current_enrollment.check_ins
+    # @check_ins = current_enrollment.check_ins.where(resource_id: params[:id])
+    if current_enrollment.teacher?
+      @check_ins = CheckIn.where(meeting: current_resource.meetings)
+      render "teacher_show"
+    else
+      @target_meeting = current_resource.nearest_meeting
+      @check_ins = current_enrollment.check_ins
+
+      render "learner_show"
+    end
   end
 
   # GET /resources/new

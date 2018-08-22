@@ -2,7 +2,7 @@
 #
 # Table name: meetings
 #
-#  id          :integer          not null, primary key
+#  id          :bigint(8)        not null, primary key
 #  start_time  :datetime
 #  end_time    :datetime
 #  resource_id :integer

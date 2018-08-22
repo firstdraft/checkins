@@ -1,0 +1,99 @@
+<div class="row justify-content-center mb-3">
+  <div class="col-md-3">
+    <%= render "/check_ins/form", check_in: @check_in %>
+
+  </div>
+
+  <div class="col-md-8">
+    <div class="card mb-3">
+      <h2 class="card-header h4">
+        <!-- <%#= @resource.context.title %> - <%#= @resource.lti_resource_link_id %> -->
+        <%= @resource.context.title %>
+      </h2>
+      <!-- <div class="card-body"> -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>
+                    #
+                  </th>
+
+                  <th>
+                    Checked In
+
+                  </th>
+                  <th>
+                    Approved
+
+                  </th>
+                  <th>
+                    Latitude
+                  </th>
+                  <th>
+                    Longitude
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <%= render collection: @check_ins, partial: "/check_ins/table_row", as: :check_in %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <h2 class="card-header h4">
+        Meetings
+      </h2>
+      <div class="card-body">
+        <div class="row">
+          <% @resource.meetings_by_week.each do |week_num, meetings| %>
+            <div class="col-md-12">
+              <h1>Week <%= week_num %></h1>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        Start Time
+                      </th>
+                      <th>
+                        End Time
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% meetings.each do |m| %>
+                      <tr>
+                        <td>
+                          <%= m.start_time.to_date.strftime("%a %m/%e/%y") %>
+                        </td>
+                        <td>
+                          <%= m.start_time.strftime("%l:%M%P").strip %>
+                        </td>
+                        <td>
+                          <%= m.end_time.strftime("%l:%M%P").strip %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

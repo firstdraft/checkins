@@ -2,7 +2,7 @@
 #
 # Table name: meetings
 #
-#  id          :integer          not null, primary key
+#  id          :bigint(8)        not null, primary key
 #  start_time  :datetime
 #  end_time    :datetime
 #  resource_id :integer
@@ -28,6 +28,10 @@ def has_approved_check_in?(enrollment)
     end
   end
   result
+end
+
+def check_ins
+  resource.check_ins.where(updated_at: (start_time - 20.minutes)..end_time)
 end
 
 

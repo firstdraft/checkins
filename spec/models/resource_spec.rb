@@ -2,7 +2,7 @@
 #
 # Table name: resources
 #
-#  id                      :integer          not null, primary key
+#  id                      :bigint(8)        not null, primary key
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  meeting_schedule_hash   :string
