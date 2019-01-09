@@ -1,99 +1,31 @@
 <div class="row justify-content-center mb-3">
   <div class="col-md-3">
-    <%= render "/check_ins/form", check_in: @check_in %>
-
+    <div class="list-group" id="list-tab" role="tablist">
+      <% @meetings.each do |m| %>
+        <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action <%= "active show" if m == @most_recent_meeting %>" id="list-<%= m.id %>-list" data-toggle="list" href="#list-<%= m.id %>" role="tab" aria-controls="<%= m.id %>"><%= m.start_time.to_date.strftime("%a %-m/%-d/%y") %> <span class="badge badge-success badge-pill"><%= m.check_ins.count %></span></a>
+      <% end %>
+    </div>
   </div>
-
   <div class="col-md-8">
-    <div class="card mb-3">
-      <h2 class="card-header h4">
-        <!-- <%#= @resource.context.title %> - <%#= @resource.lti_resource_link_id %> -->
-        <%= @resource.context.title %>
-      </h2>
-      <!-- <div class="card-body"> -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>
-                    #
-                  </th>
-
-                  <th>
-                    Checked In
-
-                  </th>
-                  <th>
-                    Approved
-
-                  </th>
-                  <th>
-                    Latitude
-                  </th>
-                  <th>
-                    Longitude
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <%= render collection: @check_ins, partial: "/check_ins/table_row", as: :check_in %>
-              </tbody>
-            </table>
+    <div class="tab-content" id="nav-tabContent">
+      <% @meetings.each do |m| %>
+        <div class="tab-pane fade <%= "active show" if m == @most_recent_meeting %>" id="list-<%= m.id %>" role="tabpanel" aria-labelledby="list-<%= m.id %>-list">
+          <div class="card">
+            <div class="card-header">
+              <strong><%= m.start_time.strftime("%a %-m/%-d/%y - %l:%M%P") %></strong>
+            </div>
+            <div class="card-body">
+              <ul class="list-group">
+                <% m.check_ins.includes(:user).each do |c| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <%= c.user.first_name %> <span><%= c.updated_at.strftime("%l:%M%P") %></span> <button class="btn btn-success" type="button" name="button">Approve</button>
+                </li>
+                <% end %>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="card mb-3">
-      <h2 class="card-header h4">
-        Meetings
-      </h2>
-      <div class="card-body">
-        <div class="row">
-          <% @resource.meetings_by_week.each do |week_num, meetings| %>
-            <div class="col-md-12">
-              <h1>Week <%= week_num %></h1>
-              <div class="table-responsive">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        Start Time
-                      </th>
-                      <th>
-                        End Time
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <% meetings.each do |m| %>
-                      <tr>
-                        <td>
-                          <%= m.start_time.to_date.strftime("%a %m/%e/%y") %>
-                        </td>
-                        <td>
-                          <%= m.start_time.strftime("%l:%M%P").strip %>
-                        </td>
-                        <td>
-                          <%= m.end_time.strftime("%l:%M%P").strip %>
-                        </td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-          <% end %>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </div>

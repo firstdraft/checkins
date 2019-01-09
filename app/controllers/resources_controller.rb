@@ -13,7 +13,8 @@ class ResourcesController < ApplicationController
     @check_in = CheckIn.new(enrollment: current_enrollment)
     # @check_ins = current_enrollment.check_ins.where(resource_id: params[:id])
     if current_enrollment.teacher?
-      @check_ins = CheckIn.where(meeting: current_resource.meetings)
+      @meetings = @resource.meetings
+      @most_recent_meeting = @resource.meetings.gradeable.order(:start_time).last
       render "teacher_show"
     else
       @target_meeting = current_resource.nearest_meeting
