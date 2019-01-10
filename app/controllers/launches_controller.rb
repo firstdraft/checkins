@@ -118,6 +118,8 @@ class LaunchesController < ApplicationController
     def find_or_create_user
       @user = User.find_or_create_by(lti_user_id: params["user_id"]) do |u|
         u.preferred_name = params["lis_person_name_given"]
+        u.first_name = params["lis_person_name_given"]
+        u.last_name = params["lis_person_name_family"]
       end
     end
 
