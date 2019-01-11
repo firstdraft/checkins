@@ -18,7 +18,7 @@ class CheckIn < ApplicationRecord
   after_create :set_approved
 
   belongs_to :enrollment
-  belongs_to :resource
+  belongs_to :meeting
 
   has_many :meetings, through: :resource
   has_one :user, through: :enrollment, source: :user
