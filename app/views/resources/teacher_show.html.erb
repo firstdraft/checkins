@@ -18,7 +18,16 @@
               <ul class="list-group">
                 <% m.check_ins.includes(:user).each do |c| %>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <%= c.user.first_name %> <span><%= c.updated_at.strftime("%l:%M%P") %></span> <button class="btn btn-success" type="button" name="button">Approve</button>
+                  <span>CheckIn ID: <%= c.id %></span>
+                  <span>User ID: <%= c.user.id %></span>
+                  <span><%= c.user.first_name %></span>
+                  <span><%= c.updated_at.strftime("%l:%M%P") %></span>
+                  <% if c.approved %>
+                    <i class="fas fa-check text-success"></i>
+                  <% else %>
+                    <i class="fas fa-times text-danger"></i>
+                  <% end %>
+                  <button class="btn btn-success" type="button" name="button">Approve</button>
                 </li>
                 <% end %>
               </ul>
