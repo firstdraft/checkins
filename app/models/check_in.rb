@@ -24,15 +24,8 @@ class CheckIn < ApplicationRecord
 
   scope :approved, -> { where(approved: true) }
 
-
-  def target_meetings
-    meetings.by_date(created_at)
-  end
-
   def set_approved
-    if target_meetings.any?
-      update(approved: (created_at > (target_meetings.first.start_time - 3600) && created_at < (target_meetings.first.end_time)))
-    end
+      update(approved: (created_at > (meeting.start_time - 3600) && created_at < (meeting.end_time)))
   end
 
 end
