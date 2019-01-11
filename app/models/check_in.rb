@@ -20,7 +20,6 @@ class CheckIn < ApplicationRecord
   belongs_to :enrollment
   belongs_to :meeting
 
-  has_many :meetings, through: :resource
   has_one :user, through: :enrollment, source: :user
 
   scope :approved, -> { where(approved: true) }
