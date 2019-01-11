@@ -27,11 +27,7 @@ class Enrollment < ApplicationRecord
   end
 
   def count_of_meetings_checked_into
-    approved_meetings = []
-    check_ins.approved.each do |c|
-      approved_meetings << c.target_meetings.first
-    end
-    approved_meetings.uniq.count
+    check_ins.approved.map { |check_in| check_in.meeting}.uniq.count
   end
 
   def count_of_gradeable_meetings
