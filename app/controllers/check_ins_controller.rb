@@ -24,7 +24,8 @@ class CheckInsController < ApplicationController
   # POST /check_ins
   # POST /check_ins.json
   def create
-    @check_in = CheckIn.new(check_in_params)
+    @check_in = current_enrollment.check_ins.build(check_in_params)
+    @check_in.meeting = current_resource.nearest_meeting
     respond_to do |format|
       if @check_in.save
 

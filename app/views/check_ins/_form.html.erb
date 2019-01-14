@@ -15,12 +15,6 @@
       <% end %>
     <% end %>
 
-    <%#= f.label :enrollment_id %>
-
-    <%#= f.number_field :enrollment_id, class: enrollment_id_class, placeholder: "Enter enrollment" %>
-    <% target_meeting = @check_in.user.launches.first.resource.nearest_meeting %>
-    <%= f.hidden_field :enrollment_id, value: current_enrollment.id %>
-    <%= f.hidden_field :meeting_id, value: target_meeting.id %>
     <%= f.hidden_field :latitude, value: nil %>
     <%= f.hidden_field :longitude, value: nil %>
 
@@ -33,5 +27,5 @@
     <% end %>
   </div>
 
-  <%= f.button "Check In for #{target_meeting.start_time.strftime("%A, %b %d")}!", class: "btn btn-outline-success btn-block", id: "check-in-button" %>
+  <%= f.button "Check In for #{@target_meeting.start_time.strftime("%A, %b %d")}!", class: "btn btn-outline-success btn-block", id: "check-in-button" %>
 <% end %>

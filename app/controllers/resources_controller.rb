@@ -11,7 +11,7 @@ class ResourcesController < ApplicationController
   # GET /resources/1.json
   def show
     @check_in = CheckIn.new(enrollment: current_enrollment)
-    # @check_ins = current_enrollment.check_ins.where(resource_id: params[:id])
+    @target_meeting = current_resource.nearest_meeting
     @check_ins = current_enrollment.check_ins
   end
 
