@@ -10,7 +10,7 @@ class ResourcesController < ApplicationController
   # GET /resources/1
   # GET /resources/1.json
   def show
-    @check_in = CheckIn.new
+    @check_in = CheckIn.new(enrollment: current_enrollment)
     # @check_ins = current_enrollment.check_ins.where(resource_id: params[:id])
     @check_ins = current_enrollment.check_ins
   end

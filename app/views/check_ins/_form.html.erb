@@ -18,7 +18,7 @@
     <%#= f.label :enrollment_id %>
 
     <%#= f.number_field :enrollment_id, class: enrollment_id_class, placeholder: "Enter enrollment" %>
-    <% target_meeting = @resource.meetings.sort_by { |meeting| (meeting.start_time.to_time - Time.now.to_time).abs }.first %>
+    <% target_meeting = @check_in.user.launches.first.resource.nearest_meeting %>
     <%= f.hidden_field :enrollment_id, value: current_enrollment.id %>
     <%= f.hidden_field :meeting_id, value: target_meeting.id %>
     <%= f.hidden_field :latitude, value: nil %>
