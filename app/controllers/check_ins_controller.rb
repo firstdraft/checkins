@@ -45,7 +45,7 @@ class CheckInsController < ApplicationController
         p response = provider.post_replace_result!(current_enrollment.grade_attendance)
         p result = response.description
 
-        format.html { redirect_to resource_url(@check_in.meeting.resource), notice: result }
+        format.html { redirect_to resource_url(@check_in.resource), notice: result }
         format.json { render :show, status: :created, location: @check_in }
       else
         format.html { render :new }
