@@ -109,4 +109,8 @@ class Resource < ApplicationRecord
     hash
   end
 
+  def nearest_meeting
+    meetings.sort_by { |meeting| (meeting.start_time - Time.now).abs}.first
+  end
+
 end
