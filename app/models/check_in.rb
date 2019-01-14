@@ -25,8 +25,12 @@ class CheckIn < ApplicationRecord
 
   scope :approved, -> { where(approved: true) }
 
+  def within_allowed_timeframe?
+    created_at.between?(meeting.start_time - 1.hour, meeting.end_time)
+  end
+
   def set_approved
-      update(approved: (created_at > (meeting.start_time - 3600) && created_at < (meeting.end_time)))
+      update(approved: within_allowed_timeframe?)
   end
 
 end
