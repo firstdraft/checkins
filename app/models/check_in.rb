@@ -13,6 +13,10 @@
 #  longitude     :float
 #  meeting_id    :integer
 #
+# Foreign Keys
+#
+#  fk_rails_...  (meeting_id => meetings.id)
+#
 
 class CheckIn < ApplicationRecord
   after_create :set_approved

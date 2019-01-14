@@ -41,7 +41,8 @@ ActiveRecord::Schema.define(version: 2019_01_11_184635) do
     t.boolean "approved", default: false
     t.float "latitude"
     t.float "longitude"
-    t.integer "meeting_id"
+    t.bigint "meeting_id"
+    t.index ["meeting_id"], name: "index_check_ins_on_meeting_id"
   end
 
   create_table "contexts", force: :cascade do |t|
@@ -112,4 +113,5 @@ ActiveRecord::Schema.define(version: 2019_01_11_184635) do
     t.string "lti_user_id"
   end
 
+  add_foreign_key "check_ins", "meetings"
 end
