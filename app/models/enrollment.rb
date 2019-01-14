@@ -27,7 +27,10 @@ class Enrollment < ApplicationRecord
   end
 
   def count_of_meetings_checked_into
-    check_ins.approved.map { |check_in| check_in.meeting}.uniq.count
+    # check_ins.approved.map { |check_in| check_in.meeting}.uniq.count
+    # The above line was causing a weird error where it was saying that eager loading was detected. I don't know why that would casue an error though. The below commented line below works.
+    # check_ins.approved.includes(:meeting).map { |check_in| check_in.meeting}.uniq.count
+    check_ins.approved.pluck(:meeting_id).uniq.count
   end
 
   def count_of_gradeable_meetings
