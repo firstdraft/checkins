@@ -4,8 +4,8 @@ class ChangeResourceForeignKeyToMeetingInCheckIn < ActiveRecord::Migration[5.2]
 
       CheckIn.find_each do |check_in|
         resource = check_in.user.launches.first.resource
-        target_meeting = resource.meetings.sort_by { |meeting| (meeting.start_time.to_time - check_in.created_at).abs}.first
-        check_in.update(meeting: target_meeting)
+        target_meeting_id = resource.meetings.sort_by { |meeting| (meeting.start_time.to_time - check_in.created_at).abs}.first.id
+        check_in.update(meeting_id: target_meeting_id)
       end
 
       remove_column :check_ins, :resource_id
