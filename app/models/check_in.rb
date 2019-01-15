@@ -11,7 +11,7 @@
 #  approved      :boolean          default(FALSE)
 #  latitude      :float
 #  longitude     :float
-#  meeting_id    :integer
+#  meeting_id    :bigint(8)
 #
 # Foreign Keys
 #
