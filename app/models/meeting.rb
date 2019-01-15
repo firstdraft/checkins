@@ -17,19 +17,18 @@ class Meeting < ApplicationRecord
   scope :gradeable, -> { where('start_time <= ?', DateTime.now + 1.hour)}
 
 
-def has_approved_check_in?(enrollment)
-  check_ins = enrollment.check_ins.approved
-# find a check_in that has this meeting in its target_meetings
-  result = false
+  def has_approved_check_in?(enrollment)
+    check_ins = enrollment.check_ins.approved
+  # find a check_in that has this meeting in its target_meetings
+    result = false
 
-  check_ins.each do |c|
-    if self.in?(c.target_meetings)
-      result = true
+    check_ins.each do |c|
+      if self.in?(c.target_meetings)
+        result = true
+      end
     end
+    result
   end
-  result
-end
-
 
 
 end
