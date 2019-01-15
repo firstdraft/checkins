@@ -30,9 +30,6 @@ def has_approved_check_in?(enrollment)
   result
 end
 
-def check_ins
-  resource.check_ins.where(updated_at: (start_time - 20.minutes)..end_time)
-end
 
 
 end
