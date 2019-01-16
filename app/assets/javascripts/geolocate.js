@@ -17,6 +17,7 @@ $("document").ready(function() {
 
     function failure() {
       $("#left").append("<p> Failure!</p>")
+      $("#new_check_in").submit();
     };
   });
 });
