@@ -11,7 +11,6 @@ class ResourcesController < ApplicationController
   # GET /resources/1.json
   def show
     @check_in = CheckIn.new(enrollment: current_enrollment)
-    # @check_ins = current_enrollment.check_ins.where(resource_id: params[:id])
     if current_enrollment.teacher?
       @meetings = @resource.meetings
       @most_recent_meeting = @resource.meetings.gradeable.order(:start_time).last
@@ -98,17 +97,5 @@ class ResourcesController < ApplicationController
         :saturday
       )
     end
-
-    # def create_meetings(start_times_from_params, end_times_from_params)
-    #   unless @resource.meetings.any?
-    #     @resource.all_occurrences.each do |date|
-    #       m = @resource.meetings.new(
-    #         start_time: Chronic.parse(date.to_s + " " + start_times_from_params[date.wday.to_s]),
-    #         end_time: Chronic.parse(date.to_s + " " + end_times_from_params[date.wday.to_s])
-    #       )
-    #       m.save
-    #     end
-    #   end
-    # end
 
 end
