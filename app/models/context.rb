@@ -16,5 +16,8 @@ class Context < ApplicationRecord
 
   has_many :resources, dependent: :destroy
 
+  has_many :check_ins, through: :resources
+  has_many :enrollments, through: :resources
+  
   has_one :administrator, through: :credential, source: :administrator
 end

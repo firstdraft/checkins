@@ -15,7 +15,7 @@
 #
 
 class Enrollment < ApplicationRecord
-  belongs_to :context
+  belongs_to :resource
   belongs_to :user
 
   has_many :launches

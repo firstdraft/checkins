@@ -26,7 +26,8 @@ class Resource < ApplicationRecord
   belongs_to :context
   has_many :enrollments, dependent: :destroy
   has_many :meetings, dependent: :destroy
-  has_many :check_ins
+
+  has_many :check_ins, through: :meetings
 
   validate :must_have_schedule, on: :update
   validate :starts_on_earlier_than_ends_on, on: :update
