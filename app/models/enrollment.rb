@@ -27,10 +27,6 @@ class Enrollment < ApplicationRecord
     launches.order(:created_at).last
   end
 
-  def resource
-    Resource.find_by(lti_resource_link_id: latest_launch.payload["resource_link_id"])
-  end
-
   def count_of_gradeable_meetings
     resource.meetings.gradeable.count
   end
@@ -47,11 +43,3 @@ class Enrollment < ApplicationRecord
     roles.downcase.include?("teachingassistant") || roles.downcase.include?("instructor")
   end
 end
-
-# Enrollment.all.each do |e|
-#   launch = e.launches.last
-#   user = e.user
-#   user.first_name = launch.payload["lis_person_name_given"]
-#   user.last_name = launch.payload["lis_person_name_family"]
-#   user.save
-# end
