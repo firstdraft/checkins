@@ -161,8 +161,8 @@ class LaunchesController < ApplicationController
     end
 
     def find_resource_and_context
-      @context = Context.find_by(lti_context_id: params["context_id"])
-      @resource = Resource.find_by(lti_resource_link_id: params["resource_link_id"], context_id: @context.try(:id))
+      @context = Context.find_by(lti_context_id: params[:context_id])
+      @resource = Resource.find_by(lti_resource_link_id: params[:resource_link_id], context_id: @context.try(:id))
     end
 
     def find_or_create_enrollment
