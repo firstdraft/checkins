@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :check_ins, through: :enrollments
   has_many :contexts, through: :enrollments
   has_many :launches, through: :enrollments
+  has_many :resources, through: :enrollments
 
   validates :preferred_name, presence: true
 

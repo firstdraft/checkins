@@ -17,6 +17,7 @@
 class Enrollment < ApplicationRecord
   belongs_to :resource
   belongs_to :user
+  has_one :context, through: :resource
 
   has_many :launches
   has_many :check_ins, dependent: :destroy
