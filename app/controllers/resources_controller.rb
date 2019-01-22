@@ -19,7 +19,7 @@ class ResourcesController < ApplicationController
       render "teacher_show"
     else
       @target_meeting = current_resource.nearest_meeting
-      @check_ins = current_enrollment.check_ins
+      @check_ins = @resource.check_ins.where(enrollment: current_enrollment)
 
       render "learner_show"
     end
