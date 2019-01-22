@@ -4,6 +4,7 @@
       <% @meetings.each do |m| %>
         <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action <%= "active show" if m == @most_recent_meeting %>" id="list-<%= m.id %>-list" data-toggle="list" href="#list-<%= m.id %>" role="tab" aria-controls="<%= m.id %>"><%= m.start_time.to_date.strftime("%a %-m/%-d/%y") %> <span class="badge badge-success badge-pill"><%= m.check_ins.count %></span></a>
       <% end %>
+      <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action " id="list-unapproved-list" data-toggle="list" href="#list-unapproved" role="tab" aria-controls="unapproved">Unapproved <span class="badge badge-success badge-pill">0<%#= m.check_ins.count %></span></a>
     </div>
   </div>
   <div class="col-md-8">
@@ -34,6 +35,34 @@
           </div>
         </div>
       <% end %>
+      <div class="tab-pane fade " id="list-unapproved" role="tabpanel" aria-labelledby="list-unapproved-list">
+        <div class="card">
+          <div class="card-header">
+            <strong>Unapproved CheckIns</strong>
+          </div>
+          <div class="card-body">
+            <ul class="list-group">
+              <% if @unapproved_checkins %>
+              <% m.check_ins.includes(:user).each do |c| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>CheckIn ID: <%= c.id %></span>
+                <span>User ID: <%= c.user.id %></span>
+                <span><%= c.user.first_name %></span>
+                <span><%= c.updated_at.strftime("%l:%M%P") %></span>
+                <% if c.approved %>
+                <i class="fas fa-check text-success"></i>
+                <% else %>
+                <i class="fas fa-times text-danger"></i>
+                <% end %>
+              </li>
+              <% end %>
+
+              <% end %>
+
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
