@@ -4,7 +4,9 @@
       <% @meetings.each do |m| %>
         <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action <%= "active show" if m == @most_recent_meeting %>" id="list-<%= m.id %>-list" data-toggle="list" href="#list-<%= m.id %>" role="tab" aria-controls="<%= m.id %>"><%= m.start_time.to_date.strftime("%a %-m/%-d/%y") %> <span class="badge badge-success badge-pill"><%= m.check_ins.count %></span></a>
       <% end %>
-      <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action " id="list-unapproved-list" data-toggle="list" href="#list-unapproved" role="tab" aria-controls="unapproved">Unapproved <span class="badge badge-success badge-pill">0<%#= m.check_ins.count %></span></a>
+      <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action " id="list-unapproved-list" data-toggle="list" href="#list-unapproved" role="tab" aria-controls="unapproved">
+        Unapproved <span class="badge badge-success badge-pill"><%= @unapproved_check_ins.count %></span>
+      </a>
     </div>
   </div>
   <div class="col-md-8">
@@ -42,8 +44,8 @@
           </div>
           <div class="card-body">
             <ul class="list-group">
-              <% if @unapproved_checkins %>
-              <% m.check_ins.includes(:user).each do |c| %>
+              <% if @unapproved_check_ins %>
+              <% @unapproved_check_ins.each do |c| %>
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span>CheckIn ID: <%= c.id %></span>
                 <span>User ID: <%= c.user.id %></span>

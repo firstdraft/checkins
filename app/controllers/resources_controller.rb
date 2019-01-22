@@ -14,6 +14,8 @@ class ResourcesController < ApplicationController
     if current_enrollment.teacher?
       @meetings = @resource.meetings
       @most_recent_meeting = @resource.meetings.gradeable.order(:start_time).last
+      @unapproved_check_ins = @resource.check_ins.unapproved
+
       render "teacher_show"
     else
       @target_meeting = current_resource.nearest_meeting
