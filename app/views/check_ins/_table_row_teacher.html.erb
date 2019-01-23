@@ -5,9 +5,15 @@
   <span><%= check_in.created_at.strftime("%l:%M%P") %></span>
   <% if check_in.approved %>
     <i class="fas fa-check text-success"></i>
-    <%= link_to "Disapprove", disapprove_check_in_path(check_in), method: :put %>
+    <%= link_to "Disapprove",
+            disapprove_check_in_path(check_in),
+            method: :put,
+            class: "btn btn-outline-danger" %>
   <% else %>
     <i class="fas fa-times text-danger"></i>
-    <%= link_to "Approve", approve_check_in_path(check_in), method: :put %>
+    <%= link_to "Approve",
+            approve_check_in_path(check_in),
+            method: :put,
+            class: "btn btn-outline-success"%>
   <% end %>
 </li>
