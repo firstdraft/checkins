@@ -1,0 +1,11 @@
+<li class="list-group-item d-flex justify-content-between align-items-center">
+  <span>CheckIn ID: <%= check_in.id %></span>
+  <span>User ID: <%= check_in.user.id %></span>
+  <span><%= check_in.user.first_name %></span>
+  <span><%= check_in.updated_at.strftime("%l:%M%P") %></span>
+  <% if check_in.approved %>
+    <i class="fas fa-check text-success"></i>
+  <% else %>
+    <i class="fas fa-times text-danger"></i>
+  <% end %>
+</li>
