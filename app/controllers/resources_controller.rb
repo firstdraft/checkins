@@ -14,7 +14,7 @@ class ResourcesController < ApplicationController
     if current_enrollment.teacher?
       @meetings = @resource.meetings
       @most_recent_meeting = @resource.meetings.gradeable.order(:start_time).last
-      @all_check_ins = @resource.check_ins.includes(:user)
+      @all_check_ins = @resource.check_ins.includes(:user).order(:created_at)
       @unapproved_check_ins = @resource.check_ins.unapproved
 
       render "teacher_show"

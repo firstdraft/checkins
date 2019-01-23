@@ -2,10 +2,11 @@
   <span>CheckIn ID: <%= check_in.id %></span>
   <span>User ID: <%= check_in.user.id %></span>
   <span><%= check_in.user.first_name %></span>
-  <span><%= check_in.updated_at.strftime("%l:%M%P") %></span>
+  <span><%= check_in.created_at.strftime("%l:%M%P") %></span>
   <% if check_in.approved %>
     <i class="fas fa-check text-success"></i>
   <% else %>
     <i class="fas fa-times text-danger"></i>
+    <%= link_to "Approve", approve_check_in_path(check_in), method: :put %>
   <% end %>
 </li>
