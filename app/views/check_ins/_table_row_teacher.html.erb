@@ -1,19 +1,34 @@
-<li class="list-group-item d-flex justify-content-between align-items-center">
-  <span>CheckIn ID: <%= check_in.id %></span>
-  <span>User ID: <%= check_in.user.id %></span>
-  <span><%= check_in.user.first_name %></span>
-  <span><%= check_in.created_at.strftime("%l:%M%P") %></span>
-  <% if check_in.approved %>
-    <i class="fas fa-check text-success"></i>
+<li class="list-group-item d-flex align-items-center">
+  <div class="col-1">
+    <% if check_in.approved %>
+      <i class="fas fa-check text-success"></i>
+    <% else %>
+      <i class="fas fa-times text-danger"></i>
+    <% end %>
+  </div>
+  <div class="col-2">
+    CheckIn ID: <%= check_in.id %>
+  </div>
+  <div class="col-2">
+    User ID: <%= check_in.user.id %>
+  </div>
+  <div class="col-2">
+    <%= "#{check_in.user.first_name} #{check_in.user.last_name} " %>
+  </div>
+  <div class="col-2">
+    <%= check_in.created_at.strftime("%l:%M%P") %>
+  </div>
+  <div class="offset-1  col-2">
+    <% if check_in.approved %>
     <%= link_to "Disapprove",
-            disapprove_check_in_path(check_in),
-            method: :put,
-            class: "btn btn-outline-danger" %>
-  <% else %>
-    <i class="fas fa-times text-danger"></i>
+    disapprove_check_in_path(check_in),
+    method: :put,
+    class: "btn btn-block btn-outline-danger" %>
+    <% else %>
     <%= link_to "Approve",
-            approve_check_in_path(check_in),
-            method: :put,
-            class: "btn btn-outline-success"%>
-  <% end %>
+    approve_check_in_path(check_in),
+    method: :put,
+    class: "btn btn-block btn-outline-success"%>
+    <% end %>
+  </div>
 </li>
