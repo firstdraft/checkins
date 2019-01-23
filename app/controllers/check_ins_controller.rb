@@ -55,12 +55,10 @@ class CheckInsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /check_ins/1
-  # PATCH/PUT /check_ins/1.json
   def update
     respond_to do |format|
       if @check_in.update(check_in_params)
-        format.html { redirect_to @check_in, notice: 'Check in was successfully updated.' }
+        format.html { redirect_to @check_in.resource, notice: 'Checkin was successfully updated.' }
         format.json { render :show, status: :ok, location: @check_in }
       else
         format.html { render :edit }
@@ -99,6 +97,6 @@ class CheckInsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def check_in_params
-      params.require(:check_in).permit(:enrollment_id, :meeting_id, :latitude, :longitude)
+      params.require(:check_in).permit(:enrollment_id, :meeting_id, :latitude, :longitude, :approved)
     end
 end

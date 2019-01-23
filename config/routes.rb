@@ -11,14 +11,10 @@ Rails.application.routes.draw do
   get "/sign_out", to:"users#sign_out", as: "lti_user_sign_out"
   get "/config" => "launches#xml_config"
 
-  put "approve_check_in/:id", to: "check_ins#approve_check_in", as: "approve_check_in"
-  put "disapprove_check_in/:id", to: "check_ins#disapprove_check_in", as: "disapprove_check_in"
-
-  resources :check_ins, only: [:create, :destroy, :edit, :show]
+  resources :check_ins, only: [:create, :destroy, :edit, :show, :update]
   resources :contexts, only: [:index, :edit, :update, :show]
   resources :credentials, only: [:index, :create, :destroy]
   resources :enrollments, only: []
-  # resources :launches, except: :create
   resource  :launch, only: :create
   resources :meetings
   resources :resources, only: [:edit, :update, :show]
