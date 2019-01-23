@@ -18,9 +18,18 @@
               <strong><%= m.start_time.strftime("%a %-m/%-d/%y - %l:%M%P") %></strong>
             </div>
             <div class="card-body">
-              <ul class="list-group">
-                <%= render collection: @all_check_ins, partial: "/check_ins/table_row_teacher", as: :check_in %>
-              </ul>
+              <!-- <div class="list-group"> -->
+              <div class="panel-group">
+                <%#= render collection:
+                        m.check_ins.includes(:user).order(:created_at),
+                        partial: "/check_ins/table_row_teacher",
+                        as: :check_in %>
+                <%= render collection:
+                        m.check_ins.joins(:user).includes(:user).merge(User.order(:last_name)).merge(CheckIn.order(:created_at)),
+                        partial: "/check_ins/table_row_teacher",
+                        as: :check_in %>
+              </div>
+              <!-- </div> -->
             </div>
           </div>
         </div>
@@ -31,9 +40,9 @@
             <strong>Unapproved CheckIns</strong>
           </div>
           <div class="card-body">
-            <ul class="list-group">
+            <div class="list-group">
               <%= render collection: @unapproved_check_ins, partial: "/check_ins/table_row_teacher", as: :check_in %>
-            </ul>
+            </div>
           </div>
         </div>
       </div>

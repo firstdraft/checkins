@@ -1,34 +1,75 @@
-<li class="list-group-item d-flex align-items-center">
-  <div class="col-1">
-    <% if check_in.approved %>
-      <i class="fas fa-check text-success"></i>
-    <% else %>
-      <i class="fas fa-times text-danger"></i>
-    <% end %>
+<div class="panel panel-default mb-2">
+  <div class="list-group-item list-group-item-action align-items-center" data-toggle="collapse" data-target="#m<%= check_in.meeting_id %>c<%= check_in.id %>">
+    <!-- <div class="col-12"> -->
+      <div class="row text-center">
+
+        <div class="col-1 ">
+          <% if check_in.approved %>
+          <i class="fas fa-check text-success"></i>
+          <% else %>
+          <i class="fas fa-times text-danger"></i>
+          <% end %>
+        </div>
+        <div class="col-4">
+          <%= "#{check_in.user.first_name} #{check_in.user.last_name} " %>
+        </div>
+        <div class="col-4">
+          <%= check_in.created_at.strftime("%l:%M%P") %>
+        </div>
+        <div class="col-3">
+          <% if check_in.approved %>
+          <%= link_to "Disapprove",
+          disapprove_check_in_path(check_in),
+          method: :put,
+          class: "btn btn-block btn-outline-danger",
+          style: "z-index: 1;"%>
+          <% else %>
+          <%= link_to "Approve",
+          approve_check_in_path(check_in),
+          method: :put,
+          class: "btn btn-block btn-outline-success"%>
+          <% end %>
+        </div>
+      </div>
+    <!-- </div> -->
   </div>
-  <div class="col-2">
-    CheckIn ID: <%= check_in.id %>
+  <div id="m<%= check_in.meeting_id %>c<%= check_in.id %>" class="panel-collapse collapse ">
+    <div class="list-group-item bg-light rounded-0">
+      <div class="row ">
+        <div class="col-6">
+          <ul class="list-unstyled">
+            <li>
+              <strong>Checkin ID: </strong><%= check_in.id %>
+            </li>
+            <li>
+              <strong>Enrollment ID: </strong><%= check_in.enrollment_id %>
+            </li>
+            <li>
+              <strong>User ID: </strong><%= check_in.user.id %>
+            </li>
+          </ul>
+        </div>
+        <div class="col-6">
+          <ul class="list-unstyled">
+            <li>
+              <strong>Checkin time: </strong><%= check_in.created_at.strftime("%l:%M %p, %a, %b %e %Y") %>
+            </li>
+            <li>
+              <strong>Meeting ID: </strong><%= check_in.id %>
+            </li>
+            <li>
+              <strong>Resource ID: </strong><%= params[:id] %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- <ul class="list-group">
+      <li class="list-group-item">Java</li>
+      <li class="list-group-item">PHP</li>
+      <li class="list-group-item">C++</li>
+      <li class="list-group-item">HTML5</li>
+      <li class="list-group-item">jQuery</li>
+    </ul> -->
   </div>
-  <div class="col-2">
-    User ID: <%= check_in.user.id %>
-  </div>
-  <div class="col-2">
-    <%= "#{check_in.user.first_name} #{check_in.user.last_name} " %>
-  </div>
-  <div class="col-2">
-    <%= check_in.created_at.strftime("%l:%M%P") %>
-  </div>
-  <div class="offset-1  col-2">
-    <% if check_in.approved %>
-    <%= link_to "Disapprove",
-    disapprove_check_in_path(check_in),
-    method: :put,
-    class: "btn btn-block btn-outline-danger" %>
-    <% else %>
-    <%= link_to "Approve",
-    approve_check_in_path(check_in),
-    method: :put,
-    class: "btn btn-block btn-outline-success"%>
-    <% end %>
-  </div>
-</li>
+</div>
