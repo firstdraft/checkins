@@ -1,5 +1,5 @@
 class CheckInsController < ApplicationController
-  before_action :set_check_in, only: [:show, :edit, :update, :destroy, :approve_check_in]
+  before_action :set_check_in, only: [:show, :edit, :update, :destroy, :approve_check_in, :disapprove_check_in]
 
   # GET /check_ins
   # GET /check_ins.json
@@ -81,6 +81,12 @@ class CheckInsController < ApplicationController
 
   def approve_check_in
     @check_in.update(approved: true) if !@check_in.approved
+
+    redirect_to @check_in.resource
+  end
+
+  def disapprove_check_in
+    @check_in.update(approved: false) if @check_in.approved
 
     redirect_to @check_in.resource
   end
