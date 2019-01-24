@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: launches
@@ -14,8 +16,7 @@ class Launch < ApplicationRecord
   belongs_to :credential
   belongs_to :enrollment
 
-
   def resource
-    Resource.find_by(lti_resource_link_id: self.payload["resource_link_id"])
+    Resource.find_by(lti_resource_link_id: payload['resource_link_id'])
   end
 end

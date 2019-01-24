@@ -1,24 +1,26 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   devise_for :administrators
 
   authenticated :administrator do
-    root "credentials#index"
+    root 'credentials#index'
   end
 
-  root "contexts#index"
+  root 'contexts#index'
 
-  get "/landing", to: "application#landing", as: 'landing'
-  get "/sign_out", to:"users#sign_out", as: "lti_user_sign_out"
-  get "/config" => "launches#xml_config"
+  get '/landing', to: 'application#landing', as: 'landing'
+  get '/sign_out', to: 'users#sign_out', as: 'lti_user_sign_out'
+  get '/config' => 'launches#xml_config'
 
-  resources :check_ins, only: [:create, :destroy, :edit, :show, :update]
-  resources :contexts, only: [:index, :edit, :update, :show]
-  resources :credentials, only: [:index, :create, :destroy]
+  resources :check_ins, only: %i[create destroy edit show update]
+  resources :contexts, only: %i[index edit update show]
+  resources :credentials, only: %i[index create destroy]
   resources :enrollments, only: []
   resource  :launch, only: :create
   resources :meetings
-  resources :resources, only: [:edit, :update, :show]
-  resource :user, only: [:edit, :show, :update]
+  resources :resources, only: %i[edit update show]
+  resource :user, only: %i[edit show update]
 end
 
 # == Route Map

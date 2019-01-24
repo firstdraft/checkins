@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class CheckInsController < ApplicationController
-  before_action :set_check_in, only: [:show, :edit, :update, :destroy, :approve_check_in, :disapprove_check_in]
+  before_action :set_check_in, only: %i[show edit update destroy approve_check_in disapprove_check_in]
 
   # GET /check_ins
   # GET /check_ins.json
@@ -9,8 +11,7 @@ class CheckInsController < ApplicationController
 
   # GET /check_ins/1
   # GET /check_ins/1.json
-  def show
-  end
+  def show; end
 
   # GET /check_ins/new
   def new
@@ -18,8 +19,7 @@ class CheckInsController < ApplicationController
   end
 
   # GET /check_ins/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /check_ins
   # POST /check_ins.json
@@ -34,13 +34,13 @@ class CheckInsController < ApplicationController
           current_credential.consumer_secret,
           current_launch.payload
         )
-        p "==================================================================="
-        p "provider.inspect:"
+        p '==================================================================='
+        p 'provider.inspect:'
         p provider.inspect
-        p "==================================================================="
-        p "current_launch.payload:"
+        p '==================================================================='
+        p 'current_launch.payload:'
         p current_launch.payload
-        p "==================================================================="
+        p '==================================================================='
         p "outcome_service: #{provider.outcome_service?}"
 
         p response = provider.post_replace_result!(current_enrollment.grade_attendance)
@@ -78,7 +78,7 @@ class CheckInsController < ApplicationController
   end
 
   def approve_check_in
-    @check_in.update(approved: true) if !@check_in.approved
+    @check_in.update(approved: true) unless @check_in.approved
 
     redirect_to @check_in.resource
   end
@@ -90,13 +90,14 @@ class CheckInsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_check_in
-      @check_in = CheckIn.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def check_in_params
-      params.require(:check_in).permit(:enrollment_id, :meeting_id, :latitude, :longitude, :approved)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_check_in
+    @check_in = CheckIn.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def check_in_params
+    params.require(:check_in).permit(:enrollment_id, :meeting_id, :latitude, :longitude, :approved)
+  end
 end

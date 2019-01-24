@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ContextsController < ApplicationController
-  before_action :set_context, only: [:show, :edit, :update, :destroy]
+  before_action :set_context, only: %i[show edit update destroy]
   before_action :authorize_lti_user
 
   # GET /contexts
@@ -10,8 +12,7 @@ class ContextsController < ApplicationController
 
   # GET /contexts/1
   # GET /contexts/1.json
-  def show
-  end
+  def show; end
 
   # GET /contexts/new
   def new
@@ -19,8 +20,7 @@ class ContextsController < ApplicationController
   end
 
   # GET /contexts/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /contexts
   # POST /contexts.json
@@ -63,13 +63,14 @@ class ContextsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_context
-      @context = Context.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def context_params
-      params.require(:context).permit(:title, :credential_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_context
+    @context = Context.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def context_params
+    params.require(:context).permit(:title, :credential_id)
+  end
 end

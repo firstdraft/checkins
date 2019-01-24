@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: enrollments
@@ -16,7 +18,7 @@ class Enrollment < ApplicationRecord
 
   has_many :launches
   has_many :check_ins, dependent: :destroy
-  has_many :approved_check_ins, -> { approved }, class_name: "CheckIn"
+  has_many :approved_check_ins, -> { approved }, class_name: 'CheckIn'
   has_many :approved_meetings, -> { distinct }, through: :approved_check_ins, source: :meeting
 
   def latest_launch
@@ -24,7 +26,7 @@ class Enrollment < ApplicationRecord
   end
 
   def resource
-    Resource.find_by(lti_resource_link_id: latest_launch.payload["resource_link_id"])
+    Resource.find_by(lti_resource_link_id: latest_launch.payload['resource_link_id'])
   end
 
   def count_of_gradeable_meetings
@@ -40,7 +42,7 @@ class Enrollment < ApplicationRecord
   end
 
   def teacher?
-    roles.downcase.include?("teachingassistant") || roles.downcase.include?("instructor")
+    roles.downcase.include?('teachingassistant') || roles.downcase.include?('instructor')
   end
 end
 

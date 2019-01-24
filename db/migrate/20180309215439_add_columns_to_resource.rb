@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddColumnsToResource < ActiveRecord::Migration[5.2]
   def change
     add_column :resources, :meeting_schedule_hash, :string

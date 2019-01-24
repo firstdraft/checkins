@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: contexts
@@ -11,7 +13,6 @@
 #
 
 class Context < ApplicationRecord
-
   belongs_to :credential
 
   has_many :resources, dependent: :destroy

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -19,5 +21,4 @@ class User < ApplicationRecord
   has_many :launches, through: :enrollments
 
   validates :preferred_name, presence: true
-
 end

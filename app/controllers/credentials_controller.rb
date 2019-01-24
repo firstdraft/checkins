@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class CredentialsController < ApplicationController
   before_action :authenticate_administrator!
 
-  before_action :set_credential, only: [:show, :edit, :update, :destroy]
+  before_action :set_credential, only: %i[show edit update destroy]
 
   # GET /credentials
   # GET /credentials.json
@@ -11,8 +13,7 @@ class CredentialsController < ApplicationController
 
   # GET /credentials/1
   # GET /credentials/1.json
-  def show
-  end
+  def show; end
 
   # GET /credentials/new
   def new
@@ -20,8 +21,7 @@ class CredentialsController < ApplicationController
   end
 
   # GET /credentials/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /credentials
   # POST /credentials.json
@@ -63,13 +63,14 @@ class CredentialsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_credential
-      @credential = Credential.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def credential_params
-      params.require(:credential).permit(:consumer_key, :consumer_secret, :administrator_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_credential
+    @credential = Credential.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def credential_params
+    params.require(:credential).permit(:consumer_key, :consumer_secret, :administrator_id)
+  end
 end

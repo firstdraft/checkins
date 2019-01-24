@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
@@ -7,13 +9,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_context
   helper_method :current_launch
 
-
   def landing
-    render "/landing.html.erb"
+    render '/landing.html.erb'
   end
 
   def current_enrollment
-    @current_enrollment ||= Enrollment.find_by(id:session[:enrollment_id])
+    @current_enrollment ||= Enrollment.find_by(id: session[:enrollment_id])
   end
 
   def current_user
@@ -37,9 +38,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_lti_user
-    if current_enrollment.nil?
-      redirect_to landing_url
-    end
+    redirect_to landing_url if current_enrollment.nil?
   end
-
 end

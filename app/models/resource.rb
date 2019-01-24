@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: resources
@@ -33,13 +35,13 @@ class Resource < ApplicationRecord
 
   def must_have_schedule
     if starts_on.blank? || ends_on.blank?
-      errors.add(:base, "You have to provide a schedule")
+      errors.add(:base, 'You have to provide a schedule')
     end
   end
 
   def starts_on_earlier_than_ends_on
     if starts_on && ends_on && starts_on > ends_on
-      errors.add(:base, "Start date must be earlier than end date")
+      errors.add(:base, 'Start date must be earlier than end date')
     end
   end
 
@@ -49,22 +51,20 @@ class Resource < ApplicationRecord
 
   def days_of_week_hash
     hash = {
-      sunday:    sunday,
-      monday:    monday,
-      tuesday:   tuesday,
+      sunday: sunday,
+      monday: monday,
+      tuesday: tuesday,
       wednesday: wednesday,
-      thursday:  thursday,
-      friday:    friday,
-      saturday:  saturday
+      thursday: thursday,
+      friday: friday,
+      saturday: saturday
     }
   end
 
   def days_of_week_array
     array = []
-    days_of_week_hash.each_with_index do |(key,value), index|
-      if value
-        array << index
-      end
+    days_of_week_hash.each_with_index do |(_key, value), index|
+      array << index if value
     end
     array
   end
@@ -75,9 +75,7 @@ class Resource < ApplicationRecord
     occurrences = []
 
     date_range.each do |date|
-      if date.wday.in?(days_of_week_array)
-        occurrences << date
-      end
+      occurrences << date if date.wday.in?(days_of_week_array)
     end
     occurrences
   end
@@ -88,8 +86,8 @@ class Resource < ApplicationRecord
     unless meetings.any?
       all_occurrences.each do |date|
         m = meetings.new(
-          start_time: Chronic.parse(date.to_s + " " + start_times_hash[date.wday.to_s]).utc,
-          end_time: Chronic.parse(date.to_s + " " + end_times_hash[date.wday.to_s]).utc
+          start_time: Chronic.parse(date.to_s + ' ' + start_times_hash[date.wday.to_s]).utc,
+          end_time: Chronic.parse(date.to_s + ' ' + end_times_hash[date.wday.to_s]).utc
         )
         m.save
       end
@@ -103,15 +101,14 @@ class Resource < ApplicationRecord
       hash[week_start] = [] if hash[week_start].nil?
       hash[week_start] << m
     end
-    #changes key from first Date of week to week number of resource
+    # changes key from first Date of week to week number of resource
     hash.keys.each_with_index do |key, index|
-      hash[index +1] = hash.delete(key)
+      hash[index + 1] = hash.delete(key)
     end
     hash
   end
 
   def nearest_meeting
-    meetings.sort_by { |meeting| (meeting.start_time - Time.now).abs}.first
+    meetings.min_by { |meeting| (meeting.start_time - Time.now).abs }
   end
-
 end
