@@ -33,11 +33,17 @@ class LaunchesController < ApplicationController
 
   def create
     find_credential
+    p "LINE 36: " + @credential.inspect
     find_resource_and_context
+    p "LINE 38: " + @resource.inspect
+    p "LINE 39: " + @context.inspect
     if @resource && @context
       find_or_create_user
       find_or_create_enrollment
       set_current_enrollment
+      p "LINE 44: #{@user.inspect}"
+      p "LINE 45: #{@enrollment.inspect}"
+
       @launch = Launch.new(payload: params, credential: @credential, enrollment: @enrollment)
       if @launch.save
         set_current_launch
@@ -165,6 +171,9 @@ class LaunchesController < ApplicationController
   end
 
   def find_or_create_enrollment
+    p "LINE 174: FINDING ENROLLMENT"
+    p "LINE 175: params: #{params.inspect}"
+    p "LINE 176: params.roles: #{params['roles'].inspect}"
     @enrollment = Enrollment.find_or_create_by(user: @user, context: @context) do |e|
       e.roles = params['roles']
     end
