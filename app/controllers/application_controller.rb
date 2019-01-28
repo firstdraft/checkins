@@ -38,6 +38,9 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_lti_user
+    p "LINE41: Running 'authorize_lti_user'"
+    p "LINE42: current_enrollment = #{current_enrollment}"
+
     redirect_to landing_url if current_enrollment.nil?
   end
 end
