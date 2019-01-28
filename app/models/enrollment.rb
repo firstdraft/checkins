@@ -44,12 +44,19 @@ class Enrollment < ApplicationRecord
   def teacher?
     roles.downcase.include?('teachingassistant') || roles.downcase.include?('instructor')
   end
-end
 
-# Enrollment.all.each do |e|
-#   launch = e.launches.last
-#   user = e.user
-#   user.first_name = launch.payload["lis_person_name_given"]
-#   user.last_name = launch.payload["lis_person_name_family"]
-#   user.save
-# end
+  def transmit_grade
+    launch = latest_launch
+    credential = launch.credential
+    provider = IMS::LTI::ToolProvider.new(
+      credential.consumer_key,
+      credential.consumer_secret,
+      launch.payload
+    )
+
+    if provider.outcome_service?
+      response = provider.post_replace_result!(grade_attendance)
+    end
+  end
+
+end
