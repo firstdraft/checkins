@@ -2,7 +2,7 @@
 
 class ResourcesController < ApplicationController
   before_action :set_resource, only: %i[show edit update destroy]
-  before_action :authorize_lti_user
+  # before_action :authorize_lti_user
   # GET /resources
   # GET /resources.json
   def index
@@ -12,6 +12,7 @@ class ResourcesController < ApplicationController
   # GET /resources/1
   # GET /resources/1.json
   def show
+    authorize_lti_user
     @check_in = CheckIn.new(enrollment: current_enrollment)
     if current_enrollment.teacher?
       @meetings = @resource.meetings
