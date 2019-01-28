@@ -42,6 +42,7 @@ class ApplicationController < ActionController::Base
     p "LINE 42: current_enrollment = #{current_enrollment}"
     p "LINE 43: session: #{session[:enrollment_id].inspect}"
     p "LINE 44: session: #{session.inspect}"
+    session["init"] = true
 
     redirect_to landing_url if current_enrollment.nil?
   end
