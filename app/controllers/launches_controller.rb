@@ -180,7 +180,10 @@ class LaunchesController < ApplicationController
   end
 
   def set_current_enrollment
+    p "LINE 183: SETTING current_enrollment"
     session[:enrollment_id] = @enrollment.id
+    p "LINE 185: #{session[:enrollment_id]}"
+    p "Line 186: #{current_enrollment.inspect}"
   end
 
   def set_current_launch
