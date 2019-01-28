@@ -38,8 +38,10 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_lti_user
-    p "LINE41: Running 'authorize_lti_user'"
-    p "LINE42: current_enrollment = #{current_enrollment}"
+    p "LINE 41: Running 'authorize_lti_user'"
+    p "LINE 42: current_enrollment = #{current_enrollment}"
+    p "LINE 43: session: #{session[:enrollment_id].inspect}"
+    p "LINE 44: session: #{session.inspect}"
 
     redirect_to landing_url if current_enrollment.nil?
   end
