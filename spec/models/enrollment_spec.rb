@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: enrollments
@@ -9,4 +10,5 @@
 #  roles      :string
 #  user_id    :integer
 #  context_id :integer
+#  score      :float
 #

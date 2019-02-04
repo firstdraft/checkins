@@ -10,6 +10,7 @@
 #  roles      :string
 #  user_id    :integer
 #  context_id :integer
+#  score      :float
 #
 
 class Enrollment < ApplicationRecord

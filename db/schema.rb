@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_111_184_635) do
+ActiveRecord::Schema.define(version: 20_190_204_180_703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20_190_111_184_635) do
     t.string 'roles'
     t.integer 'user_id'
     t.integer 'context_id'
+    t.float 'score'
   end
 
   create_table 'launches', force: :cascade do |t|
