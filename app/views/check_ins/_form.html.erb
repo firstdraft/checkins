@@ -17,6 +17,7 @@
 
     <%= f.hidden_field :latitude, value: nil %>
     <%= f.hidden_field :longitude, value: nil %>
+    <%= f.hidden_field :submission_id, value: check_in.submission_id%>
 
     <% if enrollment_id_was_invalid %>
       <% check_in.errors.full_messages_for(:enrollment_id).each do |message| %>

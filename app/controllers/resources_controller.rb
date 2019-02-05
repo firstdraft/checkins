@@ -12,7 +12,7 @@ class ResourcesController < ApplicationController
   # GET /resources/1
   # GET /resources/1.json
   def show
-    @check_in = CheckIn.new(enrollment: current_enrollment)
+    @check_in = CheckIn.new(submission: current_submission)
     if current_enrollment.teacher?
       @meetings = @resource.meetings
       @most_recent_meeting = @resource.meetings.gradeable.order(:start_time).last
@@ -21,7 +21,7 @@ class ResourcesController < ApplicationController
       render 'teacher_show'
     else
       @target_meeting = current_resource.nearest_meeting
-      @check_ins = @resource.check_ins.where(enrollment: current_enrollment)
+      @check_ins = @resource.check_ins.where(submission: current_submission)
 
       render 'learner_show'
     end

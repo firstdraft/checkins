@@ -57,7 +57,7 @@ Rails.application.configure do
   config.assets.quiet = true
 
   # Bullet configuration
-  Bullet.enable = true
+  Bullet.enable = false
   Bullet.bullet_logger = true
   Bullet.console = true
   Bullet.rails_logger = true

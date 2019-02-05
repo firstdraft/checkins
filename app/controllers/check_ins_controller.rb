@@ -3,50 +3,25 @@
 class CheckInsController < ApplicationController
   before_action :set_check_in, only: %i[show edit update destroy approve_check_in disapprove_check_in]
 
-  # GET /check_ins
-  # GET /check_ins.json
   def index
     @check_ins = CheckIn.where(enrollment: current_enrollment)
   end
 
-  # GET /check_ins/1
-  # GET /check_ins/1.json
   def show; end
 
-  # GET /check_ins/new
   def new
     @check_in = CheckIn.new
   end
 
-  # GET /check_ins/1/edit
   def edit; end
 
-  # POST /check_ins
-  # POST /check_ins.json
   def create
-    @check_in = current_enrollment.check_ins.build(check_in_params)
+    @check_in = CheckIn.new(check_in_params)
     @check_in.meeting = current_resource.nearest_meeting
     respond_to do |format|
       if @check_in.save
-
-        provider = IMS::LTI::ToolProvider.new(
-          current_credential.consumer_key,
-          current_credential.consumer_secret,
-          current_launch.payload
-        )
-        p '==================================================================='
-        p 'provider.inspect:'
-        p provider.inspect
-        p '==================================================================='
-        p 'current_launch.payload:'
-        p current_launch.payload
-        p '==================================================================='
-        p "outcome_service: #{provider.outcome_service?}"
-
-        p response = provider.post_replace_result!(current_enrollment.grade_attendance)
-        p result = response.description
-
-        format.html { redirect_to resource_url(@check_in.resource), notice: result }
+        format.html { redirect_to resource_url(@check_in.resource) }
+        # format.html { redirect_to resource_url(@check_in.resource), notice: result }
         format.json { render :show, status: :created, location: @check_in }
       else
         format.html { render :new }
@@ -67,8 +42,6 @@ class CheckInsController < ApplicationController
     end
   end
 
-  # DELETE /check_ins/1
-  # DELETE /check_ins/1.json
   def destroy
     @check_in.destroy
     respond_to do |format|
@@ -91,13 +64,11 @@ class CheckInsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_check_in
     @check_in = CheckIn.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def check_in_params
-    params.require(:check_in).permit(:enrollment_id, :meeting_id, :latitude, :longitude, :approved)
+    params.require(:check_in).permit(:submission_id, :meeting_id, :latitude, :longitude, :approved)
   end
 end

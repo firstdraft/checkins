@@ -9,24 +9,27 @@
 #  updated_at    :datetime         not null
 #  present       :boolean          default(TRUE)
 #  late          :boolean
-#  enrollment_id :integer
 #  approved      :boolean          default(FALSE)
 #  latitude      :float
 #  longitude     :float
 #  meeting_id    :bigint(8)
+#  submission_id :bigint(8)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (meeting_id => meetings.id)
+#  fk_rails_...  (submission_id => submissions.id)
 #
 
 class CheckIn < ApplicationRecord
-  after_create :set_approved
+  after_create :update_approved
+  after_save   :update_submission
 
-  belongs_to :enrollment
+  belongs_to :submission
   belongs_to :meeting
 
-  has_one :user, through: :enrollment, source: :user
+  has_one :enrollment, through: :submission
+  has_one :user, through: :enrollment
   has_one :resource, through: :meeting
 
   scope :approved, -> { where(approved: true) }
@@ -36,7 +39,11 @@ class CheckIn < ApplicationRecord
     created_at.between?(meeting.start_time - 1.hour, meeting.end_time)
   end
 
-  def set_approved
-    update(approved: within_allowed_timeframe?)
+  def update_approved
+    update(approved: within_allowed_timeframe?) unless approved?
+  end
+
+  def update_submission
+    submission.update_score
   end
 end

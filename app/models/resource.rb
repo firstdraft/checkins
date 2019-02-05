@@ -26,7 +26,8 @@ class Resource < ApplicationRecord
   # after_update :create_meetings
 
   belongs_to :context
-  has_many :enrollments, dependent: :destroy
+  has_many :submissions, dependent: :destroy
+  has_many :enrollments, through: :submissions
   has_many :meetings, dependent: :destroy
   has_many :check_ins, through: :meetings
 

@@ -17,6 +17,10 @@ class ApplicationController < ActionController::Base
     @current_enrollment ||= Enrollment.find_by(id: session[:enrollment_id])
   end
 
+  def current_submission
+    @current_submission ||= Submission.find_by(id: session[:submission_id])
+  end
+
   def current_user
     current_enrollment.user
   end

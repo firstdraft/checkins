@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_204_180_703) do
+ActiveRecord::Schema.define(version: 20_190_206_181_651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -38,12 +38,13 @@ ActiveRecord::Schema.define(version: 20_190_204_180_703) do
     t.datetime 'updated_at', null: false
     t.boolean 'present', default: true
     t.boolean 'late'
-    t.integer 'enrollment_id'
     t.boolean 'approved', default: false
     t.float 'latitude'
     t.float 'longitude'
     t.bigint 'meeting_id'
+    t.bigint 'submission_id'
     t.index ['meeting_id'], name: 'index_check_ins_on_meeting_id'
+    t.index ['submission_id'], name: 'index_check_ins_on_submission_id'
   end
 
   create_table 'contexts', force: :cascade do |t|
@@ -69,7 +70,6 @@ ActiveRecord::Schema.define(version: 20_190_204_180_703) do
     t.string 'roles'
     t.integer 'user_id'
     t.integer 'context_id'
-    t.float 'score'
   end
 
   create_table 'launches', force: :cascade do |t|
@@ -106,6 +106,14 @@ ActiveRecord::Schema.define(version: 20_190_204_180_703) do
     t.boolean 'saturday', default: false
   end
 
+  create_table 'submissions', force: :cascade do |t|
+    t.bigint 'enrollment_id'
+    t.bigint 'resource_id'
+    t.float 'score', default: 0.0
+    t.index ['enrollment_id'], name: 'index_submissions_on_enrollment_id'
+    t.index ['resource_id'], name: 'index_submissions_on_resource_id'
+  end
+
   create_table 'users', force: :cascade do |t|
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
@@ -116,4 +124,7 @@ ActiveRecord::Schema.define(version: 20_190_204_180_703) do
   end
 
   add_foreign_key 'check_ins', 'meetings'
+  add_foreign_key 'check_ins', 'submissions'
+  add_foreign_key 'submissions', 'enrollments'
+  add_foreign_key 'submissions', 'resources'
 end
