@@ -5,7 +5,7 @@ class CreateSubmissions < ActiveRecord::Migration[5.2]
     create_table :submissions do |t|
       t.references :enrollment, foreign_key: true
       t.references :resource, foreign_key: true
-      t.float      :score
+      t.float      :score, default: 0.0
     end
 
     add_reference :check_ins, :submission, foreign_key: true
@@ -18,10 +18,10 @@ class CreateSubmissions < ActiveRecord::Migration[5.2]
       sub = Submission.create(
         enrollment_id: enrollment.id,
         resource_id: resource.id,
-        score: enrollment.score,
+        score: enrollment.score || 0.0,
       )
 
-      enrollment.check_ins.each do |check_in|
+      CheckIn.where(enrollment_id: enrollment.id).each do |check_in|
         check_in.update(submission_id: sub.id)
       end
     end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,119 +10,120 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_206_181_651) do
+ActiveRecord::Schema.define(version: 2019_02_04_191638) do
+
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+  enable_extension "plpgsql"
 
-  create_table 'administrators', force: :cascade do |t|
-    t.string 'email', default: '', null: false
-    t.string 'encrypted_password', default: '', null: false
-    t.string 'reset_password_token'
-    t.datetime 'reset_password_sent_at'
-    t.datetime 'remember_created_at'
-    t.integer 'sign_in_count', default: 0, null: false
-    t.datetime 'current_sign_in_at'
-    t.datetime 'last_sign_in_at'
-    t.inet 'current_sign_in_ip'
-    t.inet 'last_sign_in_ip'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['email'], name: 'index_administrators_on_email', unique: true
-    t.index ['reset_password_token'], name: 'index_administrators_on_reset_password_token', unique: true
+  create_table "administrators", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_administrators_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_administrators_on_reset_password_token", unique: true
   end
 
-  create_table 'check_ins', force: :cascade do |t|
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.boolean 'present', default: true
-    t.boolean 'late'
-    t.boolean 'approved', default: false
-    t.float 'latitude'
-    t.float 'longitude'
-    t.bigint 'meeting_id'
-    t.bigint 'submission_id'
-    t.index ['meeting_id'], name: 'index_check_ins_on_meeting_id'
-    t.index ['submission_id'], name: 'index_check_ins_on_submission_id'
+  create_table "check_ins", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "present", default: true
+    t.boolean "late"
+    t.boolean "approved", default: false
+    t.float "latitude"
+    t.float "longitude"
+    t.bigint "meeting_id"
+    t.bigint "submission_id"
+    t.index ["meeting_id"], name: "index_check_ins_on_meeting_id"
+    t.index ["submission_id"], name: "index_check_ins_on_submission_id"
   end
 
-  create_table 'contexts', force: :cascade do |t|
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'title'
-    t.string 'lti_context_id'
-    t.integer 'credential_id'
+  create_table "contexts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "lti_context_id"
+    t.integer "credential_id"
   end
 
-  create_table 'credentials', force: :cascade do |t|
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'consumer_key'
-    t.string 'consumer_secret'
-    t.integer 'administrator_id'
-    t.boolean 'enabled', default: true
+  create_table "credentials", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "consumer_key"
+    t.string "consumer_secret"
+    t.integer "administrator_id"
+    t.boolean "enabled", default: true
   end
 
-  create_table 'enrollments', force: :cascade do |t|
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'roles'
-    t.integer 'user_id'
-    t.integer 'context_id'
+  create_table "enrollments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "roles"
+    t.integer "user_id"
+    t.integer "context_id"
   end
 
-  create_table 'launches', force: :cascade do |t|
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.jsonb 'payload'
-    t.integer 'enrollment_id'
-    t.integer 'credential_id'
+  create_table "launches", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "payload"
+    t.integer "enrollment_id"
+    t.integer "credential_id"
   end
 
-  create_table 'meetings', force: :cascade do |t|
-    t.datetime 'start_time'
-    t.datetime 'end_time'
-    t.integer 'resource_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+  create_table "meetings", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer "resource_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table 'resources', force: :cascade do |t|
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'meeting_schedule_hash'
-    t.string 'lis_outcome_service_url'
-    t.string 'lti_resource_link_id'
-    t.integer 'context_id'
-    t.date 'starts_on'
-    t.date 'ends_on'
-    t.boolean 'sunday', default: false
-    t.boolean 'monday', default: false
-    t.boolean 'tuesday', default: false
-    t.boolean 'wednesday', default: false
-    t.boolean 'thursday', default: false
-    t.boolean 'friday', default: false
-    t.boolean 'saturday', default: false
+  create_table "resources", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "meeting_schedule_hash"
+    t.string "lis_outcome_service_url"
+    t.string "lti_resource_link_id"
+    t.integer "context_id"
+    t.date "starts_on"
+    t.date "ends_on"
+    t.boolean "sunday", default: false
+    t.boolean "monday", default: false
+    t.boolean "tuesday", default: false
+    t.boolean "wednesday", default: false
+    t.boolean "thursday", default: false
+    t.boolean "friday", default: false
+    t.boolean "saturday", default: false
   end
 
-  create_table 'submissions', force: :cascade do |t|
-    t.bigint 'enrollment_id'
-    t.bigint 'resource_id'
-    t.float 'score', default: 0.0
-    t.index ['enrollment_id'], name: 'index_submissions_on_enrollment_id'
-    t.index ['resource_id'], name: 'index_submissions_on_resource_id'
+  create_table "submissions", force: :cascade do |t|
+    t.bigint "enrollment_id"
+    t.bigint "resource_id"
+    t.float "score", default: 0.0
+    t.index ["enrollment_id"], name: "index_submissions_on_enrollment_id"
+    t.index ["resource_id"], name: "index_submissions_on_resource_id"
   end
 
-  create_table 'users', force: :cascade do |t|
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'first_name'
-    t.string 'last_name'
-    t.string 'preferred_name'
-    t.string 'lti_user_id'
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "preferred_name"
+    t.string "lti_user_id"
   end
 
-  add_foreign_key 'check_ins', 'meetings'
-  add_foreign_key 'check_ins', 'submissions'
-  add_foreign_key 'submissions', 'enrollments'
-  add_foreign_key 'submissions', 'resources'
+  add_foreign_key "check_ins", "meetings"
+  add_foreign_key "check_ins", "submissions"
+  add_foreign_key "submissions", "enrollments"
+  add_foreign_key "submissions", "resources"
 end
