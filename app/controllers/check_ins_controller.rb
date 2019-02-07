@@ -33,7 +33,7 @@ class CheckInsController < ApplicationController
   def update
     respond_to do |format|
       if @check_in.update(check_in_params)
-        format.html { redirect_to @check_in.resource, notice: 'Checkin was successfully updated.' }
+        format.html { redirect_to @check_in.resource, notice: "Checkin was successfully updated." }
         format.json { render :show, status: :ok, location: @check_in }
       else
         format.html { render :edit }
@@ -45,7 +45,7 @@ class CheckInsController < ApplicationController
   def destroy
     @check_in.destroy
     respond_to do |format|
-      format.html { redirect_to resource_url(@check_in.resource), notice: 'Check in was successfully destroyed.' }
+      format.html { redirect_to resource_url(@check_in.resource), notice: "Check in was successfully destroyed." }
       format.json { head :no_content }
     end
   end

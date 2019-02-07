@@ -24,10 +24,10 @@ class Enrollment < ApplicationRecord
   end
 
   def resource
-    Resource.find_by(lti_resource_link_id: latest_launch.payload['resource_link_id'])
+    Resource.find_by(lti_resource_link_id: latest_launch.payload["resource_link_id"])
   end
 
   def teacher?
-    roles.downcase.include?('teachingassistant') || roles.downcase.include?('instructor')
+    roles.downcase.include?("teachingassistant") || roles.downcase.include?("instructor")
   end
 end

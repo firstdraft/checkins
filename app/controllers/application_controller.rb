@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_launch
 
   def landing
-    render '/landing.html.erb'
+    render "/landing.html.erb"
   end
 
   def current_enrollment

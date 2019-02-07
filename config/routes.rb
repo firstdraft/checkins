@@ -4,14 +4,14 @@ Rails.application.routes.draw do
   devise_for :administrators
 
   authenticated :administrator do
-    root 'credentials#index'
+    root "credentials#index"
   end
 
-  root 'contexts#index'
+  root "contexts#index"
 
-  get '/landing', to: 'application#landing', as: 'landing'
-  get '/sign_out', to: 'users#sign_out', as: 'lti_user_sign_out'
-  get '/config' => 'launches#xml_config'
+  get "/landing", to: "application#landing", as: "landing"
+  get "/sign_out", to: "users#sign_out", as: "lti_user_sign_out"
+  get "/config" => "launches#xml_config"
 
   resources :check_ins, only: %i[create destroy edit show update]
   resources :contexts, only: %i[index edit update show]

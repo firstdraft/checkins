@@ -36,13 +36,13 @@ class Resource < ApplicationRecord
 
   def must_have_schedule
     if starts_on.blank? || ends_on.blank?
-      errors.add(:base, 'You have to provide a schedule')
+      errors.add(:base, "You have to provide a schedule")
     end
   end
 
   def starts_on_earlier_than_ends_on
     if starts_on && ends_on && starts_on > ends_on
-      errors.add(:base, 'Start date must be earlier than end date')
+      errors.add(:base, "Start date must be earlier than end date")
     end
   end
 
@@ -58,7 +58,7 @@ class Resource < ApplicationRecord
       wednesday: wednesday,
       thursday: thursday,
       friday: friday,
-      saturday: saturday
+      saturday: saturday,
     }
   end
 
@@ -87,8 +87,8 @@ class Resource < ApplicationRecord
     unless meetings.any?
       all_occurrences.each do |date|
         m = meetings.new(
-          start_time: Chronic.parse(date.to_s + ' ' + start_times_hash[date.wday.to_s]).utc,
-          end_time: Chronic.parse(date.to_s + ' ' + end_times_hash[date.wday.to_s]).utc
+          start_time: Chronic.parse(date.to_s + " " + start_times_hash[date.wday.to_s]).utc,
+          end_time: Chronic.parse(date.to_s + " " + end_times_hash[date.wday.to_s]).utc,
         )
         m.save
       end

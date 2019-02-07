@@ -24,7 +24,7 @@ class Submission < ApplicationRecord
   has_many   :meetings, through: :resource
 
   has_many :gradeable_meetings, -> { gradeable }, through: :resource, source: :meetings
-  has_many :approved_check_ins, -> { approved }, class_name: 'CheckIn'
+  has_many :approved_check_ins, -> { approved }, class_name: "CheckIn"
   has_many :approved_meetings, -> { distinct }, through: :approved_check_ins, source: :meeting
 
   has_one    :user, through: :enrollment
@@ -34,7 +34,7 @@ class Submission < ApplicationRecord
     provider = IMS::LTI::ToolProvider.new(
       context.credential.consumer_key,
       context.credential.consumer_secret,
-      enrollment.launches.last.payload
+      enrollment.launches.last.payload,
     )
 
     provider.post_replace_result!(score) if provider.outcome_service?

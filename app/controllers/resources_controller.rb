@@ -18,12 +18,12 @@ class ResourcesController < ApplicationController
       @most_recent_meeting = @resource.meetings.gradeable.order(:start_time).last
       @unapproved_check_ins = @resource.check_ins.unapproved.order(:created_at)
 
-      render 'teacher_show'
+      render "teacher_show"
     else
       @target_meeting = current_resource.nearest_meeting
       @check_ins = @resource.check_ins.where(submission: current_submission)
 
-      render 'learner_show'
+      render "learner_show"
     end
   end
 
@@ -42,7 +42,7 @@ class ResourcesController < ApplicationController
 
     respond_to do |format|
       if @resource.save
-        format.html { redirect_to @resource, notice: 'Resource was successfully created.' }
+        format.html { redirect_to @resource, notice: "Resource was successfully created." }
         format.json { render :show, status: :created, location: @resource }
       else
         format.html { render :new }
@@ -57,14 +57,14 @@ class ResourcesController < ApplicationController
     @resource.assign_attributes(resource_params)
     if @resource.inspect != Resource.find(@resource.id).inspect
       if @resource.save
-        @resource.create_meetings(params['start_times'], params['end_times'])
+        @resource.create_meetings(params["start_times"], params["end_times"])
         redirect_to @resource,
-                    notice: 'Resource was successfully updated.'
+                    notice: "Resource was successfully updated."
       else
         render :edit
       end
     else
-      redirect_to @resource, notice: 'Resource was unchanged'
+      redirect_to @resource, notice: "Resource was unchanged"
     end
   end
 
@@ -73,7 +73,7 @@ class ResourcesController < ApplicationController
   def destroy
     @resource.destroy
     respond_to do |format|
-      format.html { redirect_to resources_url, notice: 'Resource was successfully destroyed.' }
+      format.html { redirect_to resources_url, notice: "Resource was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -98,7 +98,7 @@ class ResourcesController < ApplicationController
       :wednesday,
       :thursday,
       :friday,
-      :saturday
+      :saturday,
     )
   end
 end

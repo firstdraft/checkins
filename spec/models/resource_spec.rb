@@ -22,8 +22,8 @@
 #  saturday                :boolean          default(FALSE)
 #
 
-describe '#all_occurrences' do
-  it 'returns an array' do
+describe "#all_occurrences" do
+  it "returns an array" do
     resource = Resource.new
     starts = Date.new(2018, 1, 1)
     ends = Date.new(2018, 1, 31)
@@ -36,7 +36,7 @@ describe '#all_occurrences' do
     expect(resource.all_occurrences.class).to eq(Array)
   end
 
-  it 'returns an array of dates' do
+  it "returns an array of dates" do
     resource = Resource.new
     starts = Date.new(2018, 1, 1)
     ends = Date.new(2018, 1, 31)
@@ -49,7 +49,7 @@ describe '#all_occurrences' do
     expect(resource.all_occurrences.sample.class).to eq(Date)
   end
 
-  it 'returns the correct occurrences' do
+  it "returns the correct occurrences" do
     resource = Resource.new
     starts = Date.new(2018, 1, 1)
     ends = Date.new(2018, 1, 31)
@@ -62,7 +62,7 @@ describe '#all_occurrences' do
     expect(resource.all_occurrences).to eq(mondays)
   end
 
-  it 'returns correct occurrences when meeting multiple days in a week' do
+  it "returns correct occurrences when meeting multiple days in a week" do
     multiple_days = Resource.new
     starts = Date.new(2018, 1, 1)
     ends = Date.new(2018, 1, 31)
@@ -75,7 +75,7 @@ describe '#all_occurrences' do
     expect(multiple_days.all_occurrences).to eq(mon_and_wed)
   end
 
-  it 'returns the correct occurrences while spanning a leap day' do
+  it "returns the correct occurrences while spanning a leap day" do
     leap_resource = Resource.new
     leap_resource.starts_on = Date.new(2020, 2, 1)
     leap_resource.ends_on = Date.new(2020, 3, 7)
@@ -85,7 +85,7 @@ describe '#all_occurrences' do
     expect(leap_resource.all_occurrences).to eq(saturdays)
   end
 
-  it 'returns the correct occurrences while spanning a new year' do
+  it "returns the correct occurrences while spanning a new year" do
     year_resource = Resource.new
     year_resource.starts_on = Date.new(2017, 12, 28)
     year_resource.ends_on = Date.new(2018, 1, 8)

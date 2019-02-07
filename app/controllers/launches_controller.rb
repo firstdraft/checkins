@@ -8,11 +8,11 @@ class LaunchesController < ApplicationController
     respond_to do |format|
       format.xml do
         tool_config = IMS::LTI::ToolConfig.new(
-          title: 'First Draft Checkins',
-          launch_url: launch_url
+          title: "First Draft Checkins",
+          launch_url: launch_url,
         )
 
-        tool_config.description = 'This LTI Tool grades attendance'
+        tool_config.description = "This LTI Tool grades attendance"
 
         render xml: tool_config.to_xml
       end
@@ -40,7 +40,7 @@ class LaunchesController < ApplicationController
       set_current_enrollment
       @submission = Submission.find_or_create_by(
         resource: @resource,
-        enrollment: @enrollment
+        enrollment: @enrollment,
       )
       set_current_submission
       @launch = Launch.new(payload: params, credential: @credential, enrollment: @enrollment)
@@ -53,15 +53,15 @@ class LaunchesController < ApplicationController
           redirect_to resource_url(@resource)
         else
           redirect_to root_url,
-                      notice: 'You are neither a student nor a teacher for this assignment'
+                      notice: "You are neither a student nor a teacher for this assignment"
         end
       else
         redirect_to root_url,
-                    notice: @launch.errors.full_messages.join(' & ')
+                    notice: @launch.errors.full_messages.join(" & ")
       end
     elsif teacher?
-      @context ||= Context.create(lti_context_id: params['context_id'], credential: @credential, title: params['context_title'])
-      @resource = @context.resources.create(lti_resource_link_id: params['resource_link_id'], lis_outcome_service_url: params['lis_outcome_service_url'])
+      @context ||= Context.create(lti_context_id: params["context_id"], credential: @credential, title: params["context_title"])
+      @resource = @context.resources.create(lti_resource_link_id: params["resource_link_id"], lis_outcome_service_url: params["lis_outcome_service_url"])
       find_or_create_user
       find_or_create_enrollment
       set_current_enrollment
@@ -72,18 +72,18 @@ class LaunchesController < ApplicationController
         redirect_to edit_resource_url(@resource)
       else
         redirect_to root_url,
-                    notice: @launch.errors.full_messages.join(' & ')
+                    notice: @launch.errors.full_messages.join(" & ")
       end
     else
       redirect_to root_url,
-                  notice: 'Attendance assignment has not been setup yet'
+                  notice: "Attendance assignment has not been setup yet"
     end
   end
 
   def update
     respond_to do |format|
       if @launch.update(launch_params)
-        format.html { redirect_to @launch, notice: 'Launch was successfully updated.' }
+        format.html { redirect_to @launch, notice: "Launch was successfully updated." }
         format.json { render :show, status: :ok, location: @launch }
       else
         format.html { render :edit }
@@ -95,7 +95,7 @@ class LaunchesController < ApplicationController
   def destroy
     @launch.destroy
     respond_to do |format|
-      format.html { redirect_to launches_url, notice: 'Launch was successfully destroyed.' }
+      format.html { redirect_to launches_url, notice: "Launch was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -111,47 +111,47 @@ class LaunchesController < ApplicationController
   # end
 
   def find_credential
-    raise 'No LTI key' unless params['oauth_consumer_key'].present?
+    raise "No LTI key" unless params["oauth_consumer_key"].present?
 
-    if @credential = Credential.find_by(consumer_key: params['oauth_consumer_key'])
-      @credential.enabled? ? @credential : (raise 'Credential is disabled')
+    if @credential = Credential.find_by(consumer_key: params["oauth_consumer_key"])
+      @credential.enabled? ? @credential : (raise "Credential is disabled")
     else
-      raise 'Unknown LTI Key'
+      raise "Unknown LTI Key"
     end
   end
 
   def find_or_create_user
-    @user = User.find_or_create_by(lti_user_id: params['user_id']) do |u|
-      u.preferred_name = params['lis_person_name_given']
-      u.first_name = params['lis_person_name_given']
-      u.last_name = params['lis_person_name_family']
+    @user = User.find_or_create_by(lti_user_id: params["user_id"]) do |u|
+      u.preferred_name = params["lis_person_name_given"]
+      u.first_name = params["lis_person_name_given"]
+      u.last_name = params["lis_person_name_family"]
     end
   end
 
   def find_or_create_resource_context
-    if @resource = Resource.find_by(lti_resource_link_id: params['resource_link_id'])
+    if @resource = Resource.find_by(lti_resource_link_id: params["resource_link_id"])
       @resource
       @context = @resource.context
-    elsif (params['roles'].split(',') & %w[Instructor Teachingassistant]).any? # Checks if current user is Instructor or Teachingassistant
-      @resource = Resource.find_or_create_by(lti_resource_link_id: params['resource_link_id']) do |r|
-        r.lis_outcome_service_url = params['lis_outcome_service_url']
+    elsif (params["roles"].split(",") & %w[Instructor Teachingassistant]).any? # Checks if current user is Instructor or Teachingassistant
+      @resource = Resource.find_or_create_by(lti_resource_link_id: params["resource_link_id"]) do |r|
+        r.lis_outcome_service_url = params["lis_outcome_service_url"]
 
-        r.context = Context.find_or_create_by(lti_context_id: params['context_id']) do |c|
+        r.context = Context.find_or_create_by(lti_context_id: params["context_id"]) do |c|
           c.credential = @credential
-          c.title      = params['context_title']
+          c.title      = params["context_title"]
         end
       end
       @context = @resource.context
     else
       redirect_to root_url,
-                  notice: 'Attendance assignment has not been created yet'
+                  notice: "Attendance assignment has not been created yet"
     end
   end
 
   def parsed_roles
-    raw = params['roles'].split(',')
+    raw = params["roles"].split(",")
     roles = raw.map do |r|
-      r.split('/').last.downcase
+      r.split("/").last.downcase
     end
     roles
   end
@@ -165,13 +165,13 @@ class LaunchesController < ApplicationController
   end
 
   def find_resource_and_context
-    @resource = Resource.find_by(lti_resource_link_id: params['resource_link_id'])
-    @context = Context.find_by(lti_context_id: params['context_id'])
+    @resource = Resource.find_by(lti_resource_link_id: params["resource_link_id"])
+    @context = Context.find_by(lti_context_id: params["context_id"])
   end
 
   def find_or_create_enrollment
     @enrollment = Enrollment.find_or_create_by(user: @user, context: @context) do |e|
-      e.roles = params['roles']
+      e.roles = params["roles"]
     end
   end
 

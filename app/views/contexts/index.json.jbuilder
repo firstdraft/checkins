@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-json.array! @contexts, partial: 'contexts/context', as: :context
+json.array! @contexts, partial: "contexts/context", as: :context

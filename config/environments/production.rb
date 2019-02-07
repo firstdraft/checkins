@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
-  if ENV.fetch('HEROKU_APP_NAME', '').include?('staging-pr-')
-    ENV['APPLICATION_HOST'] = ENV['HEROKU_APP_NAME'] + '.herokuapp.com'
+  if ENV.fetch("HEROKU_APP_NAME", "").include?("staging-pr-")
+    ENV["APPLICATION_HOST"] = ENV["HEROKU_APP_NAME"] + ".herokuapp.com"
   end
-  config.middleware.use Rack::CanonicalHost, ENV.fetch('APPLICATION_HOST')
+  config.middleware.use Rack::CanonicalHost, ENV.fetch("APPLICATION_HOST")
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -26,7 +26,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -89,7 +89,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV['RAILS_LOG_TO_STDOUT'].present?
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)

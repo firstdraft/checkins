@@ -8,12 +8,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-admin = Administrator.find_or_create_by(email: 'admin@example.com') do |a|
-  a.password = 'password'
+admin = Administrator.find_or_create_by(email: "admin@example.com") do |a|
+  a.password = "password"
 end
 
 if admin.credentials.empty?
-  admin.credentials.create(consumer_key: 'key', consumer_secret: 'secret')
+  admin.credentials.create(consumer_key: "key", consumer_secret: "secret")
 end
 
 # context = Context.find_or_create_by(id: 1) do |c|

@@ -12,13 +12,13 @@ class CreateSubmissions < ActiveRecord::Migration[5.2]
 
     Enrollment.find_each do |enrollment|
       resource = Resource.find_by(
-        lti_resource_link_id: enrollment.launches.last.payload['resource_link_id']
+        lti_resource_link_id: enrollment.launches.last.payload["resource_link_id"],
       )
 
       sub = Submission.create(
         enrollment_id: enrollment.id,
         resource_id: resource.id,
-        score: enrollment.score
+        score: enrollment.score,
       )
 
       enrollment.check_ins.each do |check_in|
@@ -35,11 +35,11 @@ class CreateSubmissions < ActiveRecord::Migration[5.2]
 
     Enrollment.find_each do |enrollment|
       resource = Resource.find_by(
-        lti_resource_link_id: enrollment.launches.last.payload['resource_link_id']
+        lti_resource_link_id: enrollment.launches.last.payload["resource_link_id"],
       )
       sub = Submission.find_by(
         enrollment_id: enrollment.id,
-        resource_id: resource.id
+        resource_id: resource.id,
       )
       enrollment.update(score: sub.score)
 

@@ -16,7 +16,7 @@ class Meeting < ApplicationRecord
   belongs_to :resource
   has_many   :check_ins
   scope :by_date, ->(date) { where(start_time: date.midnight..date.end_of_day) }
-  scope :gradeable, -> { where('start_time <= ?', DateTime.now + 1.hour) }
+  scope :gradeable, -> { where("start_time <= ?", DateTime.now + 1.hour) }
 
   def has_approved_check_in?(enrollment)
     check_ins = enrollment.check_ins.approved
