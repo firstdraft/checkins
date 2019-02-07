@@ -16,7 +16,7 @@
 #
 
 class Submission < ApplicationRecord
-  # after_update :pass_back_grade
+  after_update :pass_back_grade
 
   belongs_to :resource
   belongs_to :enrollment
