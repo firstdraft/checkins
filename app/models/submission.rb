@@ -42,13 +42,13 @@ class Submission < ApplicationRecord
 
   def compute_score
     if gradeable_meetings.any?
-      approved_meetings.count.to_f / gradeable_meetings.count
+      (approved_meetings.count.to_f / gradeable_meetings.count).round(4)
     else
       1.0
     end
   end
 
   def update_score
-    update(score: compute_score) if score != compute_score
+    update(score: compute_score) if score.round(4) != compute_score
   end
 end
