@@ -28,4 +28,8 @@ class Meeting < ApplicationRecord
     end
     result
   end
+
+  def to_s
+    start_time.to_date.strftime("%a %-m/%-d/%y")
+  end
 end

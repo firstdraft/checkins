@@ -51,4 +51,8 @@ class Submission < ApplicationRecord
   def update_score
     update(score: compute_score) if score.round(4) != compute_score
   end
+
+  def full_user_name
+    "#{user.preferred_name} #{user.last_name}".strip
+  end
 end

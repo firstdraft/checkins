@@ -13,14 +13,19 @@ class ResourcesController < ApplicationController
   # GET /resources/1.json
   def show
     @check_in = CheckIn.new(submission: current_submission)
+    @target_meeting = current_resource.nearest_meeting
     if current_enrollment.teacher?
       @meetings = @resource.meetings
       @most_recent_meeting = @resource.meetings.gradeable.order(:start_time).last
       @unapproved_check_ins = @resource.check_ins.unapproved.order(:created_at)
-
+      @submissions = @resource.submissions.joins(:user).merge(User.order(:last_name))
+      @check_in = CheckIn.new(meeting: @target_meeting, approved: true)
       render "teacher_show"
     else
-      @target_meeting = current_resource.nearest_meeting
+      @check_in = CheckIn.new(
+        submission: current_submission,
+        meeting: @target_meeting,
+      )
       @check_ins = @resource.check_ins.where(submission: current_submission)
 
       render "learner_show"

@@ -17,7 +17,6 @@ class CheckInsController < ApplicationController
 
   def create
     @check_in = CheckIn.new(check_in_params)
-    @check_in.meeting = current_resource.nearest_meeting
     respond_to do |format|
       if @check_in.save
         format.html { redirect_to resource_url(@check_in.resource) }

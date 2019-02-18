@@ -1,12 +1,83 @@
+<% meeting_list_classes = "list-group-item
+  d-flex
+  justify-content-between
+  align-items-center
+  list-group-item-action" %>
 <div class="row justify-content-center mb-3">
   <div class="col-md-3">
-    <div class="list-group" id="list-tab" role="tablist">
-      <% @meetings.each do |m| %>
-        <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action <%= "active show" if m == @most_recent_meeting %>" id="list-<%= m.id %>-list" data-toggle="list" href="#list-<%= m.id %>" role="tab" aria-controls="<%= m.id %>"><%= m.start_time.to_date.strftime("%a %-m/%-d/%y") %> <span class="badge badge-success badge-pill"><%= m.check_ins.count %></span></a>
-      <% end %>
-      <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action " id="list-unapproved-list" data-toggle="list" href="#list-unapproved" role="tab" aria-controls="unapproved">
-        Unapproved <span class="badge badge-success badge-pill"><%= @unapproved_check_ins.count %></span>
-      </a>
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="list-group" id="list-tab" role="tablist">
+          <% @meetings.each do |meeting| %>
+          <%= link_to "#list-#{ meeting.id }",
+            class: meeting == @most_recent_meeting ?
+            meeting_list_classes + " active show" :
+            meeting_list_classes,
+            id: "list-#{ meeting.id }-list",
+            data: { toggle: "list" },
+            aria: { controls: meeting.id } do %>
+          <%= meeting %> <span class="badge badge-success badge-pill">
+            <%= meeting.check_ins.count %>
+          </span>
+          <% end %>
+          <% end %>
+          <%= link_to "#list-unapproved",
+            class: meeting_list_classes,
+            id: "list-unapproved-list",
+            data: { toggle: "list" },
+            role: "tab",
+            aria: {controls: "unapproved"} do %>
+          Unapproved
+          <span class="badge badge-success badge-pill">
+            <%= @unapproved_check_ins.count %>
+          </span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-12">
+        <%= content_tag :button,
+        "Check a student in",
+        class: "btn btn-block btn-outline-success",
+        data: { toggle: "collapse", target: "#new_check_in_form" } %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div id="new_check_in_form" class="collapse">
+          <%= form_for @check_in do |f| %>
+          <div class="form-group">
+            <%= f.label :submission_id, "Student"  %>
+            <%= f.collection_select(
+            :submission_id,
+            @submissions,
+            :id,
+            :full_user_name,
+            { prompt: true },
+            class: "custom-select") %>
+          </div>
+          <div class="form-group">
+            <%= f.label :meeting_id  %>
+            <%= f.collection_select(
+            :meeting_id,
+            @meetings,
+            :id,
+            :to_s,
+            {  },
+            class: "custom-select"
+            ) %>
+          </div>
+          <div class="custom-control custom-checkbox mb-3">
+            <%= f.check_box :approved, class: "custom-control-input" %>
+            <%= f.label :approved, class: "custom-control-label" %>
+          </div>
+          <div class="form-group">
+            <%= f.button "Submit!", class: "btn btn-block btn-success" %>
+          </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-md-8">
