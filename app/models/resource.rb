@@ -26,10 +26,13 @@ class Resource < ApplicationRecord
   # after_update :create_meetings
 
   belongs_to :context
-  has_many :submissions, dependent: :destroy
-  has_many :enrollments, through: :submissions
   has_many :meetings, dependent: :destroy
+  has_many :submissions, dependent: :destroy
+
+  has_many :attendances, through: :submissions
   has_many :check_ins, through: :meetings
+  has_many :enrollments, through: :submissions
+  has_many :users, through: :enrollments
 
   validate :must_have_schedule, on: :update
   validate :starts_on_earlier_than_ends_on, on: :update

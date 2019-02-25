@@ -16,9 +16,12 @@
 class User < ApplicationRecord
   has_many :enrollments, dependent: :destroy
 
-  has_many :check_ins, through: :enrollments
+  has_many :attendances, through: :enrollments
   has_many :contexts, through: :enrollments
   has_many :launches, through: :enrollments
+  has_many :resources, through: :enrollments
+  has_many :submissions, through: :enrollments
+  has_many :check_ins, through: :submissions
 
   validates :preferred_name, presence: true
 end

@@ -16,6 +16,11 @@ class Context < ApplicationRecord
   belongs_to :credential
 
   has_many :resources, dependent: :destroy
+  has_many :enrollments, dependent: :destroy
+
+  has_many :meetings, through: :resources
+  has_many :submissions, through: :resources
+  has_many :attendances, through: :resources
 
   has_one :administrator, through: :credential, source: :administrator
 end

@@ -14,7 +14,11 @@
 
 class Meeting < ApplicationRecord
   belongs_to :resource
+  has_many   :attendances, dependent: :destroy
   has_many   :check_ins
+
+  has_one :context, through: :resource
+
   scope :by_date, ->(date) { where(start_time: date.midnight..date.end_of_day) }
   scope :gradeable, -> { where("start_time <= ?", DateTime.now + 1.hour) }
 
@@ -35,5 +39,9 @@ class Meeting < ApplicationRecord
 
   def gradeable?
     start_time <= Time.now + 1.hour
+  end
+
+  def complete?
+    end_time <= Time.current
   end
 end

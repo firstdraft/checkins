@@ -15,9 +15,11 @@
 class Enrollment < ApplicationRecord
   belongs_to :context
   belongs_to :user
-
   has_many :launches
-  has_many :submissions
+  has_many :submissions, dependent: :destroy
+
+  has_many :attendances, through: :submissions
+  has_many :resources, through: :submissions
 
   def latest_launch
     launches.order(:created_at).last

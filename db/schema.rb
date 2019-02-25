@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_04_191638) do
+ActiveRecord::Schema.define(version: 2019_02_27_214602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,20 @@ ActiveRecord::Schema.define(version: 2019_02_04_191638) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_administrators_on_email", unique: true
     t.index ["reset_password_token"], name: "index_administrators_on_reset_password_token", unique: true
+  end
+
+  create_table "attendances", force: :cascade do |t|
+    t.datetime "checked_in_at"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "status", null: false
+    t.bigint "meeting_id"
+    t.bigint "submission_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meeting_id", "submission_id"], name: "index_attendances_on_meeting_id_and_submission_id", unique: true
+    t.index ["meeting_id"], name: "index_attendances_on_meeting_id"
+    t.index ["submission_id"], name: "index_attendances_on_submission_id"
   end
 
   create_table "check_ins", force: :cascade do |t|
@@ -122,6 +136,8 @@ ActiveRecord::Schema.define(version: 2019_02_04_191638) do
     t.string "lti_user_id"
   end
 
+  add_foreign_key "attendances", "meetings"
+  add_foreign_key "attendances", "submissions"
   add_foreign_key "check_ins", "meetings"
   add_foreign_key "check_ins", "submissions"
   add_foreign_key "submissions", "enrollments"
