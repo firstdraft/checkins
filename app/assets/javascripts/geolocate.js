@@ -1,7 +1,7 @@
 $("document").ready(function() {
-  $("#check-in-button").click(function() {
+  $(".new-check-in-form").click(function() {
     event.preventDefault();
-
+    const form = $(this)
     x = navigator.geolocation;
     x.getCurrentPosition(success, failure);
 
@@ -12,12 +12,12 @@ $("document").ready(function() {
       $("#check_in_latitude").attr("value", mylat);
       $("#check_in_longitude").attr("value", mylong);
 
-      $("#new_check_in").submit();
+      form.submit();
     };
 
     function failure() {
       $("#left").append("<p> Failure!</p>")
-      $("#new_check_in").submit();
+      form.submit();
     };
   });
 });

@@ -1,6 +1,6 @@
 <% was_validated = check_in.errors.any? %>
 
-<% form_html_options = { novalidate: true, class: "mb-3" } %>
+<% form_html_options = { novalidate: true, class: "mb-3 new-check-in-form" } %>
 
 <%= form_for(check_in, html: form_html_options) do |f| %>
   <div class="form-group">
@@ -28,5 +28,7 @@
     <% end %>
   </div>
 
-  <%= f.button "Check In for #{@target_meeting.start_time.strftime("%A, %b %d")}!", class: "btn btn-outline-success btn-block", id: "check-in-button" %>
+  <%= f.button "Check In for #{@target_meeting.start_time.strftime("%a %-m/%d")}",
+    class: "btn btn-outline-success btn-block",
+    id: "check-in-button" %>
 <% end %>

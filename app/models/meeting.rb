@@ -32,4 +32,8 @@ class Meeting < ApplicationRecord
   def to_s
     start_time.to_date.strftime("%a %-m/%-d/%y")
   end
+
+  def gradeable?
+    start_time <= Time.now + 1.hour
+  end
 end

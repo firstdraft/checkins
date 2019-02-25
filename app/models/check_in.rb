@@ -34,6 +34,11 @@ class CheckIn < ApplicationRecord
 
   scope :approved, -> { where(approved: true) }
   scope :unapproved, -> { where(approved: false) }
+  scope :for, ->(submission) { where(submission: submission) }
+
+  def to_s
+    created_at.strftime("%a %-m/%-e,  %l:%M %P").to_s
+  end
 
   def within_allowed_timeframe?
     created_at.between?(meeting.start_time - 1.hour, meeting.end_time)

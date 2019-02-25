@@ -3,11 +3,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_enrollment
-  helper_method :current_user
-  helper_method :current_resource
   helper_method :current_context
+  helper_method :current_enrollment
   helper_method :current_launch
+  helper_method :current_resource
+  helper_method :current_submission
+  helper_method :current_user
 
   def landing
     render "/landing.html.erb"
