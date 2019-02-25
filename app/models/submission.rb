@@ -21,6 +21,8 @@ class Submission < ApplicationRecord
   belongs_to :resource
   belongs_to :enrollment
   has_many   :check_ins
+  has_many   :attendances, dependent: :destroy
+
   has_many   :meetings, through: :resource
 
   has_many :gradeable_meetings, -> { gradeable }, through: :resource, source: :meetings
