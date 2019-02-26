@@ -20,6 +20,7 @@
 
 class Attendance < ApplicationRecord
   include AASM
+  has_paper_trail
 
   belongs_to :meeting
   belongs_to :submission
@@ -28,6 +29,8 @@ class Attendance < ApplicationRecord
   has_one :enrollment, through: :submission
   has_one :resource, through: :submission
   has_one :user, through: :enrollment
+
+  scope :for, ->(submission) { find_by(submission: submission) }
 
   validates_uniqueness_of :submission,
                           scope: :meeting,
@@ -39,7 +42,7 @@ class Attendance < ApplicationRecord
 
     event :check_in do
       before do
-        update(check_in_time: Time.now)
+        assign_attributes(checked_in_at: Time.current)
       end
 
       transitions from: :pending, to: :accepted, if: :passes_verifications?
@@ -63,12 +66,15 @@ class Attendance < ApplicationRecord
     end
 
     event :reset do
+      before do
+        assign_attributes(checked_in_at: nil)
+      end
       transitions from: %i[accepted in_appeal not_accepted], to: :pending
     end
   end
 
   def within_allowed_timeframe?
-    check_in_time&.between?(meeting.start_time - 1.hour, meeting.end_time)
+    checked_in_at&.between?(meeting.start_time - 1.hour, meeting.end_time)
   end
 
   def meeting_complete?

@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_submission
   helper_method :current_user
 
+  before_action :set_paper_trail_whodunnit
+
   def landing
     render "/landing.html.erb"
   end

@@ -16,6 +16,7 @@
 #
 
 class Submission < ApplicationRecord
+  after_create :create_attendances
   after_update :pass_back_grade
 
   belongs_to :resource
@@ -56,5 +57,11 @@ class Submission < ApplicationRecord
 
   def full_user_name
     "#{user.preferred_name} #{user.last_name}".strip
+  end
+
+  def create_attendances
+    resource.meetings.each do |meeting|
+      attendances.create(meeting: meeting)
+    end
   end
 end
