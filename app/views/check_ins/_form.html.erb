@@ -1,6 +1,6 @@
 <% was_validated = check_in.errors.any? %>
 
-<% form_html_options = { novalidate: true, class: "mb-3 new-check-in-form" } %>
+<% form_html_options = { novalidate: true, class: "new-check-in-form" } %>
 
 <%= form_for(check_in, html: form_html_options) do |f| %>
   <div class="form-group">
@@ -30,5 +30,10 @@
 
   <%= f.button "Check In for #{@target_meeting.start_time.strftime("%a %-m/%d")}",
     class: "btn btn-outline-success btn-block",
-    id: "check-in-button" %>
+    id: "check-in-button",
+    aria: { describedby: "checkInHelpBlock" } %>
+  <small id="checkInHelpBlock" class="form-text text-muted">
+    * If this is not the meeting you wish to receive credit for, please
+    find the meeting to the right and check in using its button
+  </small>
 <% end %>
