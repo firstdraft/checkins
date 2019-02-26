@@ -13,6 +13,8 @@
 #
 
 class Meeting < ApplicationRecord
+  after_create :create_attendances
+
   belongs_to :resource
   has_many   :attendances, dependent: :destroy
   has_many   :check_ins
@@ -43,5 +45,15 @@ class Meeting < ApplicationRecord
 
   def complete?
     end_time <= Time.current
+  end
+
+  def create_attendances
+    resource.submissions.each do |submission|
+      submission.attendances.create(meeting: self)
+    end
+  end
+
+  def attendance_for(submission)
+    attendances.find_by(submission: submission)
   end
 end

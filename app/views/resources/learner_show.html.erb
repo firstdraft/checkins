@@ -1,6 +1,13 @@
 <div class="row justify-content-center mb-3">
   <div class="col-lg-3">
     <%= render "/check_ins/form", check_in: @check_in %>
+    <%=
+      link_to "Check in for
+        #{@target_meeting.start_time.strftime("%a %-m/%d")}",
+        attendance_transition_path(@target_attendance, event: :check_in),
+        class: "btn btn-outline-success btn-block",
+        method: :patch
+    %>
   </div>
 
   <div class="col-lg-8">

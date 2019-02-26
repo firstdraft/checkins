@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   get "/sign_out", to: "users#sign_out", as: "lti_user_sign_out"
   get "/config" => "launches#xml_config"
 
+  resources :attendances, only: %i[] do
+    patch "transition"
+  end
   resources :check_ins, only: %i[create destroy edit show update]
   resources :contexts, only: %i[index edit update show]
   resources :credentials, only: %i[index create destroy]
