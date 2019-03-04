@@ -21,6 +21,12 @@ class Enrollment < ApplicationRecord
   has_many :attendances, through: :submissions
   has_many :resources, through: :submissions
 
+  validates :user,
+            uniqueness: {
+              scope: :context,
+              message: "already exists for context"
+            }
+
   def latest_launch
     launches.order(:created_at).last
   end

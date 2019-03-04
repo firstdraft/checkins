@@ -24,4 +24,5 @@ class User < ApplicationRecord
   has_many :check_ins, through: :submissions
 
   validates :preferred_name, presence: true
+  validates :lti_user_id, uniqueness: true
 end

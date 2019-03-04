@@ -33,6 +33,12 @@ class Submission < ApplicationRecord
   has_one    :user, through: :enrollment
   has_one    :context, through: :resource
 
+  validates :enrollment,
+            uniqueness: {
+              scope: :resource,
+              message: "already exists for resource"
+            }
+
   def pass_back_grade
     provider = IMS::LTI::ToolProvider.new(
       context.credential.consumer_key,
