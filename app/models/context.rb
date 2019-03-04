@@ -23,4 +23,6 @@ class Context < ApplicationRecord
   has_many :attendances, through: :resources
 
   has_one :administrator, through: :credential, source: :administrator
+
+  validates :lti_context_id, uniqueness: true
 end

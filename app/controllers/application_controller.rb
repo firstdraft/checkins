@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    current_enrollment.user
+    current_enrollment.try(:user)
   end
 
   def current_credential

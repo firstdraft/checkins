@@ -19,18 +19,6 @@ class LaunchesController < ApplicationController
     end
   end
 
-  def index
-    @launches = Launch.all
-  end
-
-  def show; end
-
-  def new
-    @launch = Launch.new
-  end
-
-  def edit; end
-
   def create
     find_credential
     find_resource_and_context
@@ -80,35 +68,11 @@ class LaunchesController < ApplicationController
     end
   end
 
-  def update
-    respond_to do |format|
-      if @launch.update(launch_params)
-        format.html { redirect_to @launch, notice: "Launch was successfully updated." }
-        format.json { render :show, status: :ok, location: @launch }
-      else
-        format.html { render :edit }
-        format.json { render json: @launch.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def destroy
-    @launch.destroy
-    respond_to do |format|
-      format.html { redirect_to launches_url, notice: "Launch was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
   private
 
   def set_launch
     @launch = Launch.find(params[:id])
   end
-
-  # def launch_params
-  #   params.require(:launch).permit(:payload)
-  # end
 
   def find_credential
     raise "No LTI key" unless params["oauth_consumer_key"].present?

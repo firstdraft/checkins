@@ -34,6 +34,7 @@ class Resource < ApplicationRecord
   has_many :enrollments, through: :submissions
   has_many :users, through: :enrollments
 
+  validates :lti_resource_link_id, uniqueness: true
   validate :must_have_schedule, on: :update
   validate :starts_on_earlier_than_ends_on, on: :update
 
