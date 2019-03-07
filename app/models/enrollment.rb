@@ -24,7 +24,7 @@ class Enrollment < ApplicationRecord
   validates :user,
             uniqueness: {
               scope: :context,
-              message: "already exists for context"
+              message: "already exists for context",
             }
 
   def latest_launch

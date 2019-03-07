@@ -36,7 +36,7 @@ class Submission < ApplicationRecord
   validates :enrollment,
             uniqueness: {
               scope: :resource,
-              message: "already exists for resource"
+              message: "already exists for resource",
             }
 
   def pass_back_grade
