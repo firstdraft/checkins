@@ -4,7 +4,7 @@ namespace :dev do
   desc "Pre-populate the database with data for developing"
   task prime: :environment do
     admin = Administrator.find_or_create_by(
-      email: "admin@example.com"
+      email: "admin@example.com",
     ) do |admin|
       admin.password = "password"
     end
@@ -17,25 +17,23 @@ namespace :dev do
     )
 
     teacher_user = User.find_or_create_by(
-      lti_user_id: "1403bcc277e378cdb9aba8dc1057b6b8f5ba7514"
+      lti_user_id: "1403bcc277e378cdb9aba8dc1057b6b8f5ba7514",
     ) do |user|
       user.first_name = "Demo"
       user.preferred_name = "Demo"
       user.last_name = "Teacher"
     end
 
-
     learner_user = User.find_or_create_by(
-      lti_user_id: "d6807dd4a28995e894f5ac891d17f993a293c875"
+      lti_user_id: "d6807dd4a28995e894f5ac891d17f993a293c875",
     ) do |user|
       user.first_name = "Demo Learner"
       user.preferred_name = "Demo Learner"
       user.last_name = "11"
     end
 
-
     context = Context.find_or_create_by(
-      lti_context_id: "b2bc1248f679be9690b070b64d9af2d91daa3380"
+      lti_context_id: "b2bc1248f679be9690b070b64d9af2d91daa3380",
     ) do |context|
       context.title = "Development Starter Context"
       context.credential_id = credential.id
@@ -43,11 +41,11 @@ namespace :dev do
 
     last_monday = Date.current.beginning_of_week - 1.week + 1.day
     resource = Resource.find_or_initialize_by(
-      lti_resource_link_id: "b2dbcfdfb658e18e82fdc909b141aea47270cd3b"
+      lti_resource_link_id: "b2dbcfdfb658e18e82fdc909b141aea47270cd3b",
     ) do |resource|
       resource.context_id = context.id
       resource.lis_outcome_service_url = "https://canvas.instructure.com/api/lti/v1/tools/293136/grade_passback",
-      resource.starts_on = last_monday
+                                         resource.starts_on = last_monday
       resource.ends_on = last_monday + 9.weeks
       resource.monday = true
     end
@@ -57,14 +55,14 @@ namespace :dev do
     end
 
     teacher_enrollment = Enrollment.find_or_create_by(
-      user_id: teacher_user.id
+      user_id: teacher_user.id,
     ) do |enrollment|
       enrollment.roles = "Instructor"
       enrollment.context_id = context.id
     end
 
     learner_enrollment = Enrollment.find_or_create_by(
-      user_id: learner_user.id
+      user_id: learner_user.id,
     ) do |enrollment|
       enrollment.roles = "Learner"
       enrollment.context_id = context.id
