@@ -13,4 +13,22 @@ module ApplicationHelper
       link_to show_content, object, options
     end
   end
+
+  def contextual_class(value)
+    case value.try(:to_sym)
+    when :deny, :reset, :not_accepted
+      "danger"
+    when :appeal, :in_appeal
+      "warning"
+    when :check_in, :approve, :accepted
+      "success"
+    else
+      "secondary"
+    end
+  end
+
+  def attendance_event_button(attendance, event)
+    render partial: "shared/event_button",
+           locals: { attendance: attendance, event: event }
+  end
 end

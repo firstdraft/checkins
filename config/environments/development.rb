@@ -57,11 +57,11 @@ Rails.application.configure do
   config.assets.quiet = true
 
   # Bullet configuration
-  Bullet.enable = false
+  Bullet.enable = true
   Bullet.bullet_logger = true
   Bullet.console = true
   Bullet.rails_logger = true
-  Bullet.rollbar = true
+  Bullet.rollbar = false
   Bullet.add_footer = true
 
   # Raises error for missing translations
