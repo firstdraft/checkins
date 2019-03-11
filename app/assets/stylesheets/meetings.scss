@@ -2,24 +2,81 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.icon-container {
+  padding-bottom: 70%;
+  position: relative;
+  width: 100%;
+}
+
+.icon-content {
+  height: 100%;
+  position: absolute;
+}
+
+.button-container {
+  padding-bottom: 30%;
+  position: relative;
+  width: 100%;
+}
+
+.button-content {
+  height: 100%;
+  position: absolute;
+}
+
 .responsive-icon-size {
-  font-size: 5rem;
+  font-size: 3.5rem;
 }
 
-@media (min-width: 768px) {
+.scales-icon {
+  font-size: 2.5rem;
+}
+@media (max-width: 400px) {
   .responsive-icon-size {
-    font-size: 7rem;
+    font-size: 2.2rem;
+  }
+
+  .scales-icon {
+    font-size: 1.7rem;
   }
 }
-
-@media (min-width: 992px) {
+@include media-breakpoint-up(sm) {
   .responsive-icon-size {
-    font-size: 9rem;
+    font-size: 4.5rem;
+  }
+
+  .scales-icon {
+    font-size: 3rem;
   }
 }
-
-@media (min-width: 1200px) {
+@include media-breakpoint-up(md) {
   .responsive-icon-size {
-    font-size: 10rem;
+    font-size: 6rem;
+  }
+
+  .scales-icon {
+    font-size: 4.25rem;
+  }
+
+  .button-container {
+    padding-bottom: 74.5%;
+  }
+}
+@include media-breakpoint-up(lg) {
+  .responsive-icon-size {
+    font-size: 5.5rem;
+  }
+
+  .scales-icon {
+    font-size: 3.75rem;
+  }
+}
+@include media-breakpoint-up(xl) {
+  .responsive-icon-size {
+    font-size: 6.5rem;
+  }
+
+  .scales-icon {
+    font-size: 4.5rem;
   }
 }

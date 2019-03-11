@@ -7,10 +7,12 @@ ruby "2.5.3"
 
 gem "aasm"
 gem "bootsnap", ">= 1.1.0", require: false
+gem "bootstrap"
 gem "chronic"
 gem "devise"
 gem "ims-lti", git: "git://github.com/wjordan/ims-lti.git", branch: "oauth_051"
 gem "jbuilder", "~> 2.5"
+gem "jquery-rails"
 gem "paper_trail"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"

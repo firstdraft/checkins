@@ -1,16 +1,5 @@
-<div class="row justify-content-center mb-3">
-  <div class="col-lg-3">
-    <%= render "/check_ins/form", check_in: @check_in %>
-    <%=
-      link_to "Check in for
-        #{@target_meeting.start_time.strftime("%a %-m/%d")}",
-        attendance_transition_path(@target_attendance, event: :check_in),
-        class: "btn btn-outline-success btn-block",
-        method: :patch
-    %>
-  </div>
-
-  <div class="col-lg-8">
+<div class="row d-flex justify-content-center mb-3">
+  <div class="col-lg-9 col-xl-8">
     <%= render collection: @meetings, partial: "/meetings/learner_card", as: :meeting %>
   </div>
 </div>

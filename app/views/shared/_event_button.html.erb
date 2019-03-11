@@ -1,0 +1,22 @@
+<%
+  icon_classes = {
+    check_in: "far fa-check",
+    appeal: "far fa-balance-scale",
+  }
+%>
+
+<%
+  button_classes = [
+   "btn",
+   "btn-block",
+   "btn-#{ contextual_class(event) }",
+  ]
+ %>
+ <%
+   button_classes << "disabled" unless event.in?(attendance.allowed_events)
+  %>
+<div class="grid-button">
+  <a href="<%= attendance_transition_path(attendance, event: event) %>" class="<%= button_classes.join(' ') %>" data-method="patch">
+    <i class="<%= icon_classes[event] %>"></i> <%= t(event) %>
+  </a>
+</div>

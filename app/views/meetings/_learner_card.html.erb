@@ -1,4 +1,6 @@
-<div class="card mb-3">
+<% attendance = meeting.attendances.for(current_submission) %>
+
+<div id="<%= dom_id(meeting) %>" class="card mb-3">
   <div class="card-header">
     <h1 class="h3 d-flex justify-content-between">
       <span>
@@ -10,52 +12,55 @@
       </span>
     </h1>
   </div>
-  <div class="card-body">
-    <!-- <h5 class="card-title">Special title treatment</h5> -->
-    <div class="row">
-      <div class="col-3 col-md-4 text-center">
-        <% if meeting.gradeable? %>
-          <% if meeting.check_ins.approved.for(current_submission).any? %>
-            <i class="fas fa-check text-success responsive-icon-size"></i>
-          <% else %>
-            <i class="fas fa-times text-danger responsive-icon-size"></i>
-          <% end %>
-        <% end %>
-      </div>
-      <div class="col-8 ">
-        <ul class="list-group list-group-flush">
-          <% check_ins = meeting.check_ins.for(current_submission).order(created_at: :asc) %>
-            <% check_ins.each do |check_in| %>
-              <li class="list-group-item">
-                <div class="row">
-                  <div class="col-2">
-                    <% if check_in.approved?%>
-                      <i class="fas fa-check text-success" style=""></i>
-                    <% else %>
-                      <i class="fas fa-times text-danger" style=""></i>
-                    <% end %>
-                  </div>
-                  <div class="col-10 ">
-                    <%= check_in %>
-                  </div>
-                </div>
-              </li>
-            <% end %>
-          </ul>
+  <% if meeting.gradeable? %>
+    <div class="card-body">
+      <div class="row d-flex align-items-center">
+        <div class="col-2 p-0">
+          <div class="icon-container d-flex justify-content-center">
+            <div class="icon-content d-flex">
+              <span class="align-self-center">
+                <% if attendance.accepted? %>
+                  <i class="far fa-check text-success responsive-icon-size"></i>
+                <% elsif attendance.not_accepted? %>
+                  <i class="far fa-times text-danger responsive-icon-size"></i>
+                <% elsif attendance.in_appeal? %>
+                  <i class="fal fa-balance-scale text-warning scales-icon"></i>
+                <% end %>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-start">
+              <% if !attendance.pending? %>
+                <h2 class="h4 text-<%= contextual_class(attendance.status) %>">
+                  <%= t(attendance.status) %>
+                </h2>
+              <% end %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <% if attendance.checked_in_at %>
+                <span>
+                  <%= attendance.checked_in_at.strftime("%a %-m/%-e, %l:%M %P") %>
+                </span>
+              <% end %>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="two-buttons-container">
+              <% Attendance.student_events.each do |event| %>
+                <%= attendance_event_button(attendance, event) %>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12">
-          <%= form_for @check_in, html: { class: "new-check-in-form" } do |f| %>
-          <%= f.hidden_field :latitude %>
-          <%= f.hidden_field :longitude %>
-          <%= f.hidden_field :submission_id %>
-          <%= f.hidden_field :meeting_id, value: meeting.id %>
-          <%= f.button "Check in for this meeting",
-            class: "btn btn-block btn-outline-success check-in-button",
-            id: "new-check-in-form-for-#{dom_id(meeting)}" %>
-        <% end %>
-      </div>
     </div>
-  </div>
+  <% end %>
 </div>

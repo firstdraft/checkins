@@ -58,6 +58,9 @@ class Attendance < ApplicationRecord
     end
 
     event :approve do
+      before do
+        assign_attributes(checked_in_at: Time.current) if checked_in_at == nil
+      end
       transitions from: %i[in_appeal not_accepted pending], to: :accepted
     end
 
@@ -83,5 +86,17 @@ class Attendance < ApplicationRecord
 
   def passes_verifications?
     within_allowed_timeframe?
+  end
+
+  def self.teacher_events
+    Attendance.aasm.events.map(&:name)
+  end
+
+  def self.student_events
+    %i[check_in appeal]
+  end
+
+  def allowed_events
+    aasm.events.map(&:name)
   end
 end
