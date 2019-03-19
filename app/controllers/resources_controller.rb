@@ -10,21 +10,12 @@ class ResourcesController < ApplicationController
   end
 
   def show
-    @target_meeting = @resource.nearest_meeting
     @meetings = @resource.meetings.order(:start_time)
-    @check_in = CheckIn.new(meeting: @target_meeting)
-    @target_attendance = @target_meeting.attendance_for(current_submission)
     if current_enrollment.teacher?
       @most_recent_meeting = @meetings.gradeable.last
-      @unapproved_check_ins = @resource.check_ins.unapproved.order(:created_at)
-      @submissions = @resource.
-        submissions.joins(:user).merge(User.order(:last_name))
-      @check_in.approved = true
 
       render "teacher_show"
     else
-      @check_in.submission = current_submission
-      @check_ins = @resource.check_ins.where(submission: current_submission)
 
       render "learner_show"
     end

@@ -4,83 +4,29 @@
   align-items-center
   list-group-item-action" %>
 <div class="row justify-content-center mb-3">
-  <div class="col-md-3">
+  <div class="col-lg-3">
     <div class="row mb-3">
       <div class="col-12">
         <div class="list-group" id="list-tab" role="tablist">
           <% @meetings.each do |meeting| %>
-          <%= link_to "#list-#{ meeting.id }",
-            class: meeting == @most_recent_meeting ?
-            meeting_list_classes + " active show" :
-            meeting_list_classes,
-            id: "list-#{ meeting.id }-list",
-            data: { toggle: "list" },
-            aria: { controls: meeting.id } do %>
-          <%= meeting %> <span class="badge badge-success badge-pill">
-            <%= meeting.check_ins.count %>
-          </span>
-          <% end %>
-          <% end %>
-          <%= link_to "#list-unapproved",
-            class: meeting_list_classes,
-            id: "list-unapproved-list",
-            data: { toggle: "list" },
-            role: "tab",
-            aria: {controls: "unapproved"} do %>
-          Unapproved
-          <span class="badge badge-success badge-pill">
-            <%= @unapproved_check_ins.count %>
-          </span>
-          <% end %>
-        </div>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-12">
-        <%= content_tag :button,
-        "Check a student in",
-        class: "btn btn-block btn-outline-success",
-        data: { toggle: "collapse", target: "#new_check_in_form" } %>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div id="new_check_in_form" class="collapse">
-          <%= form_for @check_in do |f| %>
-          <div class="form-group">
-            <%= f.label :submission_id, "Student"  %>
-            <%= f.collection_select(
-            :submission_id,
-            @submissions,
-            :id,
-            :full_user_name,
-            { prompt: true },
-            class: "custom-select") %>
-          </div>
-          <div class="form-group">
-            <%= f.label :meeting_id  %>
-            <%= f.collection_select(
-            :meeting_id,
-            @meetings,
-            :id,
-            :to_s,
-            {  },
-            class: "custom-select"
-            ) %>
-          </div>
-          <div class="custom-control custom-checkbox mb-3">
-            <%= f.check_box :approved, class: "custom-control-input" %>
-            <%= f.label :approved, class: "custom-control-label" %>
-          </div>
-          <div class="form-group">
-            <%= f.button "Submit!", class: "btn btn-block btn-success" %>
-          </div>
+            <%= link_to "#list-#{ meeting.id }",
+                        class: meeting == @most_recent_meeting ?
+                        meeting_list_classes + " active show" :
+                        meeting_list_classes,
+                        id: "list-#{ meeting.id }-list",
+                        data: { toggle: "list" },
+                        aria: { controls: meeting.id } do %>
+              <%= meeting %>
+              <span class="badge badge-success badge-pill">
+                <%= meeting.check_ins.count %>
+              </span>
+            <% end %>
           <% end %>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-md-8">
+  <div class="col-lg-8">
     <div class="tab-content" id="nav-tabContent">
       <% @meetings.each do |m| %>
         <div class="tab-pane fade <%= "active show" if m == @most_recent_meeting %>" id="list-<%= m.id %>" role="tabpanel" aria-labelledby="list-<%= m.id %>-list">
@@ -91,26 +37,15 @@
             <div class="card-body">
               <div class="panel-group">
                 <%= render collection:
-                        m.check_ins.includes(:user).joins(:user).merge(User.order(:last_name)).merge(CheckIn.order(:created_at)),
-                        partial: "/check_ins/table_row_teacher",
-                        as: :check_in %>
+                        m.attendances.includes(:user, :enrollment).joins(:user).
+                        merge(User.order(:last_name, :first_name)),
+                        partial: "/attendances/attendance_teacher",
+                        as: :attendance %>
               </div>
             </div>
           </div>
         </div>
       <% end %>
-      <div class="tab-pane fade " id="list-unapproved" role="tabpanel" aria-labelledby="list-unapproved-list">
-        <div class="card">
-          <div class="card-header">
-            <strong>Unapproved CheckIns</strong>
-          </div>
-          <div class="card-body">
-            <div class="list-group">
-              <%= render collection: @unapproved_check_ins, partial: "/check_ins/table_row_teacher", as: :check_in %>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>

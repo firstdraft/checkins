@@ -89,7 +89,7 @@ class Attendance < ApplicationRecord
   end
 
   def self.teacher_events
-    Attendance.aasm.events.map(&:name)
+    %i[approve deny reset]
   end
 
   def self.student_events
