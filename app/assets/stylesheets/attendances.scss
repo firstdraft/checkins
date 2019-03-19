@@ -1,3 +1,20 @@
-// Place all the styles related to the attendances controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.attendance-row-grid {
+  display: grid;
+  grid-template: 50% 50% / 1fr 5fr;
+  width: 100%;
+}
+
+.attendance-icon {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.attendance-info {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.attendance-time {
+  grid-column: span 1;
+  grid-row: span 1;
+}

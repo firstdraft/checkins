@@ -1,0 +1,69 @@
+<div class="card mb-2">
+  <div class="card-body" id="<%= dom_id(attendance) %>">
+    <div class="row d-flex align-items-center">
+      <div class="col-lg-6 mb-3 mb-lg-0 attendance-row-grid">
+        <div class="attendance-icon d-flex align-items-center justify-content-center">
+          <% if attendance.accepted? %>
+            <i class="fas fa-check text-success"></i>
+          <% elsif attendance.not_accepted? %>
+            <i class="fas fa-times text-danger"></i>
+          <% elsif attendance.in_appeal? %>
+            <i class="fas fa-balance-scale text-warning"></i>
+          <% end %>
+        </div>
+        <div class="attendance-info">
+          <%= attendance.user.preferred_name %> <%= attendance.user.last_name %>
+        </div>
+        <div class="attendance-info">
+          <% if attendance.checked_in_at %>
+            <span>
+              <%= attendance.checked_in_at.strftime("%a %-m/%-e, %l:%M %P") %>
+            </span>
+          <% else %>
+            <small class="text-muted">
+              No check in on record
+            </small>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-lg-6 three-buttons-container ">
+            <%= attendance_event_button(attendance, :approve) %>
+            <%= attendance_event_button(attendance, :deny) %>
+            <%= attendance_event_button(attendance, :reset) %>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer py-1">
+    <div class="row collapse " id="<%= dom_id(attendance) %>-details">
+      <div class="col-6">
+        <ul class="list-unstyled">
+          <li>
+            <strong>Attendance ID: </strong><%= attendance.id %>
+          </li>
+          <li>
+            <strong>Enrollment ID: </strong><%= attendance.enrollment.id %>
+          </li>
+          <li>
+            <strong>User ID: </strong><%= attendance.user.id %>
+          </li>
+        </ul>
+      </div>
+      <div class="col-6">
+        <ul class="list-unstyled">
+          <li>
+            <strong>Checkin time: </strong><%= attendance.checked_in_at ? attendance.checked_in_at.strftime("%l:%M %p, %a, %b %e %Y") : "No check in time" %>
+          </li>
+          <li>
+            <strong>Meeting ID: </strong><%= attendance.meeting_id %>
+          </li>
+          <li>
+            <strong>Resource ID: </strong><%= params[:id] %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center" data-toggle="collapse" data-target="#<%= dom_id(attendance) %>-details">
+      <i class="far fa-caret-down"></i>
+    </div>
+  </div>
+</div>
