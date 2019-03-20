@@ -26,10 +26,10 @@
           <% end %>
         </div>
       </div>
-      <div class="col-lg-6 three-buttons-container ">
-            <%= attendance_event_button(attendance, :approve) %>
-            <%= attendance_event_button(attendance, :deny) %>
-            <%= attendance_event_button(attendance, :reset) %>
+      <div class="col-lg-6 three-buttons-container p-0">
+        <% Attendance.teacher_events.each do |event| %>
+          <%= attendance_event_button(attendance, event) %>
+        <% end %>
       </div>
     </div>
   </div>
