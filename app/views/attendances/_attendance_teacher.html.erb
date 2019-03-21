@@ -34,6 +34,8 @@
     </div>
   </div>
   <div class="card-footer py-1">
+    <div class="row d-flex justify-content-center far fa-caret-down rotate" data-toggle="collapse" data-target="#<%= dom_id(attendance) %>-details">
+    </div>
     <div class="row collapse " id="<%= dom_id(attendance) %>-details">
       <div class="col-6">
         <ul class="list-unstyled">
@@ -61,9 +63,6 @@
           </li>
         </ul>
       </div>
-    </div>
-    <div class="row d-flex justify-content-center" data-toggle="collapse" data-target="#<%= dom_id(attendance) %>-details">
-      <i class="far fa-caret-down"></i>
     </div>
   </div>
 </div>
