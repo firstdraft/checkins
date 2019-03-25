@@ -26,9 +26,16 @@ class Submission < ApplicationRecord
 
   has_many   :meetings, through: :resource
 
-  has_many :gradeable_meetings, -> { gradeable }, through: :resource, source: :meetings
+  has_many :gradeable_meetings,
+           -> { gradeable },
+           through: :resource,
+           source: :meetings
   has_many :approved_check_ins, -> { approved }, class_name: "CheckIn"
-  has_many :approved_meetings, -> { distinct }, through: :approved_check_ins, source: :meeting
+  has_many :accepted_attendances, -> { accepted }, class_name: "Attendance"
+  has_many :approved_meetings,
+           -> { distinct },
+           through: :accepted_attendances,
+           source: :meeting
 
   has_one    :user, through: :enrollment
   has_one    :context, through: :resource

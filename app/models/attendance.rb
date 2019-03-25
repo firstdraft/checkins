@@ -21,6 +21,7 @@
 class Attendance < ApplicationRecord
   include AASM
   has_paper_trail
+  after_save :update_submission
 
   belongs_to :meeting
   belongs_to :submission
@@ -30,6 +31,7 @@ class Attendance < ApplicationRecord
   has_one :resource, through: :submission
   has_one :user, through: :enrollment
 
+  scope :accepted, -> { where(status: "accepted") }
   scope :for, ->(submission) { find_by(submission: submission) }
 
   validates_uniqueness_of :submission,
@@ -98,5 +100,9 @@ class Attendance < ApplicationRecord
 
   def allowed_events
     aasm.events.map(&:name)
+  end
+
+  def update_submission
+    submission.update_score
   end
 end
