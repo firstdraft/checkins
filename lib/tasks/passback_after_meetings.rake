@@ -1,8 +1,13 @@
-desc "Update score for all submissions of currently active resources"
-task update_active_submissions: :environment do
-  active_resources = Resource.where("ends_on >= ?", Date.today).where("starts_on <= ?", Date.today)
+desc "Mark all pending attendances for finished meetings as absent"
+task mark_absent_attendances: :environment do
+  res = Arel::Table.new(:resources)
+  query = res[:starts_on].lteq(Date.current).
+    and(res[:ends_on].gteq(Date.current))
+  active_resources = Resource.where(query)
 
-  active_resources.each do |resource|
-    resource.submissions.each(&:update_score)
-  end
+  finished_meetings = Meeting.where(resource: active_resources).finished
+
+  pending_attendances = Attendance.where(meeting: finished_meetings).pending
+
+  pending_attendances.each(&:mark_absent!)
 end
