@@ -22,7 +22,10 @@ class Meeting < ApplicationRecord
   has_one :context, through: :resource
 
   scope :by_date, ->(date) { where(start_time: date.midnight..date.end_of_day) }
-  scope :gradeable, -> { where("start_time <= ?", DateTime.now + 1.hour) }
+  scope :gradeable, -> {
+    where(Meeting.arel_table[:start_time].lteq(Time.current + 1.hour))
+  }
+  scope :finished, -> { where("end_time <= ?", Time.current) }
 
   def has_approved_check_in?(enrollment)
     check_ins = enrollment.check_ins.approved
