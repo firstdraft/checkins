@@ -1,0 +1,11 @@
+<%= form_for commentable.comment_threads.build, remote: true do |f| %>
+  <%= f.hidden_field :commentable_id %>
+  <%= f.hidden_field :commentable_type %>
+  <div class="form-group">
+    <%= f.text_area :body,
+                    class: "form-control",
+                    id: "#{ dom_id(commentable) }_comment_body",
+                    placeholder: "Your comment..." %>
+  </div>
+  <%= f.submit "Comment!", class: "btn btn-primary" %>
+<% end %>

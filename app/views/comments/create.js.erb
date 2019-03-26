@@ -1,0 +1,3 @@
+$("#<%= j dom_id(@comment.commentable) %>_comments_list").html("<%= j render @comment.commentable.comment_threads.order(:created_at) %>");
+$("#<%= j dom_id(@comment.commentable) %>_comment_form").html("<%= j render 'comments/form', commentable: @comment.commentable %>");
+$("#<%= j dom_id(@comment.commentable) %>_comment_count").html("<%= @comment.commentable.comment_threads.count %> <%= "comment".pluralize(@comment.commentable.comment_threads.count) %>");
