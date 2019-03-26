@@ -19,8 +19,10 @@
 #
 
 class Attendance < ApplicationRecord
-  include AASM
+  acts_as_commentable
   has_paper_trail
+  include AASM
+
   after_save :update_submission
 
   belongs_to :meeting

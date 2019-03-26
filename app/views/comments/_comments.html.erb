@@ -1,0 +1,21 @@
+<% comments = commentable.comment_threads.order(:created_at).includes(:user) %>
+<div class="row d-flex justify-content-end">
+  <a class="text-decoration-none" href="#<%= dom_id(commentable) %>_comments" data-toggle="collapse">
+    <small id="<%= dom_id(commentable) %>_comment_count">
+      <%= comments.count %> <%= "comment".pluralize(comments.count) %>
+    </small>
+  </a>
+</div>
+
+<div id="<%= dom_id(commentable) %>_comments"
+  class="row comments-section collapse">
+  <div class="col-12 comments mb-3">
+    <ul id="<%= dom_id(commentable) %>_comments_list"
+      class="list-group list-group-flush">
+      <%= render comments %>
+    </ul>
+  </div>
+  <div class="col-12" id="<%= dom_id(commentable) %>_comment_form">
+    <%= render "comments/form", commentable: commentable %>
+  </div>
+</div>
