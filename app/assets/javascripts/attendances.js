@@ -1,5 +1,5 @@
-$("document").ready(function() {
-  $(".fa-caret-down").click(function() {
-    $(this).toggleClass("fa-rotate-180");
+document.addEventListener("turbolinks:load", function() {
+  $(".details-toggle").click(function() {
+    $(this).children(".rotating-icon-wrapper").toggleClass("rotate-180");
   });
 });

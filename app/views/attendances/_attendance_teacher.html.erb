@@ -34,7 +34,10 @@
     </div>
   </div>
   <div class="card-footer py-1">
-    <div class="row d-flex justify-content-center far fa-caret-down rotate" data-toggle="collapse" data-target="#<%= dom_id(attendance) %>-details">
+    <div class="row d-flex justify-content-center details-toggle" data-toggle="collapse" data-target="#<%= dom_id(attendance) %>-details">
+      <span class="rotating-icon-wrapper">
+        <i class="far fa-caret-down"></i>
+      </span>
     </div>
     <div class="row collapse " id="<%= dom_id(attendance) %>-details">
       <div class="col-6">

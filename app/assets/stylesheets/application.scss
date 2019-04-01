@@ -32,6 +32,10 @@
   margin: 0 4px;
 }
 
-.rotate {
+.rotating-icon-wrapper {
   transition: .15s linear;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
 }
