@@ -249,6 +249,10 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    skylight (3.1.5)
+      skylight-core (= 3.1.5)
+    skylight-core (3.1.5)
+      activesupport (>= 4.2.0)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -314,6 +318,7 @@ DEPENDENCIES
   rails_12factor
   rspec-rails (~> 3.7)
   sass-rails (~> 5.0)
+  skylight
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
