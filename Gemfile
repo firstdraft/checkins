@@ -38,6 +38,7 @@ group :development do
   gem "bullet"
   gem "draft_generators", github: "firstdraft/draft_generators"
   gem "listen", ">= 3.0.5", "< 3.2"
+  gem "meta_request"
   gem "rails-erd"
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"

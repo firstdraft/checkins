@@ -40,7 +40,9 @@
                         m.attendances.includes(:user, :enrollment).joins(:user).
                         merge(User.order(:last_name, :first_name)),
                         partial: "/attendances/attendance_teacher",
-                        as: :attendance %>
+                        as: :attendance,
+                        cached: true
+                %>
               </div>
             </div>
           </div>

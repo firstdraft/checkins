@@ -10,14 +10,15 @@ class ResourcesController < ApplicationController
   end
 
   def show
+    request.variant = if current_enrollment.teacher?
+                        :teacher
+                      else
+                        :student
+                      end
+
     @meetings = @resource.meetings.order(:start_time)
     if current_enrollment.teacher?
       @most_recent_meeting = @meetings.gradeable.last
-
-      render "teacher_show"
-    else
-
-      render "learner_show"
     end
   end
 
