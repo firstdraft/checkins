@@ -1,5 +1,52 @@
 <div class="row d-flex justify-content-center mb-3">
   <div class="col-lg-9 col-xl-8">
-    <%= render collection: @meetings, partial: "/meetings/learner_card", as: :meeting %>
+    <div class="row mb-3">
+      <div class="col-md-6 d-flex d-md-none align-items-center h4
+      justify-content-between mb-2">
+          <span>Your grade &nbsp;</span>
+          <span class="badge badge-dark">
+            <%= number_to_percentage(
+              current_submission.score * 100, precision: 0
+            ) %>
+          </span>
+      </div>
+      <div class="col-md-6 d-none d-md-flex align-items-center h4 my-0">
+          <span>Your grade &nbsp;</span>
+          <span class="badge badge-dark">
+            <%= number_to_percentage(
+              current_submission.score * 100, precision: 0
+            ) %>
+          </span>
+      </div>
+      <div class="col-md-6 justify-content-end d-block d-md-flex">
+        <%= button_to "Resubmit Score",
+                      resubmit_submission_url(current_submission),
+                      class: "d-none d-md-inline-block btn btn-outline-primary",
+                      data: { toggle: "tooltip",
+                        placement: "bottom",
+                        html: "true",
+                        target: resubmit_submission_url(current_submission)
+                      },
+                      method: :put,
+                      title: "<small>Update your attendance score in your
+                      teacher's gradebook</small>"
+        %>
+        <%= button_to "Resubmit Score",
+                      resubmit_submission_url(current_submission),
+                      class: "d-md-none btn btn-block btn-outline-primary",
+                      data: { toggle: "tooltip",
+                        placement: "bottom",
+                        html: "true",
+                        target: resubmit_submission_url(current_submission)
+                      },
+                      method: :put,
+                      title: "<small>Update your attendance score in your
+                      teacher's gradebook</small>"
+        %>
+        </div>
+    </div>
+
+    <%= render collection: @meetings, partial: "meetings/learner_card", as:
+    :meeting %>
   </div>
 </div>
