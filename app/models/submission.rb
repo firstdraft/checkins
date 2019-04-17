@@ -17,7 +17,7 @@
 
 class Submission < ApplicationRecord
   after_create :create_attendances
-  after_update :pass_back_grade
+  after_update_commit :pass_back_grade
 
   belongs_to :resource
   belongs_to :enrollment
