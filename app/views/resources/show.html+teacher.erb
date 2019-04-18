@@ -17,9 +17,9 @@
                         data: { toggle: "list" },
                         aria: { controls: meeting.id } do %>
               <%= meeting %>
-              <span class="badge badge-success badge-pill">
-                <%= meeting.check_ins.count %>
-              </span>
+              <div class="badge badge-warning">
+                <%= meeting.attendances.in_appeal.count %>
+              </div>
             <% end %>
           <% end %>
         </div>
