@@ -1,1 +1,6 @@
-$("#<%= j dom_id(@attendance) %>").replaceWith("<%= j render "attendance_teacher", attendance: @attendance %>")
+$("#<%= j dom_id(@attendance) %>").replaceWith("<%=
+  j render "attendance_teacher", attendance: @attendance
+%>");
+$("#<%= j dom_id(@attendance.meeting) %>").html("<%=
+  @attendance.meeting.attendances.in_appeal.count
+%>");
