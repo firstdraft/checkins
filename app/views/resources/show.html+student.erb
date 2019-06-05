@@ -1,24 +1,54 @@
 <div class="row d-flex justify-content-center mb-3">
   <div class="col-lg-9 col-xl-8">
     <div class="row mb-3">
-      <div class="col-md-6 d-flex d-md-none align-items-center h4
-      justify-content-between mb-2">
-          <span>Your grade &nbsp;</span>
-          <span class="badge badge-dark">
-            <%= number_to_percentage(
-              current_submission.score * 100, precision: 0
-            ) %>
-          </span>
+      <div class="col-md-8">
+        <div class="row">
+          <% if current_context.allowed_absences > 0 %>
+            <div class="col-md-10 d-flex align-items-center h4
+            justify-content-between mb-2">
+              <span>Free absences used</span>
+              <span class="badge badge-dark">
+                (<%=
+                  current_submission.allowed_absences_used
+                %>/<%=
+                  current_submission.context.allowed_absences
+                %>)
+              </span>
+            </div>
+            <div class="col-md-10 d-flex align-items-center h4
+            justify-content-between mb-2">
+              <span>Your grade</span>
+              <span class="badge badge-dark">
+                <%= number_to_percentage(
+                current_submission.score * 100, precision: 0
+                ) %>
+              </span>
+            </div>
+          <% else %>
+          <div class="col-md-6 d-flex d-md-none align-items-center h4
+          justify-content-between mb-2">
+              <span>Your grade &nbsp;</span>
+              <span class="badge badge-dark">
+                <%= number_to_percentage(
+                  current_submission.score * 100, precision: 0
+                ) %>
+              </span>
+          </div>
+          <div class="col-md-6 d-none d-md-flex align-items-center h4 my-0">
+              <span>Your grade &nbsp;</span>
+              <span class="badge badge-dark">
+                <%= number_to_percentage(
+                  current_submission.score * 100, precision: 0
+                ) %>
+              </span>
+          </div>
+          <% end %>
+
+        </div>
+
       </div>
-      <div class="col-md-6 d-none d-md-flex align-items-center h4 my-0">
-          <span>Your grade &nbsp;</span>
-          <span class="badge badge-dark">
-            <%= number_to_percentage(
-              current_submission.score * 100, precision: 0
-            ) %>
-          </span>
-      </div>
-      <div class="col-md-6 justify-content-end d-block d-md-flex">
+      <div class="col-md-4 justify-content-end d-block d-md-flex
+      align-items-center">
         <%= button_to "Resubmit Score",
                       resubmit_submission_url(current_submission),
                       class: "d-none d-md-inline-block btn btn-outline-primary",

@@ -56,10 +56,21 @@ class Submission < ApplicationRecord
     provider.post_replace_result!(score) if provider.outcome_service?
   end
 
+  def unaccepted_meetings
+    gradeable_meetings - approved_meetings
+  end
+
+  def allowed_absences_used
+    [context.allowed_absences, unaccepted_meetings.count].min
+  end
+
+  def total_confirmed_attendances
+    approved_meetings.gradeable.count + allowed_absences_used
+  end
+
   def compute_score
     if gradeable_meetings.any?
-      (approved_meetings.gradeable.count.to_f / gradeable_meetings.count).
-        round(4)
+      (total_confirmed_attendances.to_f / gradeable_meetings.count).round(4)
     else
       1.0
     end

@@ -8,9 +8,7 @@
     <% title_was_invalid = context.errors.include?(:title) %>
 
     <% if was_validated %>
-      <% if title_was_invalid %>
-        <% title_class << " is-invalid" %>
-      <% else %>
+      <% unless title_was_invalid %>
         <% title_class << " is-valid" %>
       <% end %>
     <% end %>
@@ -18,8 +16,29 @@
     <%= f.label :title %>
 
     <%= f.text_field :title, class: title_class, placeholder: "Enter title" %>
+
     <% if title_was_invalid %>
       <% context.errors.full_messages_for(:title).each do |message| %>
+        <div class="invalid-feedback">
+          <%= message %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <% allowed_absences_class = "form-control" %>
+    <% allowed_absences_was_invalid = context.errors.include?(:allowed_absences) %>
+
+    <% if was_validated %>
+      <% unless allowed_absences_was_invalid %>
+        <% allowed_absences_class << " is-valid" %>
+      <% end %>
+    <% end %>
+    <%= f.label :allowed_absences %>
+    <%= f.number_field :allowed_absences, class: allowed_absences_class  %>
+    <%# binding.pry %>
+    <% if allowed_absences_was_invalid %>
+      <% context.errors.full_messages_for(:allowed_absences).each do |message| %>
         <div class="invalid-feedback">
           <%= message %>
         </div>
