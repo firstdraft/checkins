@@ -1,13 +1,7 @@
 desc "Mark all pending attendances for finished meetings as absent"
-task mark_absent_attendances: :environment do
-  res = Arel::Table.new(:resources)
-  query = res[:starts_on].lteq(Date.current).
-    and(res[:ends_on].gteq(Date.current))
-  active_resources = Resource.where(query)
+task mark_past_due_pending_attendances_not_approved: :environment do
+  past_due_pending_attendances = Attendance.pending.joins(:meeting).
+    merge(Meeting.finished)
 
-  finished_meetings = Meeting.where(resource: active_resources).finished
-
-  pending_attendances = Attendance.where(meeting: finished_meetings).pending
-
-  pending_attendances.each(&:mark_absent!)
+  past_due_pending_attendances.each(&:mark_absent!)
 end
