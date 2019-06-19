@@ -3,6 +3,8 @@
 class LaunchesController < ApplicationController
   before_action :set_launch, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token, only: [:create]
+  skip_after_action :verify_authorized
+  skip_after_action :verify_policy_scoped
 
   def xml_config
     respond_to do |format|

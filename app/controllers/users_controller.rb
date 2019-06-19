@@ -3,7 +3,7 @@
 class UsersController < ApplicationController
   before_action :authorize_lti_user, only: %i[show edit update destroy]
   before_action :set_user, only: %i[show edit update destroy]
-
+  skip_after_action :verify_authorized, only: :sign_out
   def index
     @users = User.all
 
@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    authorize @user
     render("user_templates/show.html.erb")
   end
 
@@ -36,15 +37,13 @@ class UsersController < ApplicationController
   end
 
   def edit
+    authorize @user
     render "/user_templates/edit.html.erb"
   end
 
   def update
+    authorize @user
     @user.update(user_params)
-    # @user.first_name = params.fetch("first_name")
-    # @user.last_name = params.fetch("last_name")
-    # @user.preferred_name = params.fetch("preferred_name")
-    # @user.lti_user_id = params.fetch("lti_user_id")
 
     if @user.valid?
       @user.save

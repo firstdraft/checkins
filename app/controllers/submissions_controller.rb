@@ -2,6 +2,7 @@ class SubmissionsController < ApplicationController
   before_action :set_submission
 
   def resubmit
+    authorize @submission
     @submission.pass_back_grade
 
     redirect_to resource_url(@submission.resource), notice: "Grade was

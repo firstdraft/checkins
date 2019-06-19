@@ -2,29 +2,22 @@
 
 class CredentialsController < ApplicationController
   before_action :authenticate_administrator!
-
   before_action :set_credential, only: %i[show edit update destroy]
+  skip_after_action :verify_authorized
+  skip_after_action :verify_policy_scoped
 
-  # GET /credentials
-  # GET /credentials.json
   def index
     @credentials = current_administrator.credentials
   end
 
-  # GET /credentials/1
-  # GET /credentials/1.json
   def show; end
 
-  # GET /credentials/new
   def new
     @credential = Credential.new
   end
 
-  # GET /credentials/1/edit
   def edit; end
 
-  # POST /credentials
-  # POST /credentials.json
   def create
     @credential = Credential.new(administrator: current_administrator)
     respond_to do |format|
@@ -38,8 +31,6 @@ class CredentialsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /credentials/1
-  # PATCH/PUT /credentials/1.json
   def update
     respond_to do |format|
       if @credential.update(credential_params)
@@ -52,10 +43,11 @@ class CredentialsController < ApplicationController
     end
   end
 
-  # DELETE /credentials/1
-  # DELETE /credentials/1.json
   def destroy
-    @credential.destroy
+    if @credential.in?(current_administrator.credentials)
+      @credential.destroy
+    end
+
     respond_to do |format|
       format.html { redirect_to credentials_url, notice: "Credential was successfully destroyed." }
       format.json { head :no_content }
@@ -64,12 +56,10 @@ class CredentialsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_credential
     @credential = Credential.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def credential_params
     params.require(:credential).permit(:consumer_key, :consumer_secret, :administrator_id)
   end

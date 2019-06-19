@@ -57,7 +57,7 @@ class Submission < ApplicationRecord
   end
 
   def unaccepted_meetings
-    gradeable_meetings - approved_meetings
+    meetings.gradeable - approved_meetings
   end
 
   def allowed_absences_used

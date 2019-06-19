@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     root "credentials#index"
   end
 
-  root "contexts#index"
+  root "resources#index"
 
   get "/landing", to: "application#landing", as: "landing"
   get "/sign_out", to: "users#sign_out", as: "lti_user_sign_out"
@@ -21,13 +21,11 @@ Rails.application.routes.draw do
   resources :attendances, only: %i[] do
     patch "transition"
   end
-  resources :check_ins, only: %i[create destroy edit show update]
-  resources :comments, only: %i[new create destroy update]
-  resources :contexts, only: %i[index edit update show]
+  resources :comments, only: %i[create]
+  resources :contexts, only: %i[edit update show]
   resources :credentials, only: %i[index create destroy]
   resources :enrollments, only: []
   resource  :launch, only: :create
-  resources :meetings
   resources :resources, only: %i[edit update show index]
   resources :submissions, only: %i[] do
     member do
@@ -58,25 +56,14 @@ end
 #                                   DELETE /administrators(.:format)                                                                devise/registrations#destroy
 #                                   POST   /administrators(.:format)                                                                devise/registrations#create
 #                              root GET    /                                                                                        credentials#index
-#                                   GET    /                                                                                        contexts#index
+#                                   GET    /                                                                                        resources#index
 #                           landing GET    /landing(.:format)                                                                       application#landing
 #                 lti_user_sign_out GET    /sign_out(.:format)                                                                      users#sign_out
 #                            config GET    /config(.:format)                                                                        launches#xml_config
 #                           teacher GET    /teacher(.:format)                                                                       resources#teacher_backdoor
 #                           student GET    /student(.:format)                                                                       resources#student_backdoor
 #             attendance_transition PATCH  /attendances/:attendance_id/transition(.:format)                                         attendances#transition
-#                         check_ins POST   /check_ins(.:format)                                                                     check_ins#create
-#                     edit_check_in GET    /check_ins/:id/edit(.:format)                                                            check_ins#edit
-#                          check_in GET    /check_ins/:id(.:format)                                                                 check_ins#show
-#                                   PATCH  /check_ins/:id(.:format)                                                                 check_ins#update
-#                                   PUT    /check_ins/:id(.:format)                                                                 check_ins#update
-#                                   DELETE /check_ins/:id(.:format)                                                                 check_ins#destroy
 #                          comments POST   /comments(.:format)                                                                      comments#create
-#                       new_comment GET    /comments/new(.:format)                                                                  comments#new
-#                           comment PATCH  /comments/:id(.:format)                                                                  comments#update
-#                                   PUT    /comments/:id(.:format)                                                                  comments#update
-#                                   DELETE /comments/:id(.:format)                                                                  comments#destroy
-#                          contexts GET    /contexts(.:format)                                                                      contexts#index
 #                      edit_context GET    /contexts/:id/edit(.:format)                                                             contexts#edit
 #                           context GET    /contexts/:id(.:format)                                                                  contexts#show
 #                                   PATCH  /contexts/:id(.:format)                                                                  contexts#update
@@ -85,14 +72,7 @@ end
 #                                   POST   /credentials(.:format)                                                                   credentials#create
 #                        credential DELETE /credentials/:id(.:format)                                                               credentials#destroy
 #                            launch POST   /launch(.:format)                                                                        launches#create
-#                          meetings GET    /meetings(.:format)                                                                      meetings#index
-#                                   POST   /meetings(.:format)                                                                      meetings#create
-#                       new_meeting GET    /meetings/new(.:format)                                                                  meetings#new
-#                      edit_meeting GET    /meetings/:id/edit(.:format)                                                             meetings#edit
-#                           meeting GET    /meetings/:id(.:format)                                                                  meetings#show
-#                                   PATCH  /meetings/:id(.:format)                                                                  meetings#update
-#                                   PUT    /meetings/:id(.:format)                                                                  meetings#update
-#                                   DELETE /meetings/:id(.:format)                                                                  meetings#destroy
+#                         resources GET    /resources(.:format)                                                                     resources#index
 #                     edit_resource GET    /resources/:id/edit(.:format)                                                            resources#edit
 #                          resource GET    /resources/:id(.:format)                                                                 resources#show
 #                                   PATCH  /resources/:id(.:format)                                                                 resources#update

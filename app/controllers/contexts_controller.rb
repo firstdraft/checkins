@@ -3,16 +3,21 @@ class ContextsController < ApplicationController
   before_action :authorize_lti_user
 
   def index
-    @contexts = current_user.contexts
+    @contexts = policy_scope(Context)
   end
 
-  def show; end
+  def show
+    authorize @context
+  end
 
   def new
     @context = Context.new
+    authorize @context
   end
 
-  def edit; end
+  def edit
+    authorize @context
+  end
 
   def create
     @context = Context.new(context_params)
@@ -29,6 +34,7 @@ class ContextsController < ApplicationController
   end
 
   def update
+    authorize @context
     respond_to do |format|
       if @context.update(context_params)
         format.html { redirect_to @context, notice: "Context was successfully updated." }
@@ -41,6 +47,7 @@ class ContextsController < ApplicationController
   end
 
   def destroy
+    authorize @context
     @context.destroy
     respond_to do |format|
       format.html { redirect_to contexts_url, notice: "Context was successfully destroyed." }

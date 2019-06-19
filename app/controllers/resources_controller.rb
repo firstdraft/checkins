@@ -4,9 +4,15 @@ class ResourcesController < ApplicationController
   before_action :set_resource, only: %i[show edit update destroy]
   before_action :authorize_lti_user,
                 except: %i[teacher_backdoor student_backdoor]
+  skip_after_action :verify_authorized,
+                    only: %i[teacher_backdoor student_backdoor]
 
   def index
-    @resources = Resource.all
+    @resources = policy_scope(Resource)
+
+    unless current_enrollment.teacher?
+      redirect_to current_resource
+    end
   end
 
   def show
@@ -20,13 +26,16 @@ class ResourcesController < ApplicationController
     if current_enrollment.teacher?
       @most_recent_meeting = @meetings.gradeable.last
     end
+    authorize @resource
   end
 
   def new
     @resource = Resource.new
   end
 
-  def edit; end
+  def edit
+    authorize @resource
+  end
 
   def create
     @resource = Resource.new(resource_params)
@@ -43,6 +52,7 @@ class ResourcesController < ApplicationController
   end
 
   def update
+    authorize @resource
     @resource.assign_attributes(resource_params)
     if @resource.inspect != Resource.find(@resource.id).inspect
       if @resource.save
@@ -58,6 +68,7 @@ class ResourcesController < ApplicationController
   end
 
   def destroy
+    authorize @resource
     @resource.destroy
     respond_to do |format|
       format.html { redirect_to resources_url, notice: "Resource was successfully destroyed." }

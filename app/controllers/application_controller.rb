@@ -2,6 +2,12 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  include Pundit
+  after_action :verify_authorized,
+               except: %i[index landing],
+               unless: :devise_controller?
+  after_action :verify_policy_scoped, only: :index
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   helper_method :current_context
   helper_method :current_enrollment
@@ -9,6 +15,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_resource
   helper_method :current_submission
   helper_method :current_user
+  helper_method :pundit_user
 
   before_action :set_paper_trail_whodunnit
 
@@ -18,6 +25,10 @@ class ApplicationController < ActionController::Base
 
   def current_enrollment
     @current_enrollment ||= Enrollment.find_by(id: session[:enrollment_id])
+  end
+
+  def pundit_user
+    current_enrollment
   end
 
   def current_submission
@@ -47,4 +58,9 @@ class ApplicationController < ActionController::Base
   def authorize_lti_user
     redirect_to landing_url if current_enrollment.nil?
   end
+end
+
+def user_not_authorized
+  flash[:warning] = "You are not authorized to perform this action."
+  redirect_to(request.referrer || root_path)
 end
