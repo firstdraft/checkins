@@ -1,7 +1,9 @@
 <% attendance = meeting.attendances.for(current_submission) %>
 
 <div id="<%= dom_id(meeting) %>" class="card mb-3">
-  <div class="card-header">
+  <div class="card-header cursor-pointer"
+       data-toggle="collapse"
+       data-target="#<%= dom_id(meeting) %>_body">
     <h1 class="h3 d-flex justify-content-between">
       <span>
         <%= meeting.start_time.strftime("%B %e")%>
@@ -12,7 +14,9 @@
       </span>
     </h1>
   </div>
-  <% if meeting.gradeable? %>
+  <% body_classes = "collapse" %>
+  <% body_classes += " show" if meeting.gradeable? || !(attendance.pending?) %>
+  <div id="<%= dom_id(meeting) %>_body" class="<%= body_classes %>">
     <div class="card-body">
       <div class="row d-flex align-items-center">
         <div class="col-2 p-0">
@@ -20,11 +24,11 @@
             <div class="icon-content d-flex">
               <span class="align-self-center">
                 <% if attendance.accepted? %>
-                  <i class="far fa-check text-success responsive-icon-size"></i>
+                <i class="far fa-check text-success responsive-icon-size"></i>
                 <% elsif attendance.not_accepted? %>
-                  <i class="far fa-times text-danger responsive-icon-size"></i>
+                <i class="far fa-times text-danger responsive-icon-size"></i>
                 <% elsif attendance.in_appeal? %>
-                  <i class="fal fa-balance-scale text-warning scales-icon"></i>
+                <i class="fal fa-balance-scale text-warning scales-icon"></i>
                 <% end %>
               </span>
             </div>
@@ -34,18 +38,18 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-start">
               <% if !attendance.pending? %>
-                <h2 class="h4 text-<%= contextual_class(attendance.status) %>">
-                  <%= t(attendance.status) %>
-                </h2>
+              <h2 class="h4 text-<%= contextual_class(attendance.status) %>">
+                <%= t(attendance.status) %>
+              </h2>
               <% end %>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <% if attendance.checked_in_at %>
-                <span>
-                  <%= attendance.checked_in_at.strftime("%a %-m/%-e, %l:%M %P") %>
-                </span>
+              <span>
+                <%= attendance.checked_in_at.strftime("%a %-m/%-e, %l:%M %P") %>
+              </span>
               <% end %>
 
             </div>
@@ -55,7 +59,7 @@
           <div class="row">
             <div class="two-buttons-container">
               <% Attendance.student_events.each do |event| %>
-                <%= attendance_event_button(attendance, event) %>
+              <%= attendance_event_button(attendance, event) %>
               <% end %>
             </div>
           </div>
@@ -63,7 +67,8 @@
       </div>
     </div>
     <div class="card-footer pt-1">
-      <%= render partial: "comments/comments", locals: { commentable: attendance } %>
+      <%= render partial: "comments/comments",
+                 locals: { commentable: attendance } %>
     </div>
-  <% end %>
+  </div>
 </div>
