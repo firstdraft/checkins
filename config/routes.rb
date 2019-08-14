@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   resources :enrollments, only: []
   resource  :launch, only: :create
   resources :meetings
-  resources :resources, only: %i[edit update show]
+  resources :resources, only: %i[edit update show index]
   resources :submissions, only: %i[] do
     member do
       put "resubmit"
