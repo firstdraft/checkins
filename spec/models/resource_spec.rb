@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: resources
@@ -20,6 +19,7 @@
 #  thursday                :boolean          default(FALSE)
 #  friday                  :boolean          default(FALSE)
 #  saturday                :boolean          default(FALSE)
+#  validations             :jsonb
 #
 
 describe "#all_occurrences" do

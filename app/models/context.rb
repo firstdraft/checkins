@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: contexts
@@ -11,6 +10,7 @@
 #  lti_context_id   :string
 #  credential_id    :integer
 #  allowed_absences :integer          default(0)
+#  validations      :jsonb
 #
 
 class Context < ApplicationRecord

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_05_163048) do
+ActiveRecord::Schema.define(version: 2019_08_15_162747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_163048) do
     t.string "lti_context_id"
     t.integer "credential_id"
     t.integer "allowed_absences", default: 0
+    t.jsonb "validations"
   end
 
   create_table "credentials", force: :cascade do |t|
@@ -134,6 +135,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_163048) do
     t.boolean "thursday", default: false
     t.boolean "friday", default: false
     t.boolean "saturday", default: false
+    t.jsonb "validations"
   end
 
   create_table "submissions", force: :cascade do |t|
