@@ -28,8 +28,10 @@ gem "uglifier", ">= 1.3.0"
 group :development, :test do
   gem "awesome_print"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
+  gem "factory_bot_rails"
   gem "pry-rails"
   gem "rspec-rails", "~> 3.7"
+  gem "timecop"
 end
 
 group :development do
