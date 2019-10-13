@@ -28,9 +28,9 @@ class Attendance < ApplicationRecord
   belongs_to :meeting
   belongs_to :submission
 
+  has_one :resource, through: :submission
   has_one :context, through: :resource
   has_one :enrollment, through: :submission
-  has_one :resource, through: :submission
   has_one :user, through: :enrollment
 
   scope :accepted, -> { where(status: "accepted") }
