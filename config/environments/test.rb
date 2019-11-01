@@ -45,4 +45,10 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.after_initialize do
+    # Set Time.now to September 1, 2008 10:05:00 AM (at this instant), but allow it to move forward
+    default_time = Date.today.beginning_of_week.to_time
+    Timecop.travel(default_time)
+  end
 end
