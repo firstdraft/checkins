@@ -16,6 +16,7 @@ class ResourcesController < ApplicationController
   end
 
   def show
+    authorize @resource
     request.variant = if current_enrollment.teacher?
                         :teacher
                       else
@@ -26,7 +27,6 @@ class ResourcesController < ApplicationController
     if current_enrollment.teacher?
       @most_recent_meeting = @meetings.gradeable.last
     end
-    authorize @resource
   end
 
   def new

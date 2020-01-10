@@ -27,6 +27,28 @@ class Meeting < ApplicationRecord
   }
   scope :finished, -> { where("end_time <= ?", Time.current) }
 
+  validate :start_time_earlier_than_end_time
+  validate :after_resource_start
+  validate :before_resource_end
+
+  def start_time_earlier_than_end_time
+    if start_time > end_time
+      errors.add(:base, "Start time must be earlier than end time")
+    end
+  end
+
+  def after_resource_start
+    if start_time < resource.starts_on
+      errors.add(:base, "Meeting must start after its Resource's start date (#{resource.starts_on})")
+    end
+  end
+
+  def before_resource_end
+    if start_time.to_date > resource.ends_on
+      errors.add(:base, "Meeting must start before its Resource's end date (#{resource.ends_on})")
+    end
+  end
+
   def has_approved_check_in?(enrollment)
     check_ins = enrollment.check_ins.approved
     # find a check_in that has this meeting in its target_meetings

@@ -26,7 +26,9 @@ Rails.application.routes.draw do
   resources :credentials, only: %i[index create destroy]
   resources :enrollments, only: []
   resource  :launch, only: :create
-  resources :resources, only: %i[edit update show index]
+  resources :resources, only: %i[edit update show index] do
+    resources :meetings, only: %i[index show edit update destroy new create]
+  end
   resources :submissions, only: %i[] do
     member do
       put "resubmit"

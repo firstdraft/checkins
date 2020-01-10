@@ -23,7 +23,8 @@ class Attendance < ApplicationRecord
   has_paper_trail
   include AASM
 
-  after_save :update_submission
+  after_save           :update_submission
+  after_destroy_commit :update_submission
 
   belongs_to :meeting
   belongs_to :submission

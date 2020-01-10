@@ -15,5 +15,5 @@
   <%= @meeting.resource_id %>
 </p>
 
-<%= link_to 'Edit', edit_meeting_path(@meeting) %> |
-<%= link_to 'Back', meetings_path %>
+<%= link_to 'Edit', edit_resource_meeting_path(@meeting) %> |
+<%= link_to 'Back', resource_meetings_path(@meeting.resource) %>

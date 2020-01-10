@@ -6,6 +6,10 @@ class ResourcePolicy < ApplicationPolicy
     @record = record
   end
 
+  def show_meetings?
+    enrollment.teacher? && enrollment.in?(resource.enrollments)
+  end
+
   def index?
     true
   end
@@ -14,7 +18,7 @@ class ResourcePolicy < ApplicationPolicy
     if enrollment.teacher?
       enrollment.context == resource.context
     else
-      resource.in?(enrollment.resources)
+      resource == enrollment.resource
     end
   end
 

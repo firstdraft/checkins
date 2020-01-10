@@ -1,4 +1,11 @@
-<%= form_with(model: meeting, local: true) do |form| %>
+<dl>
+  <dt>Resource Start Date:</dt>
+  <dd><%= @meeting.resource.starts_on %></dd>
+  <dt>Resource End Date:</dt>
+  <dd><%= @meeting.resource.ends_on %></dd>
+<dl>
+
+<%= form_with(model: meeting, url: [meeting.resource, meeting], local: true) do |form| %>
   <% if meeting.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(meeting.errors.count, "error") %> prohibited this meeting from being saved:</h2>
@@ -12,23 +19,17 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :date %>
-    <%= form.date_select :date %>
-  </div>
-
-  <div class="field">
     <%= form.label :start_time %>
-    <%= form.time_select :start_time %>
+    <%= form.datetime_field :start_time %>
   </div>
 
   <div class="field">
     <%= form.label :end_time %>
-    <%= form.time_select :end_time %>
+    <%= form.datetime_field :end_time %>
   </div>
 
   <div class="field">
-    <%= form.label :resource_id %>
-    <%= form.number_field :resource_id %>
+    <%= form.hidden_field :resource_id %>
   </div>
 
   <div class="actions">
