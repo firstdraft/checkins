@@ -36,6 +36,12 @@
             </div>
             <div class="card-body">
               <div class="panel-group">
+                <%= render partial: "/attendances/attendance_random_student_picker",
+                                   locals: {student: m.attendances.accepted.sample} %>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="panel-group">
                 <%= render collection:
                         m.attendances.includes(:user, :enrollment).joins(:user).
                         merge(User.order(:last_name, :first_name)),
