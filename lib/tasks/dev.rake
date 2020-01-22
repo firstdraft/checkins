@@ -167,5 +167,10 @@ namespace :dev do
       enrollment_id: learner_enrollment.id,
       resource_id: resource.id,
     )
+    
+    teacher_submission = Submission.find_or_create_by(
+      enrollment_id: teacher_enrollment.id,
+      resource_id: resource.id,
+    )
   end
 end

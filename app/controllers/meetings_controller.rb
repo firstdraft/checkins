@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class MeetingsController < ApplicationController
+  before_action :set_resource
   before_action :set_meeting, only: %i[show edit update destroy]
 
   def index
-    @resource = Resource.find(params[:resource_id])
     authorize @resource, :show_meetings?
     @meetings = policy_scope(Meeting).includes(:resource).where(resource: @resource).order(:start_time)
   end
@@ -14,7 +14,7 @@ class MeetingsController < ApplicationController
   end
 
   def new
-    @meeting = Resource.find(params[:resource_id]).meetings.build
+    @meeting = @resource.meetings.build
     authorize @meeting
   end
 
@@ -61,8 +61,12 @@ class MeetingsController < ApplicationController
 
   private
 
+  def set_resource
+    @resource = Resource.find(params[:resource_id])
+  end
+  
   def set_meeting
-    @meeting = Meeting.find(params[:id])
+    @meeting = @resource.meetings.find(params[:id])
   end
 
   def meeting_params

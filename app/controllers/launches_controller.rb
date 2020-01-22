@@ -28,10 +28,7 @@ class LaunchesController < ApplicationController
       find_or_create_user
       find_or_create_enrollment
       set_current_enrollment
-      @submission = Submission.find_or_create_by(
-        resource: @resource,
-        enrollment: @enrollment,
-      )
+      find_or_create_submission
       set_current_submission
       @launch = Launch.new(payload: params, credential: @credential, enrollment: @enrollment)
       if @launch.save
@@ -55,6 +52,8 @@ class LaunchesController < ApplicationController
       find_or_create_user
       find_or_create_enrollment
       set_current_enrollment
+      find_or_create_submission
+      set_current_submission
       @launch = Launch.new(payload: params, credential: @credential, enrollment: @enrollment)
       if @launch.save
         set_current_launch
@@ -112,6 +111,13 @@ class LaunchesController < ApplicationController
       redirect_to root_url,
                   notice: "Attendance assignment has not been created yet"
     end
+  end
+
+  def find_or_create_submission
+    @submission = Submission.find_or_create_by(
+      resource: @resource,
+      enrollment: @enrollment,
+    )
   end
 
   def parsed_roles

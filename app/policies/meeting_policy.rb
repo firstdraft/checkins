@@ -7,23 +7,19 @@ class MeetingPolicy < ApplicationPolicy
   end
 
   def show?
-    enrollment.teacher?
-  end
-
-  def index?
-    enrollment.teacher?
+    teacher_for_meeting?
   end
 
   def create?
-    enrollment.teacher? && meeting.resource == enrollment.resource
+    teacher_for_meeting?
   end
 
   def update?
-    enrollment.teacher? && meeting.in?(enrollment.resource.meetings)
+    teacher_for_meeting?
   end
 
   def destroy?
-    enrollment.teacher? && meeting.resource == enrollment.resource
+    teacher_for_meeting?
   end
 
   class Scope
@@ -43,5 +39,9 @@ class MeetingPolicy < ApplicationPolicy
 
   def meeting
     record
+  end
+
+  def teacher_for_meeting?
+    enrollment.teacher? && meeting.resource.in?(enrollment.resources)
   end
 end
