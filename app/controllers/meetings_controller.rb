@@ -11,6 +11,8 @@ class MeetingsController < ApplicationController
 
   def show
     authorize @meeting
+
+    @content = Kramdown::Document.new(@meeting.content, input: 'GFM')
   end
 
   def new
@@ -70,6 +72,6 @@ class MeetingsController < ApplicationController
   end
 
   def meeting_params
-    params.require(:meeting).permit(:start_time, :end_time, :resource_id)
+    params.require(:meeting).permit(:start_time, :end_time, :resource_id, :content)
   end
 end
