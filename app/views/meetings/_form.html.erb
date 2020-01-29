@@ -18,26 +18,22 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :start_time %>
-    <%= form.datetime_field :start_time %>
-  </div>
-
-  <div class="field">
+    <%= form.datetime_field :start_time, class: "form-control" %>
+  
     <%= form.label :end_time %>
-    <%= form.datetime_field :end_time %>
+    <%= form.datetime_field :end_time, class: "form-control" %>
   </div>
 
-  <div class="field">
-    <%= form.label :content %>
-    <%= form.text_area :content %>
+  <div class="form-group">
+    <%= form.label :content, "Content (markdown)" %>
+    <%= form.text_area :content, class: "form-control", rows: "10" %>
   </div>
 
-  <div class="field">
-    <%= form.hidden_field :resource_id %>
-  </div>
+  <%= form.hidden_field :resource_id %>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.button class: "btn btn-outline-primary btn-block" %>
   </div>
 <% end %>
