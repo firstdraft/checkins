@@ -17,5 +17,5 @@
 
 <%= @content.to_html.html_safe %>
 
-<%= link_to 'Edit', edit_resource_meeting_path(@meeting) %> |
+<%= link_to 'Edit', edit_resource_meeting_path(@meeting.resource, @meeting) %> |
 <%= link_to 'Back', resource_meetings_path(@meeting.resource) %>
