@@ -9,7 +9,7 @@
 #  resource_id :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  content     :text
+#  content     :text             default("")
 #
 
 class Meeting < ApplicationRecord

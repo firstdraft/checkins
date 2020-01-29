@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 2020_01_29_174648) do
     t.integer "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "content"
+    t.text "content", default: ""
   end
 
   create_table "resources", force: :cascade do |t|
