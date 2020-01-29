@@ -1,19 +1,61 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Start time:</strong>
-  <%= @meeting.start_time %>
-</p>
+<div class="row">
+  <div class="col-lg-10 offset-lg-1">
+    <% if notice%>
+      <p id="notice"><%= notice %></p>
+    <% end%>
+    <%= link_to 'Back to class overview',
+                resource_path(@meeting.resource),
+                class: "text-decoration-none" %>
+    <% if current_enrollment.teacher?%>
+      <div class="card">
+        <div class="card-header">
+          <h1 class="h3 d-flex justify-content-between">
+            <span>
+              <%= @meeting.start_time.strftime("%B %e")%>
+            </span>
 
-<p>
-  <strong>End time:</strong>
-  <%= @meeting.end_time %>
-</p>
+            <span>
+              <%= link_to edit_resource_meeting_path(@meeting.resource, @meeting),
+                          class: "text-warning text-decoration-none" do %>
+                <i class="fas fa-edit"></i>
+              <% end %>
+              <%= link_to resource_meeting_path(@meeting.resource, @meeting),
+                          class: "text-danger text-decoration-none",
+                          method: :delete,
+                          data: { confirm: 'Are you sure you want to delete this meeting? Attendance records and content will be permanently deleted.' } do %>
+                <i class="fas fa-trash-alt"></i>
+              <% end%>
+            </span>
 
-<p>
-  <strong>Resource:</strong>
-  <%= @meeting.resource_id %>
-</p>
-
-<%= link_to 'Edit', edit_resource_meeting_path(@meeting) %> |
-<%= link_to 'Back', resource_meetings_path(@meeting.resource) %>
+            <span>
+              <%= @meeting.start_time.strftime("%l:%M %P") %>
+            </span>
+          </h1>
+        </div>
+      </div>
+    <% else %>
+      <%= render @meeting %>
+    <% end %>
+    
+    <div class="card">
+      <div class="card-header">
+        <h1 class="h3 d-flex justify-content-between">
+          <span>
+            Class Content
+          </span>
+        </h1>
+      </div>
+      
+      <div class="card-body">
+        <% if @meeting.in?(current_submission.approved_meetings) || current_enrollment.teacher? %>
+          <%= @content.to_html.html_safe %>
+        <% else%>
+          <p>
+            Your attendance is not approved. You do not have access to this meeting's content.
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

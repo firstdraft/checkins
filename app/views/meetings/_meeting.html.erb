@@ -65,6 +65,16 @@
           </div>
         </div>
       </div>
+      <% unless controller_name == "meetings" && action_name == "show"%>
+        <div class="row d-flex justify-content-center">
+          <span>
+            <%= link_to resource_meeting_path(meeting.resource, meeting),
+                        class: "text-primary text-decoration-none" do %>
+              <i class="fas fa-search-plus"></i> Show class content
+            <% end %>
+          </span>
+        </div>
+      <% end%>
     </div>
     <div class="card-footer pt-1">
       <%= render partial: "comments/comments",

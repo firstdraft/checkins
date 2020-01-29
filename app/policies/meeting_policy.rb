@@ -7,7 +7,7 @@ class MeetingPolicy < ApplicationPolicy
   end
 
   def show?
-    teacher_for_meeting?
+    meeting.resource.in?(enrollment.resources)
   end
 
   def create?

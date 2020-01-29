@@ -11,6 +11,8 @@ class MeetingsController < ApplicationController
 
   def show
     authorize @meeting
+    require "rouge"
+    @content = Kramdown::Document.new(@meeting.content, input: "GFM", syntax_highlighter: :rouge)
   end
 
   def new
@@ -54,7 +56,7 @@ class MeetingsController < ApplicationController
     @meeting.destroy
 
     respond_to do |format|
-      format.html { redirect_to resource_meetings_url, notice: "Meeting was successfully destroyed." }
+      format.html { redirect_to resource_url(@meeting.resource), notice: "Meeting was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -70,6 +72,6 @@ class MeetingsController < ApplicationController
   end
 
   def meeting_params
-    params.require(:meeting).permit(:start_time, :end_time, :resource_id)
+    params.require(:meeting).permit(:start_time, :end_time, :resource_id, :content)
   end
 end
