@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: meetings
@@ -10,6 +9,7 @@
 #  resource_id :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  content     :text
 #
 
 class Meeting < ApplicationRecord
