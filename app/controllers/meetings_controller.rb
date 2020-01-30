@@ -12,7 +12,7 @@ class MeetingsController < ApplicationController
   def show
     authorize @meeting
 
-    @content = Kramdown::Document.new(@meeting.content, input: 'GFM')
+    @content = Kramdown::Document.new(@meeting.content, input: "GFM")
   end
 
   def new
