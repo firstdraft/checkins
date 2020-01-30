@@ -11,8 +11,8 @@ class MeetingsController < ApplicationController
 
   def show
     authorize @meeting
-
-    @content = Kramdown::Document.new(@meeting.content, input: "GFM")
+    require "rouge"
+    @content = Kramdown::Document.new(@meeting.content, input: "GFM", syntax_highlighter: :rouge)
   end
 
   def new
