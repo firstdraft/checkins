@@ -33,17 +33,17 @@
           <div class="card">
             <div class="card-header d-flex justify-content-between">
               <strong><%= m.start_time.strftime("%a %-m/%-d/%y - %l:%M%P") %></strong>
-              <span class="text-decoration-none">
+              <span>
                 <%= link_to resource_meeting_path(m.resource, m),
-                            class: "text-primary" do %>
+                            class: "text-primary text-decoration-none" do %>
                   <i class="fas fa-search-plus"></i>
                 <% end %>
                 <%= link_to edit_resource_meeting_path(m.resource, m),
-                            class: "text-warning" do %>
+                            class: "text-warning text-decoration-none" do %>
                   <i class="fas fa-edit"></i>
                 <% end %>
                 <%= link_to resource_meeting_path(m.resource, m),
-                            class: "text-danger",
+                            class: "text-danger text-decoration-none",
                             method: :delete,
                             data: { confirm: 'Are you sure you want to delete this meeting? Attendance records and content will be permanently deleted.' } do %>
                   <i class="fas fa-trash-alt"></i>
