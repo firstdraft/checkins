@@ -13,13 +13,13 @@
             <span class="text-decoration-none">
               <%= link_to edit_resource_meeting_path(@meeting.resource, @meeting),
                           class: "text-warning" do %>
-                <i class="fal fa-edit"></i>
+                <i class="fas fa-edit"></i>
               <% end %>
               <%= link_to resource_meeting_path(@meeting.resource, @meeting),
                           class: "text-danger",
                           method: :delete,
                           data: { confirm: 'Are you sure you want to delete this meeting? Attendance records and content will be permanently deleted.' } do %>
-                <i class="fal fa-trash-alt"></i>
+                <i class="fas fa-trash-alt"></i>
               <% end%>
             </span>
 
