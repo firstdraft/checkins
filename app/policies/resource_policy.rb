@@ -18,7 +18,7 @@ class ResourcePolicy < ApplicationPolicy
     if enrollment.teacher?
       enrollment.context == resource.context
     else
-      resource == enrollment.resource
+      resource.in?(enrollment.submissions.map(&:resource))
     end
   end
 
