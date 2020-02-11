@@ -1,0 +1,19 @@
+<% if student != nil %>
+  <div class="card mb-2" >
+    <div class="card-body">
+      <div class="row d-flex align-items-center">
+        <div class="col-lg-6 mb-3 mb-lg-0 attendance-row-grid">
+          <div class="attendance-icon d-flex align-items-center justify-content-center">
+          </div>
+
+          <div class="attendance-info">
+            <%= student.user.first_name %> <%= student.user.last_name %> 
+            </div>
+          </div>
+          <div class=" ">
+          <button type="button" class="btn btn-primary" onClick="window.location.reload();">Pick a random student</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
